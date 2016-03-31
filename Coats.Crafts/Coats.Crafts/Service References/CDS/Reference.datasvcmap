@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="39fc5b8e-14bd-4482-b798-2683c9bdf821" xmlns="urn:schemas-microsoft-com:xml-dataservicemap">
+  <MetadataSources>
+    <MetadataSource Address="http://tridion.ugc.service/odata.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="service.edmx" MetadataType="Edmx" ID="737abf24-dc02-470d-9784-9733a0a104ce" SourceId="1" SourceUrl="http://tridion.ugc.service/odata.svc" />
+  </Metadata>
+  <Extensions />
+</ReferenceGroup>

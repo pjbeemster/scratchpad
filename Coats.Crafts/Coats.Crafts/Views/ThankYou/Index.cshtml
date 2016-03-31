@@ -1,0 +1,28 @@
+﻿
+@using Coats.Crafts.Configuration;
+@using Coats.Crafts.Extensions;
+
+@model Coats.Crafts.Controllers.Registration
+           
+@{
+	
+    
+    var signUpTitle = Html.GetResource("SignUpForAccess");
+    
+    if (!String.IsNullOrEmpty(ViewBag.Title))
+    {
+        signUpTitle = ViewBag.Title;
+    }
+    //ViewBag.Stage = "thanksMessage";
+}
+<section class="thankyou">
+	<div class="row-fluid">
+	
+	    <div class="span12">
+							<fieldset>
+								<h2>@signUpTitle</h2>
+								<p>@Html.GetResource("SuccessCommentMessage")</p>
+                                </fieldset>
+       </div>
+	</div>
+</section>

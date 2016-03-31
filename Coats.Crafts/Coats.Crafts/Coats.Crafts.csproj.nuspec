@@ -1,0 +1,15 @@
+﻿<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Coats.Crafts</id>
+    <title>Coats.Crafts</title>
+    <version>1.0.0</version>
+    <authors>Amaze</authors>
+    <owners>Amaze</owners>
+    <licenseUrl>http://octopusdeploy.com</licenseUrl>
+    <projectUrl>http://octopusdeploy.com</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Coats Crafts MVC</description>
+    <releaseNotes>Coats Crafts MVC</releaseNotes>
+  </metadata>
+</package>

@@ -1,0 +1,48 @@
+﻿@using Coats.Crafts.Configuration;
+@using Coats.Crafts.Extensions;
+
+@{
+    Layout = null;
+
+    var config = CountryConfig.Instance;
+    var countryList = config.Countries;
+    //var countryList = CountryConfig.List();
+	
+	string countries = string.Empty;
+	string selectedCountry = string.Empty;
+    
+    foreach (var countryItem in countryList)
+    {
+        string country = countryItem.Value.Name;
+		string redirectUrl = Url.Content(("/countryselector/redirectcountry?countryurl=" + countryItem.Value.Url).AddApplicationRoot());
+        string culture = countryItem.Value.Culture;
+        string currentCulture = WebConfiguration.Current.Culture;
+		string countryFlagImage = "/img/" + culture + ".jpg";
+		string countryFlagUrl = Url.Content(countryFlagImage.AddApplicationRoot());
+
+        var currentAppPath = Request.ApplicationPath; 
+        var currentLang = currentAppPath.Trim('/');
+
+        if (currentAppPath.Equals("/"))
+        {
+            currentLang = "en-GB";
+        }
+
+        //if (culture.Equals(currentCulture))
+        if (culture.Equals(currentLang, StringComparison.CurrentCultureIgnoreCase))
+        {
+            selectedCountry = "<span><img src=\"" + countryFlagUrl + "\" /> " + country + "</span>";
+        }
+        else
+        {
+            countries += "<li><a href=\"" + redirectUrl + "\"><img src=\"" + countryFlagUrl + "\" /> " + country + "</a></li>";
+        }
+    }
+}
+
+<li class="dropdown country">@Html.Raw(selectedCountry)
+	<ul>
+		<li class="divider">@Html.GetResource("ChangeLocation")</li>
+        @Html.Raw(countries)
+	</ul>
+</li>

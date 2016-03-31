@@ -1,0 +1,109 @@
+﻿@using DD4T.ContentModel;
+@using DD4T.Mvc.Html;
+@using Coats.Crafts.Extensions;
+@using System.Globalization;
+@using Coats.Crafts.Configuration;
+
+@model IComponentPresentation
+           
+@{
+    Layout = null;
+    var itemid = @Model.Component.Id;
+	string skillLevel = Html.FacetKeyword(Model.Component, "skilllevels");
+    
+    var ratingValue = (Model.Component.Fields.ContainsKey("rating") ? Model.Component.Fields["rating"].Value : String.Empty);
+    
+	String prefix = String.Empty;
+
+	/*
+	 * 
+	 * Setting prefix based on schema.
+	 * Currently blog, event, faqs and
+	 * articles all use Written by which
+	 * is the fallback anyway so don't
+	 * set here. Prefix is used with
+	 * Helper.GetResource() in
+	 * Html.addAuthor().
+	 * 
+	 */
+
+	String schemaTitle = Model.Component.Schema.Title.ToLower();
+
+	if (schemaTitle == "crafts.project")
+	{
+		prefix = "DesignedBy";
+	}
+
+	if (schemaTitle == "crafts.moodboard")
+	{
+		skillLevel = String.Empty; // Reset skill level to be empty so not displayed for moodboards
+		prefix = "CompiledBy";
+	}
+
+	if (schemaTitle == "crafts.tutorial")
+	{
+		prefix = "TutorialBy";
+	}
+
+    // ASH : Quick fix for issue CC-1495 ["...Projects page - remove designed by..."]
+    //var author = Html.addAuthor(prefix, true);
+    MvcHtmlString author = MvcHtmlString.Empty;
+    if (schemaTitle != "crafts.project")
+    {
+        author = Html.addAuthor(prefix, true);
+    }
+    
+    var date = Model.Component.Fields.ContainsKey("date") ? Model.Component.Fields["date"].Value : null;
+
+    DateTime dt;
+    
+    if (DateTime.TryParse(date, out dt))
+    {
+        //date = dt.ToLongDateString();
+		date = dt.ToString(DateTimeFormatExtensions.CorrectedLongDatePattern(CultureInfo.CreateSpecificCulture(WebConfiguration.Current.Culture)), CultureInfo.CreateSpecificCulture(WebConfiguration.Current.Culture));
+    }
+
+	System.Text.StringBuilder information = new System.Text.StringBuilder();
+	
+	if (!String.IsNullOrEmpty(date)) {
+		information.Append("<span>");
+		information.Append(date);
+		information.Append("</span>");
+	}
+	
+	if (!String.IsNullOrEmpty(skillLevel))
+	{
+		information.Append("<span>");
+		information.Append(Html.GetResource("SkillLevel"));
+		information.Append(" - ");
+		information.Append(Html.FacetKeyword(Model.Component, "skilllevels"));
+		information.Append("</span>");
+	}
+	information.Append("<span>");
+	information.Append(Html.GetResource("AverageUserRating"));
+	information.Append("</span>");
+
+    string ratingSpan = "span7 rating";
+    
+    if (author == MvcHtmlString.Empty)
+    {
+        ratingSpan = "rating";
+    } 
+}
+
+<div class="row-fluid author-rating">
+    <div class="span5 author">
+        <p>
+            @if (Model.Component.Fields.ContainsKey("by"))
+            {
+				<span class="hidden" itemprop="author">@Model.Component.Fields["by"].Value</span>
+                @author
+            }
+        </p>
+    </div>
+    <div class="@ratingSpan">
+        <p>@Html.Raw(information.ToString())</p>
+		@{ Html.RenderAction("AggregateRatingTag", "Comments", new { compid = itemid, rating = ratingValue, large = true }); }
+	</div>
+</div>
+

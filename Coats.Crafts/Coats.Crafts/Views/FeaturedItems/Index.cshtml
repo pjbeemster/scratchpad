@@ -1,0 +1,57 @@
+﻿@*@using DD4T.ContentModel;
+@using DD4T.Mvc.Html;
+@using System.Linq;
+@using Coats.Crafts.Configuration;
+*@
+@using Coats.Crafts.Models;
+
+@model FeaturedItems
+
+@{
+    Layout = null;
+
+
+}
+<section class="component related-isotope izotaup">
+	<div class="row-fluid ruled">
+		<div class="span12">
+			<h1>@Model.Title</h1>
+		</div>
+	</div>
+	<div class="pods">
+@{
+    int counter = 0;
+    int outerLoop = 0;
+           
+    if (Model != null)
+    {
+        foreach (var comp in Model.Components)
+        {
+            counter++;
+
+            outerLoop = counter % 3 == 0 ? 0 : 1;
+        
+            if (outerLoop == 0)
+            {
+                @Html.Raw("<div class='row-fluid'>");
+            }
+
+            if (comp.Schema.Title == "Crafts.Article")
+            {
+                @Html.Partial("~/Views/Partials/PodArticle.cshtml", comp)
+            }
+            else
+            {
+                @Html.Partial("~/Views/Partials/PodGeneric.cshtml", comp)
+            }
+
+            if (outerLoop == 0)
+            {
+                @Html.Raw("</div>");
+            }
+        
+        }
+    }
+}
+	</div>
+</section>

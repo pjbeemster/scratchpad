@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://coats.crafts.integrationservice/Coats.Crafts.IntegrationService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Coats.Crafts.IntegrationService.DataContracts" />
+  <xs:import schemaLocation="http://coats.crafts.integrationservice/Coats.Crafts.IntegrationService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:element name="GetRetailersAndEventsPaged">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="publicationId" type="xs:int" />
+        <xs:element minOccurs="0" name="pageSize" type="xs:int" />
+        <xs:element minOccurs="0" name="pageNumber" type="xs:int" />
+        <xs:element minOccurs="0" name="currentDate" type="xs:dateTime" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetRetailersAndEventsPagedResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Coats.Crafts.IntegrationService.DataContracts" minOccurs="0" name="GetRetailersAndEventsPagedResult" nillable="true" type="q1:ArrayOfIntegrationServiceRetailer" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetRetailersAndEventsInArea">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="publicationId" type="xs:int" />
+        <xs:element minOccurs="0" name="longitude" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="latitude" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="radius" type="xs:int" />
+        <xs:element minOccurs="0" name="currentDate" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="useMilesAsUnit" type="xs:boolean" />
+        <xs:element minOccurs="0" name="maxEvents" type="xs:int" />
+        <xs:element minOccurs="0" name="maxRetailers" type="xs:int" />
+        <xs:element minOccurs="0" name="filterByBrandName" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetRetailersAndEventsInAreaResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/Coats.Crafts.IntegrationService.DataContracts" minOccurs="0" name="GetRetailersAndEventsInAreaResult" nillable="true" type="q2:ArrayOfIntegrationServiceRetailer" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetRetailersInArea">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="publicationId" type="xs:int" />
+        <xs:element minOccurs="0" name="longitude" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="latitude" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="radius" type="xs:int" />
+        <xs:element minOccurs="0" name="useMilesAsUnit" type="xs:boolean" />
+        <xs:element minOccurs="0" name="maxResults" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetRetailersInAreaResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/Coats.Crafts.IntegrationService.DataContracts" minOccurs="0" name="GetRetailersInAreaResult" nillable="true" type="q3:ArrayOfIntegrationServiceRetailer" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetEventsForRetailer">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/Coats.Crafts.IntegrationService.DataContracts" minOccurs="0" name="retailer" nillable="true" type="q4:IntegrationServiceRetailer" />
+        <xs:element minOccurs="0" name="currentDate" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="maxResults" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetEventsForRetailerResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/Coats.Crafts.IntegrationService.DataContracts" minOccurs="0" name="GetEventsForRetailerResult" nillable="true" type="q5:IntegrationServiceRetailer" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetEventsInArea">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="publicationId" type="xs:int" />
+        <xs:element minOccurs="0" name="longitude" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="latitude" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="radius" type="xs:int" />
+        <xs:element minOccurs="0" name="currentDate" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="useMilesAsUnit" type="xs:boolean" />
+        <xs:element minOccurs="0" name="maxResults" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetEventsInAreaResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/Coats.Crafts.IntegrationService.DataContracts" minOccurs="0" name="GetEventsInAreaResult" nillable="true" type="q6:ArrayOfCraftsEvent" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="InsertRetailerEvent">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/Coats.Crafts.IntegrationService.DataContracts" minOccurs="0" name="evt" nillable="true" type="q7:CraftsEvent" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="InsertRetailerEventResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/Coats.Crafts.IntegrationService.DataContracts" minOccurs="0" name="InsertRetailerEventResult" nillable="true" type="q8:CraftsEvent" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="InsertEvent">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/Coats.Crafts.IntegrationService.DataContracts" minOccurs="0" name="evt" nillable="true" type="q9:CraftsEvent" />
+        <xs:element minOccurs="0" name="lat" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="lng" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="InsertEventResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/Coats.Crafts.IntegrationService.DataContracts" minOccurs="0" name="InsertEventResult" nillable="true" type="q10:CraftsEvent" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="InsertScrapbookItem">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/Coats.Crafts.IntegrationService.DataContracts" minOccurs="0" name="item" nillable="true" type="q11:ScrapbookItem" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="InsertScrapbookItemResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/Coats.Crafts.IntegrationService.DataContracts" minOccurs="0" name="InsertScrapbookItemResult" nillable="true" type="q12:ScrapbookItem" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetScrapbookItemsByUser">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="userID" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetScrapbookItemsByUserResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/Coats.Crafts.IntegrationService.DataContracts" minOccurs="0" name="GetScrapbookItemsByUserResult" nillable="true" type="q13:ArrayOfScrapbookItem" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetScrapbookItem">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q14="http://schemas.microsoft.com/2003/10/Serialization/" minOccurs="0" name="itemID" type="q14:guid" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetScrapbookItemResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/Coats.Crafts.IntegrationService.DataContracts" minOccurs="0" name="GetScrapbookItemResult" nillable="true" type="q15:ScrapbookItem" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="TryDeleteScrapbookItem">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q16="http://schemas.microsoft.com/2003/10/Serialization/" minOccurs="0" name="itemID" type="q16:guid" />
+        <xs:element minOccurs="0" name="userID" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="TryDeleteScrapbookItemResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="TryDeleteScrapbookItemResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="InsertShoppingListItem">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q17="http://schemas.datacontract.org/2004/07/Coats.Crafts.IntegrationService.DataContracts" minOccurs="0" name="item" nillable="true" type="q17:ShoppingListItem" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="InsertShoppingListItemResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q18="http://schemas.datacontract.org/2004/07/Coats.Crafts.IntegrationService.DataContracts" minOccurs="0" name="InsertShoppingListItemResult" nillable="true" type="q18:ShoppingListItem" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="TryDeleteShoppingListItem">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q19="http://schemas.microsoft.com/2003/10/Serialization/" minOccurs="0" name="ID" type="q19:guid" />
+        <xs:element minOccurs="0" name="userID" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="TryDeleteShoppingListItemResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="TryDeleteShoppingListItemResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="TryDeleteShoppingListItemsByProjectName">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="projectName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="userID" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="TryDeleteShoppingListItemsByProjectNameResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="TryDeleteShoppingListItemsByProjectNameResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetShoppingListItems">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="userID" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetShoppingListItemsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q20="http://schemas.datacontract.org/2004/07/Coats.Crafts.IntegrationService.DataContracts" minOccurs="0" name="GetShoppingListItemsResult" nillable="true" type="q20:ArrayOfShoppingListItem" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetShoppingListItem">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q21="http://schemas.microsoft.com/2003/10/Serialization/" minOccurs="0" name="itemID" type="q21:guid" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetShoppingListItemResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q22="http://schemas.datacontract.org/2004/07/Coats.Crafts.IntegrationService.DataContracts" minOccurs="0" name="GetShoppingListItemResult" nillable="true" type="q22:ShoppingListItem" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UpdateShoppingListItemQuantity">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q23="http://schemas.microsoft.com/2003/10/Serialization/" minOccurs="0" name="itemID" type="q23:guid" />
+        <xs:element minOccurs="0" name="username" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="alterQuantityBy" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UpdateShoppingListItemQuantityResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q24="http://schemas.datacontract.org/2004/07/Coats.Crafts.IntegrationService.DataContracts" minOccurs="0" name="UpdateShoppingListItemQuantityResult" nillable="true" type="q24:ShoppingListItem" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="checkDisplayNameExists">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="displayname" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="checkDisplayNameExistsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="checkDisplayNameExistsResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

@@ -1,0 +1,80 @@
+﻿@model DD4T.ContentModel.Field
+           
+@using DD4T.ContentModel
+@using Coats.Crafts.Configuration
+@using Coats.Crafts.Extensions
+            
+@if (!String.IsNullOrEmpty(Session.GetLevel1BrandFilter()) && (Model.Keywords.Count > 0))
+{
+    string[] brandFilterParts = Session.GetLevel1BrandFilter().Split('|');//Session["BRAND_FILTER"].ToString().Split('|');
+
+    var title = Model.Keywords[0].Description; // (Model.Brand != null) ? Model.Keywords[0].Title : null;
+
+    DD4T.ContentModel.IComponent logo = null;
+    
+    if (Model.Keywords[0].MetadataFields.ContainsKey("logo"))
+    {
+        logo = Model.Keywords[0].MetadataFields["logo"].LinkedComponentValues[0];
+    }
+    
+    //var logo = (Model.Brand != null) ? Model.Keywords[0].MetadataFields["logo"].LinkedComponentValues[0] : null;
+    var foundMatch = false;
+    
+	<section class="brand-filter">
+		<div class="row-fluid">
+			<div class="span12">
+				<div class="bar">
+					<div class="inner">
+                        <div class="image">
+                        @Html.Image(logo)</div>
+						<div class="text"><p class="large">@Html.GetResource("ViewingContentFrom") @(title).</p>
+						<p>@Html.GetResource("RemoveFilterDescription") <!--Click to remove this filter. Further content settings can be found in the filter panel.--></p>
+                        </div>
+					</div>
+					 
+                    @if (ViewBag.StoreLocator == true)
+                    {
+                        string url = WebConfiguration.Current.StoreFinder.AddApplicationRoot();
+
+                        if (!String.IsNullOrEmpty(Request.Url.Query))
+                        {
+                            System.Collections.Specialized.NameValueCollection querystring = HttpUtility.ParseQueryString(Request.Url.Query);
+                            querystring.Add("clear", "true");
+                            url = url + "?" + querystring;
+                        }
+                        else {
+                            url = url + "?clear=true";
+                        }
+                        
+                        <a href="@Url.Content(url)" class="icon close no-ajax">@Html.GetResource("RemoveFilter")</a>
+                    }
+                    else
+                    {
+                        @Html.CloseLink();
+                    }
+
+@*                    @foreach (var facetSection in Model.FacetMap.FacetSections)
+                    {
+                        if (facetSection.SectionTitle.ToLower() == brandFilterParts[0].ToLower())
+                        {
+                            foreach (var facet in facetSection.Facets)
+                            {
+                                if (facet.Text.ToLower() == brandFilterParts[1].ToLower())
+                                {
+									<a href='@facet.Value + ' class="icon close">@Html.GetResource("RemoveFilter")</a>
+                                    foundMatch = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    @if (!foundMatch)
+                    {
+                        <a href="@Model.FacetMap.ResetFacetsUrl" class="icon close">@Html.GetResource("RemoveFilter")</a>
+                    }*@
+				</div>
+			</div>
+		</div>
+	</section>
+}

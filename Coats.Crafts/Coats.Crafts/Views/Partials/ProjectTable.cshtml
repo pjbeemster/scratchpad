@@ -1,0 +1,45 @@
+﻿@using DD4T.ContentModel;
+
+@model IComponentPresentation
+       
+@{
+    //---------------------------------------------------------
+    // Don't think this file is being used
+    // Looks to have been superseded by TridionComponent/project
+    //---------------------------------------------------------
+    
+    Layout = null;
+    var itemid = @Model.Component.Id;
+
+    string projectNumber = Model.Component.Fields.ContainsKey("project_number") ? Model.Component.Fields["project_number"].Value : null;
+}
+
+    <div class="component project-table">
+		<div class="row-fluid">
+			<div class="span12">
+				<table class="table">
+					<tr>
+						<th colspan="4" scope="col">Details:</th>
+					</tr>
+					<tr>
+						<th scope="row">Project number:</th>
+						<td>@projectNumber</td>
+						<th scope="row">Brand:</th>
+						<td>@Html.FacetKeyword(Model.Component, "brands")</td>
+					</tr>
+					<tr>
+						<th scope="row">Technique:</th>
+						<td>@Html.FacetKeyword(Model.Component, "techniques")</td>
+						<th scope="row">Crafting time:</th>
+						<td>@Html.FacetKeyword(Model.Component, "craftingtimes")</td>
+					</tr>
+					<tr>
+						<th scope="row">End use:</th>
+						<td>@Html.FacetKeyword(Model.Component, "enduses")</td>
+						<th scope="row">Theme:</th>
+						<td>@Html.FacetKeyword(Model.Component, "themes")</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div><!-- /.project-table -->

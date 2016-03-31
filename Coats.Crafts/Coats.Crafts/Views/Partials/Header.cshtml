@@ -1,0 +1,147 @@
+﻿@using Coats.Crafts.Configuration;
+@using Coats.Crafts.Extensions;
+
+@{       
+	bool isAuth = User.Identity.IsAuthenticated;
+	var currentConfig = WebConfiguration.Current;
+
+	var urlRegistration = currentConfig.Registration.AddApplicationRoot();
+	
+	// If already on login/register page, don't add return URL to query string
+	if (!Request.Url.LocalPath.Contains("registration"))
+	{
+		urlRegistration = urlRegistration + "?ReturnUrl=" + Request.Url.AbsolutePath;
+	}
+
+	urlRegistration = Url.Content(urlRegistration);
+
+	var urlAbout = Url.Content(currentConfig.About.AddApplicationRoot());
+	var urlProfile = Url.Content(currentConfig.MyProfile.AddApplicationRoot());
+	var urlScrapbook = Url.Content(currentConfig.Scrapbook.AddApplicationRoot());
+	var urlShoppingList = Url.Content(currentConfig.ShoppingList.AddApplicationRoot());
+	var urlStoreFinder = Url.Content(currentConfig.StoreFinder.AddApplicationRoot());
+	var urlLogout = Url.Content(currentConfig.Logout.AddApplicationRoot());
+	var urlContact = Url.Content(currentConfig.ContactUs.AddApplicationRoot());
+	var urlOurBrands = Url.Content(currentConfig.Brands.AddApplicationRoot());
+
+    var textAbout = Html.GetResource("AboutUs");
+	var textProfile = Html.GetResource("MyProfile");
+	var textScrapbook = Html.GetResource("Scrapbook");
+	var textStoreFinder = Html.GetResource("StoreFinder");
+	var textShoppingList = Html.GetResource("ShoppingList");
+	var textLogout = Html.GetResource("Logout");
+	var textContact = Html.GetResource("ContactUs");
+	var textBrands = Html.GetResource("OurBrands");
+
+    var textLogin = Html.GetResource("Login");
+    var textRegister = Html.GetResource("Register");
+    var textClose = Html.GetResource("Close");
+
+	var classScrapbook = "scrapbook ajax";
+	var classShoppingList = "list ajax";
+	
+	if (!isAuth) {
+		urlProfile = urlRegistration;
+		urlScrapbook = urlRegistration;
+		urlShoppingList = urlRegistration;
+
+		classScrapbook = "scrapbook";
+		classShoppingList = "list";
+	}
+}
+<div id="head">
+	<div class="row-fluid">
+		<div class="span12">
+			<a href="@Url.Content("~/")" title="@Html.GetResource("MakeItCoats")" id="logo">@Html.GetResource("MakeItCoats")</a>
+			<a href="#" id="showhide">@Html.GetResource("ShowHide")</a>
+			<div id="menu">
+				<ul id="areas">
+				@*foreach (SiteMapNode node in SiteMap.RootNode.ChildNodes[0].ChildNodes)*@
+                @foreach (SiteMapNode node in SiteMap.RootNode.ChildNodes)
+				{
+					int depth;
+					string classname = String.Empty;
+
+					// Try and get depth ...
+					if (!Int32.TryParse(node["depth"], out depth))
+					{
+						continue;
+					}
+
+					// Check depth ...
+					if (depth != 1)
+					{
+						continue;
+					}
+
+					// Top navs should be the only ones with the number prefix "dd XXXXX"
+					if (!Regex.IsMatch(node["tridion_title"], @"^\d{2}[\s|_|-]?[\w|\s]+"))
+					{
+						continue;
+					}
+
+					if (SiteMap.CurrentNode != null)
+					{
+						if (SiteMap.CurrentNode.IsDescendantOf(node) || node == SiteMap.CurrentNode)
+						{
+							classname = "current";
+						}
+					}
+					<li><a href="@Url.Content(node.Url)" class="@classname" title="@node.Title">@node.Title</a></li>      
+				}
+				</ul>
+				<ul id="user">
+					<li class="hidden-desktop">
+						<a class="storefindermobile" href="@urlStoreFinder" title="@textStoreFinder">@textStoreFinder</a>
+					</li>
+					<li class="hidden-desktop">
+						<a class="ourbrands" href="@urlOurBrands" title="@textBrands">@textBrands</a>
+					</li>
+                    @if (!isAuth)
+					{
+                    <li><a href="@urlRegistration" class="register" title="@textLogin/@textRegister">@textLogin/@textRegister</a></li>
+                    }
+                    else
+					{
+                    <li>
+						<a href="@urlProfile" class="profile ajax" data-toggle="tooltip" title="@textProfile">@textProfile</a>
+						<a href="@urlLogout" class="hidden-desktop logout" title="@textLogout @User.Identity.Name">@textLogout</a>
+					</li>
+					}
+					<li>
+						<a href="@urlScrapbook" class="@classScrapbook" data-toggle="tooltip" title="@textScrapbook">@textScrapbook</a>
+					</li>
+                    @if (!currentConfig.DisableWishList)
+                    {
+					    <li>
+						    <a href="@urlShoppingList" class="@classShoppingList" data-toggle="tooltip" title="@textShoppingList">@textShoppingList</a>
+					    </li>
+                    }
+					<li class="hidden-desktop">
+						<a href="@urlContact" title="@textContact">@textContact</a>
+					</li>
+					<li class="hidden-desktop">
+						@Html.addThis("addThisMenu")
+					</li>
+				</ul>
+				<ul id="helper">
+                    @if (isAuth)
+					{
+                    <li><a href="@urlLogout" title="@textLogout @User.Identity.Name">@textLogout</a></li>
+					}
+					<li><a href="@urlContact" title="@textContact">@textContact</a></li>
+					<li><a href="@urlAbout" title="@textAbout">@textAbout</a></li>
+                    @{Html.RenderPartial("~/Views/Partials/CountrySelector.cshtml");}
+					<li><a href="@urlStoreFinder" title="@textStoreFinder" class="desktopstorefinder">@textStoreFinder</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div><!-- /#head -->
+<div class="component" id="dropdown">
+	<div class="row-fluid">
+		<a href="#" title="@textClose" class="icon close">@textClose</a>
+        @*//We need scrolling=no for chrome, overflow:hidden doesn't work currently (v28)*@
+		<iframe frameBorder="0" scrolling="no" id="panels"></iframe>
+	</div>
+</div>

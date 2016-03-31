@@ -1,0 +1,27 @@
+﻿@model Coats.Crafts.Models.Events
+           
+@using Coats.Crafts.ControllerHelpers;
+@using Coats.IndustrialPortal.Providers;
+
+
+@{
+    Layout = null;
+
+    bool isAuth = User.Identity.IsAuthenticated;
+
+    //var userName = isAuth ? ProfileHelper.GetUserName() : string.Empty;
+    //CoatsUserProfile user = ProfileHelper.GetUser();
+    
+    //string postcode = user.POSTCODE;
+}
+
+
+
+<div>Events</div>
+
+@if (Model.Description != null)
+{
+    <div>Description: @Model.Description</div>
+    
+    <div>@*postcode*@</div>
+}

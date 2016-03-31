@@ -1,0 +1,32 @@
+﻿@using DD4T.ContentModel;
+
+@model IField
+
+@{
+    Layout = null;
+
+	var care = Model;
+
+    var symbols = care.EmbeddedValues[0].ContainsKey("symbols") ? care.EmbeddedValues[0]["symbols"].Keywords : new List<IKeyword>();
+
+    var instructions = care.EmbeddedValues[0].ContainsKey("instructions") ? care.EmbeddedValues[0]["instructions"].Value : "";
+}
+@* only show this section if there is content *@
+@if ((symbols.Count() > 0) || (!string.IsNullOrEmpty(instructions)))
+{
+    symbols = ProductCareHelper.ProductCareList(symbols);
+    
+    <div>
+	    <p><strong>@Html.GetResource("CareInstructions")</strong></p>
+	    @if (symbols.Count() > 0)
+         { 
+            <ul class="care-instructions">
+	        @foreach (var symbol in symbols)
+                {
+		            <li class="icon @symbol.Key">@symbol.Description</li>
+                }
+	        </ul>
+         }
+	    @instructions.ResolveRichText()
+    </div>
+}

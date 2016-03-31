@@ -1,0 +1,78 @@
+﻿@using Coats.Crafts.CDS;
+@using Coats.Crafts.Configuration;
+@using System.Globalization;
+@using Coats.Crafts.Extensions;
+
+@model Coats.Crafts.Controllers.CommentsController.CommentsPackage
+
+@{
+	Layout = null;
+	IList<Comment> comments = Model.CommentList;
+	Int32 commentCount = comments.Count();
+
+	// Labels and links
+	String textTitle = !String.IsNullOrEmpty(Model.title) ? Model.title : Html.GetResource("HaveYourSay");
+	String textNoComments = Html.GetResource("NoCommentsFound");
+
+    //Intro text for comments/ratings now comes from a title/text component
+    String introText = String.Empty;
+
+    //If we don't have introText then we fall back to the resource entries 
+	if (String.IsNullOrEmpty(Model.introText))
+    {
+        introText = "<h2>" + Html.GetResource("CommentRatingTitle") + "</h2><p>" + Html.GetResource("CommentRatingIntro") + "</p>";
+    }
+	else
+	{
+		introText = Model.introText;
+	}
+
+    string timeZoneAbbr = !string.IsNullOrEmpty(WebConfiguration.Current.TimeZoneAbbr) ? "(" + WebConfiguration.Current.TimeZoneAbbr + ")" : string.Empty;
+
+}
+
+<section class="component comments" id="comments">
+    <div class="row-fluid headers ruled">
+        <div class="span12">
+            <h1>@textTitle</h1>
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="span6 ">
+		@if (commentCount > 0)
+		{
+			for (var i = 0; i < commentCount; i++)
+			{
+				Comment currentComment = comments[i];
+
+				if (currentComment.Content != null)
+				{
+					string username = currentComment.User != null ? currentComment.User.Name : "Anonymous";
+					string comment = currentComment.Content.Replace("#nl", "<br/>");
+                    string commentDate = DateTimeFormatExtensions.CoatsDatePatternByTimezone(currentComment.CreationDate);
+                    if (WebConfiguration.Current.CommentsAdminUsers.Contains(username))
+                    {
+                        username = "Make it Coats Team";
+                    }
+
+				<article itemscope itemtype="http://schema.org/Comment">
+					<h1 itemprop="author">@Html.Raw(username)</h1>
+					<p>@Html.Raw(comment)</p>
+					<span class="date" itemprop="dateCreated">@commentDate @timeZoneAbbr</span>
+				</article>
+				}
+			}
+		}
+		else
+		{
+			<p>@textNoComments</p>
+		}
+        </div>
+        <div class="span6 comment-form">
+			@Html.Partial("../Partials/Comment_Form", Model.IDs)
+            @Html.Raw(introText)
+			@Html.Partial("../Partials/Rating_Form", Model.IDs)
+        </div>
+    </div>
+</section>
+

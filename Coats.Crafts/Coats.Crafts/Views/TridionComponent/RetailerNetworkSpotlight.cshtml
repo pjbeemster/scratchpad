@@ -1,0 +1,53 @@
+﻿@using DD4T.ContentModel;
+@using DD4T.Mvc.Html;
+@using Coats.Crafts.Configuration;
+@using Coats.Crafts.Extensions;
+
+@model IComponentPresentation
+
+@{
+    Layout = null;
+    var promo = @Model.Component.Fields;
+    var title = promo.ContainsKey("title") ? promo["title"].Value : null;
+    var summary = promo.ContainsKey("summary") ? promo["summary"].Value : null;
+}
+
+<section class="component retailer-network">
+    <div class="row-fluid ruled">
+		<div class="span12">
+			<h1>@title</h1>
+			@if (promo.ContainsKey("link") && promo["link"].EmbeddedValues[0].ContainsKey("linkURL") && promo["link"].EmbeddedValues[0].ContainsKey("linkTitle"))
+            {
+                <span><a href="@promo["link"].EmbeddedValues[0]["linkURL"].Value" title="@promo["link"].EmbeddedValues[0]["linkTitle"].Value">
+                    @promo["link"].EmbeddedValues[0]["linkTitle"].Value
+                </a></span>
+            }
+            else
+            {
+                if (promo.ContainsKey("link") && promo["link"].EmbeddedValues[0].ContainsKey("linkComponent") && promo["link"].EmbeddedValues[0].ContainsKey("linkTitle"))
+                {
+                    var link = promo["link"].EmbeddedValues[0]["linkComponent"].LinkedComponentValues[0].GetResolvedUrl();
+                    if (String.IsNullOrEmpty(link))
+                    {
+                        link = "";
+                    }
+                        
+                <a href="@Url.Content(link))" title="@promo["link"].EmbeddedValues[0]["linkTitle"].Value">
+                    @promo["link"].EmbeddedValues[0]["linkTitle"].Value
+                </a>
+                }
+            }	
+		</div>
+	</div>
+	<div class="row-fluid">
+		<div class="span3">
+		</div>
+        <div class="span6">
+            @if (promo.ContainsKey("image"))
+            {
+                @Html.Image(promo["image"]);
+            }
+			@Html.Raw(summary)
+        </div>
+    </div>
+</section>

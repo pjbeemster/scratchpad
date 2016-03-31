@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<email>
+  <displayname>Coats Crafts Team</displayname>
+  <subjecttext>Coats Crafts Shopping List</subjecttext>
+  <emailbody>You have requested a copy of your shopping list: [*itemHtml*].
+  Regards, Coats Crafts Team
+  </emailbody>
+</email>

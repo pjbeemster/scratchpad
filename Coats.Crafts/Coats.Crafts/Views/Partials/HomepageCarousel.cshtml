@@ -1,0 +1,84 @@
+﻿@using DD4T.ContentModel;
+@using DD4T.Mvc.Html;
+
+@using Coats.Crafts.Extensions;
+
+@model IComponentPresentation
+
+@{
+    Layout = null;
+    String backgroundImg = String.Empty;
+    String link = String.Empty;
+}
+
+<section>
+	<div id="home-carousel" class="carousel slide">
+
+	@if (Model.Component.Fields.ContainsKey("items"))
+ {
+		<div class="carousel-inner">
+				@foreach (IComponent comp in Model.Component.Fields["items"].LinkedComponentValues)
+    {
+					<div class="item">
+						@if (comp.Fields.ContainsKey("image"))
+						{
+							<img src="@comp.Fields["image"].GetImageURL()" />
+						}
+						<div class="copy">
+                        @*Change by Ajaya for color change*@
+                   @if (comp.Fields.ContainsKey("titlecolor"))
+                            {
+                                var manualTitleColor = comp.Fields["titlecolor"].Keywords[0].Description;
+
+                                if (!String.IsNullOrEmpty(manualTitleColor))
+                                {
+                                    <h1 style="color:@manualTitleColor">@(comp.Fields.ContainsKey("title") ? comp.Fields["title"].Value : string.Empty)</h1>         
+                                }
+                                else
+                                {
+                                  <h1>@(comp.Fields.ContainsKey("title") ? comp.Fields["title"].Value : string.Empty)</h1>         
+                                }
+                            }
+                            else
+                            {
+                              <h1>@(comp.Fields.ContainsKey("title") ? comp.Fields["title"].Value : string.Empty)</h1>         
+                            }
+							<p>@Html.Raw((comp.Fields.ContainsKey("summary") ? comp.Fields["summary"].Value.ToString() : string.Empty))</p>
+
+							@if (comp.Fields.ContainsKey("link") && comp.Fields["link"].EmbeddedValues[0].ContainsKey("linkURL") && comp.Fields["link"].EmbeddedValues[0].ContainsKey("linkTitle"))
+                           {
+                                var manualLink = comp.Fields["link"].EmbeddedValues[0]["linkURL"].Value;
+                                if (!String.IsNullOrEmpty(manualLink))
+                                {
+                                    if (!manualLink.StartsWith("http://"))
+                                    {
+                                        manualLink = Url.Content(manualLink.AddApplicationRoot());
+                                    }
+                                }
+           
+								<a class="btn pink" href="@manualLink" title="@comp.Fields["link"].EmbeddedValues[0]["linkTitle"].Value">
+									@comp.Fields["link"].EmbeddedValues[0]["linkTitle"].Value
+								</a>
+							}
+							else
+							{
+								if (comp.Fields.ContainsKey("link") && comp.Fields["link"].EmbeddedValues[0].ContainsKey("linkComponent") && comp.Fields["link"].EmbeddedValues[0].ContainsKey("linkTitle"))
+								{
+									link = comp.Fields["link"].EmbeddedValues[0]["linkComponent"].LinkedComponentValues[0].GetResolvedUrl();
+									if (!String.IsNullOrEmpty(link))
+									{
+										link = link.AddApplicationRoot();
+									}
+                        
+								<a class="btn pink" href="@Url.Content(link)" title="@comp.Fields["link"].EmbeddedValues[0]["linkTitle"].Value">
+									@comp.Fields["link"].EmbeddedValues[0]["linkTitle"].Value
+								</a>
+								}
+							}	
+						</div>
+					</div>
+				}
+			</div>
+			}
+	</div>
+</section>

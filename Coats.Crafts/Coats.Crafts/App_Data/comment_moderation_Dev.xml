@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<email>
+  <displayname>Make it Coats Team</displayname>
+  <subjecttext>New - Comments</subjecttext>
+  <emailbody>
+Hello Admin,
+
+We received comments on [*ComponentName*] from user [*User*],Please moderate comments and publish the same.
+
+Wishing you a great crafting time, 
+
+your MakeitCoats team
+
+  </emailbody>
+</email>

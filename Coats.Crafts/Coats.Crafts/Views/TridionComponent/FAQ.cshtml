@@ -1,0 +1,66 @@
+﻿@using DD4T.ContentModel;
+@using DD4T.Mvc.Html;
+@using Coats.Crafts.Extensions;
+@using Coats.Crafts.Models;
+
+@model IComponentPresentation
+
+@{
+	Layout = null;
+
+	// Overwrite default span declaration for pods - removes width styling
+	ViewBag.PodGenericSpan = "nospan";
+	
+	var fields = @Model.Component.Fields;
+	var banner = fields.ContainsKey("banner") ? fields["banner"] : null;
+	var related = fields.ContainsKey("related") ? fields["related"].LinkedComponentValues : null;
+}
+@Html.Partial("~/Views/Partials/CrumbsLight.cshtml")
+<section class="sidebar-layout" itemscope itemtype="http://schema.org/Article">
+	@Html.Partial("~/Views/Partials/HeaderSimple.cshtml")
+	@Html.Partial("~/Views/Partials/AuthorRating.cshtml", Model)
+	<div class="row-fluid">
+		<div class="span7">
+			@if (banner != null)
+			{
+			<div class="inline-image">
+				@Html.Image(banner, new { @class = "shaded" })
+				<ul class="actions">
+					<li>
+						@Html.Partial("~/Views/Scrapbook/AddScrapbookItemForm.cshtml", banner.LinkedComponentValues[0])
+					</li>
+				</ul>
+			</div>
+			}
+			@if (fields.ContainsKey("body"))
+			{
+	            @fields["body"].ResolveRichText();
+			}
+			<footer>
+				<ul class="actions">
+					<li>@{Html.RenderPartial("~/Views/Scrapbook/AddScrapbookItemForm.cshtml", Model.Component);}</li>
+				</ul>
+			</footer>
+		</div>
+		<div class="span4 pull-right">
+			<aside>
+				@if (related != null)
+				{
+		
+					if (related.Count > 0) 
+					{
+						
+				<div>
+					<h2>@Html.GetResource("FeaturedFAQsTitle")</h2>
+
+					@for (var i = 0; i < related.Count;  i++ )
+					{
+						@Html.Partial("~/Views/Partials/PodGeneric.cshtml", related[i]);
+					}
+				</div>
+					}
+				}
+			</aside>
+		</div>
+	</div>
+</section>

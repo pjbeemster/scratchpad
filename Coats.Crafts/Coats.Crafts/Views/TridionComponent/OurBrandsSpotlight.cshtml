@@ -1,0 +1,188 @@
+﻿@using DD4T.ContentModel;
+@using Coats.Crafts.Configuration;
+@using Coats.Crafts.Extensions;
+
+@model IComponentPresentation
+
+@{
+    Layout = null;
+	var template = @Model.ComponentTemplate.Title;
+}
+<section class="component our-brands">
+	<div class="row-fluid ruled">
+		<div class="span12">
+			<h1>@(Model.Component.Fields.ContainsKey("title") ? Model.Component.Fields["title"].Value : string.Empty)</h1>
+                @if(Model.Component.Fields.ContainsKey("link"))
+                {
+                    <span>@Html.Link(Model.Component.Fields["link"])</span>
+                }
+		</div>
+	</div>
+
+@*
+
+/*
+ *
+ * Backed out this functionality in favour
+ * of stacking the logos as we come down
+ * the screen sizes. Wasn't able to
+ * distinguish between ipad and iphones so
+ * ipads (which should get the desktop view
+ * in landscape) where getting the phone view.
+ * 
+ */
+
+
+@if (!Request.Browser.IsMobileDevice)
+{
+*@
+	<div class="row-fluid">
+		<div class="new-slider brands slide carousel" data-slider-arrow-position="special-brands" data-slider-arrow-size="normal" data-slider-control-position="outside-close">
+			<div class="carousel-inner">
+
+				@if (Model.Component.Fields.ContainsKey("items"))
+	{
+		int totalBrands = 0;
+
+		List<string> brandImages = new List<string>();
+
+		foreach (var brandimage in Model.Component.Fields["items"].LinkedComponentValues)
+		{
+			
+                var logo = brandimage.Fields.ContainsKey("thumb") ? Html.Image(brandimage.Fields["thumb"]) : null;
+
+                if (logo != null)
+                {
+                    string url = "#";
+                    if (!String.IsNullOrEmpty(brandimage.Url))
+                    {
+                        url = Url.Content(brandimage.GetResolvedUrl().AddApplicationRoot());
+                    }
+                    brandImages.Add(logo + "," + url);
+                    totalBrands++;
+                }
+
+            // Images used to be pulled in from the logo keyword metadatafield as opposed to the thumbnail above
+            
+            //if (brandimage.Fields.ContainsKey("title"))
+            //{
+                //var key = brandimage.Fields["title"];
+                //if (key.Keywords.Count > 0)
+                //{
+                //    if (key.Keywords[0].MetadataFields.Count > 0)
+                //    {
+                //        if (key.Keywords[0].MetadataFields.ContainsKey("logo"))
+                //        {
+                //            string url = "#";
+                //            if (!String.IsNullOrEmpty(brandimage.Url))  
+                //            {
+                //                url = Url.Content(brandimage.GetResolvedUrl().AddApplicationRoot());											
+                //            }	
+                            
+                //            //brandImages.Add(Html.Image(key.Keywords[0].MetadataFields["logo"]) + "," + url);
+                //            brandImages.Add(logo + "," + url);
+                //            totalBrands++;
+                //        }
+                //    }
+                //}
+			//}
+		}
+
+        int outerLoop = totalBrands / 3;
+
+        outerLoop += (totalBrands % 3 == 0 ? 0 : 1);
+
+        var shuffleImages = new List<string>();
+
+        if (template == WebConfiguration.Current.OurBrandsSpotlightRandom)
+        {
+            // if the random spotlight template is used then we randomise the images
+            shuffleImages = brandImages.OrderBy(a => Guid.NewGuid()).ToList();
+        }
+        else
+        {
+            shuffleImages = brandImages;
+        }
+
+        int brandCount = shuffleImages.Count;
+
+        for (int i = 0; i < outerLoop; i++)
+        {
+            string[] brands;
+                        
+						<div class="new-panel item">
+						@{
+            int counter = (3 * i);
+
+            if (brandCount > counter)
+            {
+                brands = shuffleImages[counter].Split(',');
+                            
+							<a href="@brands[1]">
+							    <div class="logo">
+							        <div class="image">
+							            @Html.Raw(brands[0])
+							        </div>
+							    </div>
+							</a>                            
+            }
+
+            if (brandCount > (counter + 1))
+            {
+                brands = shuffleImages[counter + 1].Split(',');
+							<a href="@brands[1]">                      
+							    <div class="logo">
+							        <div class="logo-seperator"></div>
+							        <div class="image">
+							            @Html.Raw(brands[0])                          
+							        </div>
+							    </div>
+							</a>
+            }
+            if (brandCount > (counter + 2))
+            {
+                brands = shuffleImages[counter + 2].Split(',');
+							<a href="@brands[1]">                          
+							    <div class="logo">
+							        <div class="logo-seperator"></div>
+							        <div class="image">                                
+							            @Html.Raw(brands[0]) 
+							        </div>
+							    </div>
+							</a>
+            }
+						}
+						</div>               
+        }
+    }
+		    </div>
+        </div>
+	</div>
+@*}
+else
+{
+<div class="row-fluid">
+		<div class="new-slider brands" data-slider-arrow-position="special-brands" data-slider-arrow-size="normal" data-slider-control-position="outside-close">
+			<div class="inner">
+				@foreach (var brandimage in Model.Component.Fields["items"].LinkedComponentValues)
+				{
+					if (brandimage.Fields.ContainsKey("title")) {
+					<div class="new-panel">
+						<a href="@Url.Content(brandimage.Url.AddApplicationRoot())">
+							<div class="logo">
+								<div class="image">
+									@if (brandimage.Fields["title"].Keywords[0].MetadataFields.ContainsKey("logo"))
+									{
+										@Html.Image(brandimage.Fields["title"].Keywords[0].MetadataFields["logo"])
+									}
+								</div>
+							</div>
+						</a>
+					</div>
+					}
+				}
+		    </div>
+        </div>
+	</div>	
+}*@
+</section>

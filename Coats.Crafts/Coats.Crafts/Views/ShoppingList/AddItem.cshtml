@@ -1,0 +1,35 @@
+﻿@using DD4T.ContentModel;
+@using DD4T.ContentModel.Factories;
+@using System.Text;
+
+@model IComponent
+
+@{
+    Layout = null;
+	String textAddToShoppingList = Html.GetResource("AddToShoppingList");
+}
+@if (User.Identity.IsAuthenticated)
+{
+	using (Html.BeginForm("additem", "shoppinglist", FormMethod.Post, new { rel = "ajax", data_done_event = "inserted-shoppinglist" }))
+	{
+		<input type="hidden" name="name" value="@(Model.Fields["title"].Value)" />
+		<input type="hidden" name="id" value="@(Model.Id)" />
+		<input type="hidden" name="quantity" value="1" />
+		<input type="hidden" name="project" value="" />
+		<input type="hidden" name="redirectUrl" value="@(Request.Url.ToString())" />
+		<button type="submit" class="btn pink" title="@Html.GetResource("AddToShoppingList")">@textAddToShoppingList</button>
+	}
+}
+else
+{
+	// Append item details to query string to pass through to login form - login form then adds these as hidden values
+	StringBuilder link = new StringBuilder("~/registration/index.html");
+	link.Append("?action=addtoshoppinglist");
+	link.Append("&tcm-id=" + Url.Encode(Model.Id));
+	link.Append("&quantity=1");
+	link.Append("&project");
+	link.Append("&name=" + Url.Encode(Model.Fields["title"].Value));
+	link.Append("&ReturnUrl=" + Url.Encode(Request.Url.AbsolutePath));
+	
+	<a href="@Url.Content(link.ToString())" class="btn pink addtoshoppinglistbtn" title="@textAddToShoppingList" rel="nofollow">@textAddToShoppingList</a>
+}

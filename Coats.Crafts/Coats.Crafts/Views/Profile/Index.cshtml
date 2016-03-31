@@ -1,0 +1,186 @@
+﻿@using Coats.Crafts.Models;
+@using Coats.Crafts.Configuration;
+@using Coats.Crafts.ControllerHelpers;
+
+@model UserProfile
+@{
+    Layout = null;
+	
+	var title = ViewBag.Title;
+    var profileStatus = ViewBag.profileStatus;
+    bool radioSelected = false;
+    string selectedRadio = string.Empty;
+    int cnt = 0;
+    var formAction = "http://" + Request.Url.Host + Request.Url.LocalPath;
+    var profile = Url.Content(String.Format(formAction + "{0}", (Request.Params["iframe"] == "true") ? "?iframe=true" : ""));
+}
+<section class="user-panel profile">
+    <div class="row-fluid headers">
+	    <div class="span12">
+            <h1>@title</h1>
+         </div>
+    </div>
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "sign-up", @id = "profile", @action = profile }))
+{
+	<div class="row-fluid">
+		<div class="span5">
+			<fieldset>
+				<div class="control-group">
+                    <label>@Html.GetResource("FirstName")</label>
+                    @Html.TextBoxFor(model => Model.CustomerDetails.FirstName, new { maxlength = 38 })
+                    @Html.ValidationMessageFor(model => Model.CustomerDetails.FirstName)
+                </div>
+                <div class="control-group">
+					<label>@Html.GetResource("LastName")</label>
+					@Html.TextBoxFor(model => model.CustomerDetails.LastName, new { maxlength = 38 })
+                    @Html.ValidationMessageFor(model => model.CustomerDetails.LastName)
+				</div>
+				<div class="control-group">
+					<label>@Html.GetResource("DisplayName")</label>
+ 					@Html.TextBoxFor(model => model.CustomerDetails.DisplayName, new { disabled = "disabled" })
+				</div>
+				<div class="control-group">
+					<label>@Html.GetResource("EmailAddress")</label>
+					@Html.TextBoxFor(model => model.CustomerDetails.EmailAddress, new { @class = "wide", disabled = "disabled" })
+				</div>
+            </fieldset>
+            <fieldset>
+                <div class="control-group">
+					<label>@Html.GetResource("Postcode")</label>
+					@Html.TextBoxFor(model => model.AddressDetails.Postcode, new { @class = "thin", maxlength = 10 })
+                    @Html.ValidationMessageFor(model => model.AddressDetails.Postcode)
+					<a title="Find me" class="btn pink" id="find" rel="nofollow">@Html.GetResource("Findme")</a>
+					<p id="feeder"></p>
+					<ul id="options"></ul>
+					<div id="geolocation-canvas" class="span12">	
+					</div>
+                    @{
+    string lat = Model.CustomerDetails.Lat;
+    string lng = Model.CustomerDetails.Long;
+
+    if (string.IsNullOrEmpty(lat) && string.IsNullOrEmpty(lng))
+    {
+        lat = Convert.ToDecimal(WebConfiguration.Current.StoreLocatorLatitude).ToString();
+        lng = Convert.ToDecimal(WebConfiguration.Current.StoreLocatorLongitude).ToString();
+    }
+                    }
+
+					<input type="hidden" id="centerOnLat" value="@lat" />
+					<input type="hidden" id="centerOnLng" value="@lng" />
+					<input type="hidden" id="lat" value="@Model.CustomerDetails.Lat" />
+					<input type="hidden" id="long" value="@Model.CustomerDetails.Long" />
+				</div>
+			</fieldset>
+		</div>
+		<div class="span5 offset1">
+            <fieldset>
+				<div class="control-group">
+					<p>@Html.GetResource("UpdatePasswordBlurb")</p>
+					@Html.LabelFor(m => m.CurrentPassword, new { @class = "not_required" })
+                    @Html.TextBoxFor(m => m.CurrentPassword, new { type = "password", maxlength = 255, autocomplete = "off", @Value = "" })
+                    @Html.ValidationMessageFor(m => m.CurrentPassword)
+                    @Html.ValidationMessage("CurrentPasswordIncorrect")
+                    @Html.ValidationMessage("CurrentPasswordBlank")
+					<p><a href="@Url.Content(WebConfiguration.Current.PasswordReminderPath)" rel="nofollow" target="_top">@Html.GetResource("ForgottenPassword")</a>    
+				</div>
+				<div class="control-group">
+					@Html.LabelFor(m => m.NewPassword, new { @class = "not_required" })
+                    @Html.TextBoxFor(m => m.NewPassword, new { type = "password", maxlength = 255, autocomplete = "off", @Value = "" })
+                    @Html.ValidationMessageFor(m => m.NewPassword)
+				</div>
+				<div class="control-group">
+					@Html.LabelFor(m => m.VerifyNewPassword, new { @class = "not_required", })
+                    @Html.TextBoxFor(m => m.VerifyNewPassword, new { type = "password", maxlength = 255, autocomplete = "off", @Value = "" })
+                    @Html.ValidationMessageFor(m => m.VerifyNewPassword)
+				</div>
+			</fieldset>
+			<fieldset>
+				<div class="control-group">
+					@Html.LabelFor(model => model.CustomerDetails.About, new { @class = "not_required" })
+					@Html.TextAreaFor(model => model.CustomerDetails.About, new { @class = "wide", maxlength = 255 })
+				</div>
+			</fieldset>
+			<fieldset>
+				<div class="control-group extra">
+					<label>@Html.GetResource("EmailNewsletter")</label>
+					<ul class="check-horz">
+                    @{                    
+    bool selected = false;    
+    
+    foreach (var item in Model.EmailNewsletter)
+    {
+        if (item.Selected)
+        {
+            selected = true;
+        }
+    }
+
+    foreach (var item in Model.EmailNewsletter)
+    {
+        cnt++;
+        selectedRadio = "";
+      ///  if (item.Selected || (cnt == 1 && selected == false))
+         if (item.Selected)
+        {
+            selectedRadio = "checked";
+        }
+						<li>
+							<input type="radio" name="email-newsletter" id="email-newsletter-@item.Text" value="@item.Value" @selectedRadio /><label for="email-newsletter-@item.Text">@item.Text</label>
+						</li>
+    }
+}
+					</ul>
+				</div>
+			</fieldset>
+			<fieldset>
+				<div class="control-group extra">
+					@Html.LabelFor(model => model.CraftTypeList, new { @class = "not_required" })
+					@Html.CheckBoxList("CraftType", Model.CraftTypeList, new HtmlListInfo(HtmlTag.ul, 0, new { @class = "check-horz" }))
+				</div>
+			</fieldset>
+			@*
+            // Disabled profile visible instruction on request of client
+            // maybe implemented at a later date
+            <fieldset>
+				<div class="control-group extra">
+					<label>@Html.GetResource("ProfileVisible")</label>
+					<ul class="check-horz">
+                    @{
+                        cnt = 0;
+                        radioSelected = false;
+                        foreach (var item in Model.ProfileVisible)
+                        {
+                            cnt++;
+                            selectedRadio = "";
+                            if (item.Selected)
+                            {
+                                selectedRadio = "checked";
+                                radioSelected = true;
+                            }
+                            if (cnt == Model.ProfileVisible.Count && radioSelected == false)
+                            {
+                                selectedRadio = "checked";
+                            }
+						    <li>
+							    <input type="radio" name="visibile-profile" id="visibile-profile-@item.Text" value="@item.Value" @selectedRadio/><label for="visibile-profile-@item.Text">@item.Text</label>
+						    </li>
+                        }
+                    }
+					</ul>
+				</div>
+			</fieldset>
+            *@
+		</div>
+	</div>
+	<div class="row-fluid border-top">
+		<div class="span12 text-right">
+            <input type="hidden" id="lat" name="lat" />
+			<input type="hidden" id="long" name="long" />
+            <input type="hidden" id="profileStatus" value="@profileStatus" />
+			@Html.HiddenFor(m => m.returnUrl, new { @value = Request.Url.ToString() })
+			<button class="btn purple">@Html.GetResource("UpdateProfile")</button>
+		</div>
+	</div>
+}
+</section>
+

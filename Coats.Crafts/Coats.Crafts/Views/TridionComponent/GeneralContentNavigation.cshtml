@@ -1,0 +1,94 @@
+﻿@using DD4T.ContentModel;
+@using DD4T.Mvc.Html;
+@using DD4T.ContentModel.Factories;
+
+
+@model IComponentPresentation
+
+@{
+    Layout = null;
+    var fields = @Model.Component.Fields;
+    var promo = fields;
+}
+@Html.Partial("~/Views/Partials/CrumbsTrans.cshtml")
+<section class="content-intro component">
+	<div class="row-fluid">
+		@Html.Partial("~/Views/Partials/HeaderSimple.cshtml")
+	</div>
+    <div class="row-fluid">
+		<div class="border-bottom">
+			@Html.Partial("~/Views/Partials/GeneralContentNavigation.cshtml")
+			<div class="span8 pull-right">
+				@if (fields.ContainsKey("image"))
+				{
+				<div class="row-fluid">
+					<div class="span12">
+						<div class="inline-image">
+							@Html.Image(fields["image"].LinkedComponentValues[0], new { @class = "shaded" })
+							<ul class="actions">
+								<li>@{Html.RenderPartial("~/Views/Scrapbook/AddScrapbookItemForm.cshtml", fields["image"].LinkedComponentValues[0]);}</li>
+							</ul>
+						 </div>
+					</div>
+				</div>
+				}
+				@if (fields.ContainsKey("body"))
+				{
+				<div class="row-fluid">
+					<div class="span12">
+						@fields["body"].Value.ResolveRichText()
+					</div>
+				</div>
+				}
+			</div>
+		</div>
+     </div>
+ </section>
+ <section class="component two-col-article sub">
+    @if (fields.ContainsKey("sections"))
+	{
+		var totalSections = fields["sections"].EmbeddedValues.Count;
+		for (int i = 0; i < totalSections; i++)
+		{
+			var comp = fields["sections"].EmbeddedValues[i];			
+			
+			if (comp.ContainsKey("sectioncontent"))
+            {
+                var sections = comp["sectioncontent"].EmbeddedValues.Count;
+                <div class="row-fluid">
+					
+					@{
+		 
+					String BorderClass = (i + 1 != totalSections) ? "border-bottom" : String.Empty;
+					
+					}
+					<div class="@BorderClass">
+					@for (int i1 = 0; i1 < sections; i1++)
+					{
+						var content = comp["sectioncontent"].EmbeddedValues[i1];
+					
+						// If else makes sure we only ever have two content blocks in a row
+						if (content.ContainsKey("image"))
+						{
+							<div class="span6">
+								<div class="inline-image">
+									@Html.Image(content["image"].LinkedComponentValues[0], new { @class = "shaded" })
+									<ul class="actions">
+										<li>@{Html.RenderPartial("~/Views/Scrapbook/AddScrapbookItemForm.cshtml", content["image"].LinkedComponentValues[0]);}</li>
+									</ul>
+								</div>
+							</div>
+						}
+						else if (content.ContainsKey("content"))
+						{
+							<div class="span6">
+								@content["content"].Value.ResolveRichText()
+							</div>
+						}
+					}
+					</div>
+                </div>
+            }			
+		}
+	}
+</section>

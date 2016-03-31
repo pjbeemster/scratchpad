@@ -1,0 +1,105 @@
+﻿@using Coats.Crafts.Configuration;
+
+@model Coats.Crafts.Models.Scrapbook
+  
+@{
+	Layout = null;
+}
+<section class="user-panel scrapbook">
+	<div class="row-fluid headers">
+		<div class="span12">
+			<h1>@Html.GetResource("Scrapbook")</h1>
+		</div>
+	</div>
+    @if (Model.items != null)
+	{
+		if (Model.items.Count == 0)
+		{
+			<div class="row-fluid">
+				<div class="span12">
+					<p class="no-items">@Html.GetResource("ScrapbookNoItems")</p>
+				</div>
+			</div>
+		}
+		else
+		{
+		    <div class="row-fluid">
+			    <div class="span12">
+					<div class="scroll">
+						<table class="table sort-with-exceptions">
+							<thead>
+								<tr>
+									<th>@Html.GetResource("ScrapbookDescription")</th>
+									<th width="135px">@Html.GetResource("ScrapbookItemType")</th>
+									<th width="205px">@Html.GetResource("ScrapbookSource")</th>
+									<th class="no-sort" width="80px">@Html.GetResource("ScrapbookUpdate")</th>
+								</tr>
+							</thead>
+							<tbody>
+							@foreach (var s in Model.items)
+							{
+							<tr>
+								<td class="description">
+									@if (!String.IsNullOrEmpty(s.ImageURL))
+									{
+										string imgUrl = s.ImageURL;
+										
+										if (WebConfiguration.Current.RemoteImagePath != null)
+										{
+											imgUrl = WebConfiguration.Current.RemoteImagePath + imgUrl;
+										}
+										<a href="@imgUrl" class="lightbox"><img src="@imgUrl" alt="@(s.ItemDescription)" /></a>
+									}
+									@(s.ItemDescription)
+								</td>
+								<td>@s.ItemType</td>
+								<td class="source"><a href="@s.SourceURL" target="_top">@s.SourceDescription</a></td>
+								<td>
+									@using (Html.BeginForm("Delete", "Scrapbook"))
+			                        {
+										@Html.Hidden("id", s.ID)
+										@Html.Hidden("returnUrl", Request.Url.ToString())
+										<button type="submit" class="icon delete">@Html.GetResource("Delete")</button>
+										@Html.HttpMethodOverride(HttpVerbs.Delete)
+			                        }
+								</td>
+							</tr>
+							}
+						</tbody>
+					</table>
+				</div>
+            </div>
+        </div>
+        }
+		<div class="row-fluid">
+			@using (Html.BeginForm("AddItem", "Scrapbook", FormMethod.Post, new { @class = "clearfix addExternalItem"}))
+   {
+			<div class="span6">
+				<fieldset>
+					<span class="control-group">
+						@Html.LabelFor(m => m.description, Html.GetResource("ScrapbookAddItemDescription"))
+                        @*CC-1544 - removed @placeholder = Html.GetResource("EnterDescription")*@
+                        @Html.TextAreaFor(m => m.description, new {@class = "span10" })
+						@Html.ValidationMessageFor(m => m.description)
+					</span>
+				</fieldset>
+			</div>
+			<div class="span6">
+				<fieldset>
+					<span class="control-group">
+						@Html.LabelFor(m => m.sourceUrl, Html.GetResource("ScrapbookAddItemSource"))
+                        @Html.TextBoxFor(m => m.sourceUrl, new { @placeholder = Html.GetResource("EnterUrl"), @Value = "http://", @class = "span10" })
+						@Html.ValidationMessageFor(m => m.sourceUrl)
+					</span>
+				</fieldset>
+				@Html.ValidationSummary(false)
+				<input type="hidden" name="imageUrl" value="" />
+				<input type="hidden" name="sourceDescription" value="" />
+				<input type="hidden" name="type" value="External Item" />
+				<input type="hidden" name="returnUrl" value="@(Request.Url.ToString())" />
+				<button class="btn purple">@Html.GetResource("AddExternalResource")</button>
+			</div>
+   }
+		</div>
+	}
+</section>

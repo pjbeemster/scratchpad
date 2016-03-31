@@ -1,0 +1,139 @@
+﻿/*-----------------------------------------------
+
+ 
+ * Description: 	Schachenmayr Brand Theme Stylesheet
+ * Version:			1.0
+ * Website: 		http://coatscrafts.com
+ * Author(s):		James Carroll
+
+
+-----------------------------------------------*/
+
+/* Links --------------------------------------*/
+
+.schachenmayr a,
+.schachenmayr a:hover {
+    color: #5174bc;
+}
+
+.schachenmayr .actions li a {
+    color: #5174bc;
+}
+
+.schachenmayr .actions li a:hover {
+    color: #395183;
+    text-decoration: none;
+}
+
+/* Icons --------------------------------------*/
+
+.schachenmayr .icon {
+    background-image: url('../img/icon-sprite-schachenmayr.png') !important;
+}
+
+/* Pod flashes --------------------------------*/
+
+.schachenmayr .pod .image .flash {
+    background: #5174bc !important;
+}
+
+/* Three col feature --------------------------*/
+
+.schachenmayr .three-col-feature {
+    background: #a4a5a5;
+    background: -moz-linear-gradient(top,  #d5d5d5 0%, #a4a5a5 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d5d5d5), color-stop(100%,#a4a5a5));
+    background: -webkit-linear-gradient(top,  #d5d5d5 0%,#a4a5a5 100%);
+    background: -o-linear-gradient(top,  #d5d5d5 0%,#a4a5a5 100%);
+    background: -ms-linear-gradient(top,  #d5d5d5 0%,#a4a5a5 100%);
+    background: linear-gradient(to bottom,  #d5d5d5 0%,#a4a5a5 100%);
+}
+
+.schachenmayr .three-col-feature .ruled h1,
+.schachenmayr .three-col-feature .ruled a {
+    color: #000000;
+}
+
+/* Related isotope features -------------------*/
+
+.schachenmayr .related-isotope {
+    background: #a4a5a5;
+    background: -moz-linear-gradient(top,  #d5d5d5 0%, #a4a5a5 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d5d5d5), color-stop(100%,#a4a5a5));
+    background: -webkit-linear-gradient(top,  #d5d5d5 0%,#a4a5a5 100%);
+    background: -o-linear-gradient(top,  #d5d5d5 0%,#a4a5a5 100%);
+    background: -ms-linear-gradient(top,  #d5d5d5 0%,#a4a5a5 100%);
+    background: linear-gradient(to bottom,  #d5d5d5 0%,#a4a5a5 100%);
+}
+
+.schachenmayr .related-isotope .ruled h1,
+.schachenmayr .related-isotope .ruled a {
+    color: #000000;
+}
+
+/* Blog summary colours -----------------------*/
+
+.schachenmayr .blog-summary h1 {
+    color: #5174bc;
+}
+
+/* Reapply colours to buttons etc -------------*/
+
+.btn:hover {
+    color: #FFFFFF !important;
+}
+.btn.purple {
+    background: #5f294f !important;
+}
+.btn.purple:hover {
+    background: #421D37 !important;
+}
+.btn.brown {  
+    background: #866761 !important;
+    background: -moz-linear-gradient(top,  #866761 0%, #795e57 100%) !important;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#866761), color-stop(100%,#795e57)) !important;
+    background: -webkit-linear-gradient(top,  #866761 0%,#795e57 100%) !important;
+    background: -o-linear-gradient(top,  #866761 0%,#795e57 100%) !important;
+    background: -ms-linear-gradient(top,  #866761 0%,#795e57 100%) !important;
+    background: linear-gradient(to bottom,  #866761 0%,#795e57 100%) !important;
+    background: #876661 !important;
+	border-bottom: 1px solid #644847 !important;
+}
+.btn.brown:hover {
+    background: #5E4844 !important;
+}
+.btn.pink {
+    background: #C80093 !important;
+}
+.btn.pink:hover {
+    background: #8C006D !important;
+}
+.btn.yellow {
+    background: #FFCB4F !important;
+    color: #5f294f !important;
+}
+.btn.yellow:hover {
+    background: #B28E37 !important;
+}
+
+.crumbs a,
+.crumbs a:hover {
+    color: #666666 !important;
+}
+
+.facebook-activity a,
+.facebook-activity a:hover {
+    color: #3B5998 !important;
+}
+
+#sideshare .icon {
+    background-image: url('../img/icon-sprite.png') !important;
+}
+
+#base .btn {
+    background: #876661 !important;
+}
+
+#base .icon {
+    background-image: url('../img/icon-sprite.png') !important;
+}

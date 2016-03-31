@@ -1,0 +1,73 @@
+﻿@using DD4T.ContentModel;
+@using Coats.Crafts.Configuration;
+@using Coats.Crafts.ConfigurationHelpers;
+
+@model IComponent
+
+@{
+    Layout = null;
+    var fields = @Model.Fields;
+    string group = string.Empty;
+    string sname = string.Empty;
+    string snumber = string.Empty;
+    //string simage = string.Empty;
+
+
+    string heading = Html.GetResource("ColourSwatches");
+    if (Model.Schema.Title.Match(WebConfiguration.Current.ContentTypeProductHaberdashery))
+    {
+        heading = Html.GetResource("HabyShadeTitle");
+    }
+
+    if (fields.ContainsKey("shades"))
+    {
+     <section class="component colour-swatches izotaup">
+	    <div class="row-fluid ruled">
+		    <div class="span12">
+			    <h1>@heading</h1>
+		    </div>
+	    </div>
+        <div class="pods">
+		    <div class="row-fluid">
+
+                @{
+        var ccomp = fields["shades"].LinkedComponentValues[0];
+        var cfields = ccomp.Fields;
+
+        foreach (var shade in cfields["shades"].EmbeddedValues)
+        {
+            if (shade.ContainsKey("group"))
+            {
+                group = shade["group"].Value;
+            }
+            if (shade.ContainsKey("shade_name"))
+            {
+                sname = shade["shade_name"].Value;
+            }
+            if (shade.ContainsKey("shade_number"))
+            {
+                snumber = shade["shade_number"].Value;
+            }
+            if (shade.ContainsKey("shade_image"))
+            {
+                //simage = shade["shade_image"].Value;
+            
+                <div class="pod span3">
+				    <div class="image">
+					    @Html.Image(shade["shade_image"])
+				    </div>
+				    <div class="content">
+					    <div class="head">
+						    <h2>@sname</h2>
+						    <span class="colour">@snumber</span>
+					    </div>
+				    </div>
+			    </div>
+           }
+        }
+    }
+            </div>
+        </div>
+    </section>
+    }
+ }

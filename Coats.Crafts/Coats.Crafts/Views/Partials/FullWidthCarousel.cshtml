@@ -1,0 +1,42 @@
+﻿@using DD4T.ContentModel;
+@using DD4T.Mvc.Html;
+@using Coats.Crafts.Models;
+
+@model IComponentPresentation
+           
+@{
+    Layout = null;
+    var fields = @Model.Component.Fields;
+
+    IList<IFieldSet> images = new List<IFieldSet>();
+    
+    if (fields["banner"].LinkedComponentValues.Count > 0)
+    {
+        if (fields["banner"].LinkedComponentValues[0].Fields.ContainsKey("imageTextCollection"))
+        {
+            images = fields["banner"].LinkedComponentValues[0].Fields["imageTextCollection"].EmbeddedValues;
+        }
+    }
+}
+<div class="row-fluid">
+	<div class="full-width-carousel carousel slide large">
+		<div class="carousel-inner">
+
+            @if (images.Count > 0)
+            {
+                foreach (var imageCont in images)
+                {
+					if (imageCont.ContainsKey("image"))
+                    {
+			            <div class="new-panel item">
+                            @Html.Image(imageCont["image"], new { itemprop = "image" })
+				            <ul class="actions">
+								<li>@{Html.RenderPartial("~/Views/Scrapbook/AddScrapbookItemForm.cshtml", imageCont["image"].LinkedComponentValues[0]);}</li>
+				            </ul>
+			            </div>
+                    }
+                }
+            }
+        </div>
+	</div>
+</div>

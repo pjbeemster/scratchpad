@@ -1,0 +1,63 @@
+﻿@using DD4T.ContentModel;
+@using DD4T.Mvc.Html;
+
+
+@model Coats.Crafts.Models.AddScrapbookModel
+
+@{
+    Layout = null;
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        function AddExternalItemFrontEnd(item) {
+            var html = '<tr data-id="' + item.ID + '">';
+            html += '<td>';
+            if (item.ImageURL)
+                html += '<img height="200px" width="250px" src="' + item.ImageURL + '" alt="" />';
+            html += '</td>';
+            html += '<td>' + item.ItemDescription + '</td>';
+            html += '<td>' + item.ItemType + '</td>';
+            html += '<td><a href="' + item.SourceURL + '">' + item.SourceDescription + '</a></td>';
+            html += '<td>';
+            html += '   <form method="post" action="/scrapbook/delete">';
+            html += '   <input id="id" type="hidden" value="' + item.ID + '" name="id">';
+            html += '   <input id="returnUrl" type="hidden" value="' + window.location.pathname + '" name="returnUrl">';
+            html += '   <input class="delete-scrapbook" type="image" alt="Delete" src="/images/remove-icon.jpg">';
+            html += '   <input type="hidden" value="DELETE" name="X-HTTP-Method-Override">';
+            html += '</td>';
+            html += '</tr>';
+            return html;
+        }
+
+        $("#AddExternalItemSubmit").click(function () {
+            if ($('#AddExternalItem').valid()) {
+                $.ajax({
+                    type: "POST",
+                    url: "/scrapbook/AddItem",
+                    data: { description: $(this).siblings('#description').val(), source: $(this).siblings('#source').val() }
+                }).done(function (msg, data) {
+                    if (msg.success == true) {
+                        $('#scrapbook table tbody').append(AddExternalItemFrontEnd(msg.data));
+                    }
+                    else {
+                        //something went wrong
+                    }
+                });
+            }
+            return false;
+        });
+    });
+</script>
+
+<div>
+    @using (Html.BeginForm("AddItem", "Scrapbook", FormMethod.Post, new {id ="AddExternalItem" }))
+    {
+        <span>@Html.GetResource("resources.resx", "ScrapbookAddItemDescription") </span>@Html.TextBoxFor(m => m.description) @Html.ValidationMessageFor(m => m.description)<br />
+        <span>@Html.GetResource("resources.resx", "ScrapbookAddItemSource") </span>@Html.TextBoxFor(m => m.source) @Html.ValidationMessageFor(m => m.source)<br />
+        @Html.Hidden("returnUrl", Request.Url.ToString())
+        <input type="submit" value="@Html.GetResource("resources.resx", "AddExternalResource")" id="AddExternalItemSubmit" />
+    }
+</div>
+

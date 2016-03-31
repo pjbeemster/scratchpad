@@ -1,0 +1,207 @@
+﻿@using DD4T.ContentModel;
+@using Coats.Crafts.Configuration;
+@using Coats.Crafts.HtmlHelpers;
+@using Coats.Crafts.Extensions;
+@*
+
+	Welcome to Coats Cats.
+	----------
+
+				*     ,MMM8&&&.            *
+					 MMMM88&&&&&    .
+					MMMM88&&&&&&&
+		*           MMM88&&&&&&&&
+					MMM88&&&&&&&&
+					'MMM88&&&&&&'
+					  'MMM8&&&'      *
+			|\___/|
+			)     ( MEOW           .              '
+		   =\     /=
+			 )===(       *
+			/     \
+			|      \
+			/       \
+			\       /
+	_/\_/\_/\__  _/_/\_/\_/\_/\_/\_/\_/\_/\_/\_
+	|  |  |  |( (  |  |  |  |  |  |  |  |  |  |
+	|  |  |  | ) ) |  |  |  |  |  |  |  |  |  |
+	|  |  |  |(_(  |  |  |  |  |  |  |  |  |  |
+	|  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+	|  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+
+*@
+
+@model IPage
+
+@{  
+    var currentPath = Request.ApplicationPath;
+    var currentsite = currentPath.Trim('/');
+
+    if (currentPath.Equals("/"))
+    {
+        currentsite = "en-GB";
+    }
+    var culture_us = "en-us";
+   
+	string visitorClass = (User.Identity.IsAuthenticated) ? "member" : "visitor";
+
+	string iframeClass = (!String.IsNullOrEmpty(Request.Params["iframe"]) ? "iframe" : "");
+        
+	var appPath = HttpContext.Current.Request.ApplicationPath != "/" ? HttpContext.Current.Request.ApplicationPath : "";
+
+    var canonicalLink = !string.IsNullOrEmpty(ViewBag.CanonicalLink) ? "<link rel=\"canonical\" href=\"" + ViewBag.CanonicalLink + "\"/>" : "";
+
+    var rel = WebConfiguration.Current.ReleaseVersion;
+    if (!String.IsNullOrEmpty(rel))
+    {
+        rel = rel.PadRight(rel.Length + 1);
+    }
+
+    string title = @ViewBag.Title;
+    string description = @ViewBag.Description;
+    string headtags = @ViewBag.HeadTags;
+    
+    if (Request["pg"] != null)
+    {
+        string emptyPattern = @"\[[^]]+\] not found";
+        
+        string pgTitle = Request["pg"];
+        string titleLabel = Html.GetResource("labels/seo_resources.resx", "facetedtitle_" + pgTitle);
+        string descriptionLabel = Html.GetResource("labels/seo_resources.resx", "faceteddescription_" + pgTitle);
+        
+
+        if (!Regex.IsMatch(titleLabel, emptyPattern))
+        {
+            title = titleLabel + WebConfiguration.Current.CoatsStrapline;
+        }
+
+        if (!Regex.IsMatch(descriptionLabel, emptyPattern))
+        {
+            description = descriptionLabel;
+        }
+                
+    }
+}
+
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7 @visitorClass @iframeClass"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8 @visitorClass @iframeClass"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9 @visitorClass @iframeClass"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js @visitorClass @iframeClass"> <!--<![endif]-->
+<head>
+    @if (culture_us.Equals(currentsite, StringComparison.CurrentCultureIgnoreCase))
+    {
+     <script>
+         (function (f, b, g) {
+             var d = g.prototype.open, a = g.prototype.send, c;
+             f.hj = f.hj || function () { (f.hj.q = f.hj.q || []).push(arguments) };
+             f._hjSettings = { hjid: 3164 };
+             if (b.addEventListener) { b.addEventListener("DOMContentLoaded", function () { f.hj.documentHtml = b.documentElement.outerHTML }) }
+             c = b.createElement("script"); c.async = 1; c.src = "//static.hotjar.com/insights.js"; b.getElementsByTagName("head")[0].appendChild(c); f.hj.xo = g.prototype.open; f.hj.xs = g.prototype.send;
+             if (!f._hjPlayback && b.addEventListener) {
+                 f.hj.xo = g.prototype.open; f.hj.xs = g.prototype.send;
+                 g.prototype.open = function (l, j, m, h, k) { this._u = j; f.hj.xo.call(this, l, j, m, h, k) };
+                 g.prototype.send = function (e) { var j = this, i = j._u.indexOf("insights.hotjar.com") === -1; if (i) { function h() { if (j.readyState === 4) { f.hj("_xhr", j._u, j.status, j.response) } } this.addEventListener("readystatechange", h, false) } f.hj.xs.call(this, e) }
+             }
+         })(window, document, window.XMLHttpRequest);
+    </script>
+    }
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<title>@rel@title</title>
+	<meta name="keywords" content="" />
+    <meta name="description" content="@description" />
+    <meta name="msapplication-tap-highlight" content="no" /> 
+    @if (!String.IsNullOrEmpty(ViewBag.Description))
+    {<meta property="og:description" content="@description" /> }
+    @if (!String.IsNullOrEmpty(ViewBag.OGImageTag))
+    { <meta property="og:image" content="@ViewBag.OGImageTag" /> } 
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+	<link rel="shortcut icon" href="@Url.Content("favicon.ico".AddApplicationRoot())" type="image/x-icon" />
+    <link rel="icon" href="@Url.Content("favicon.ico".AddApplicationRoot())" type="image/x-icon" />
+	<link rel="apple-touch-icon-precomposed" sizes="152x152" href="@Url.Content("apple-touch-icon-152x152.png".AddApplicationRoot())">
+	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="@Url.Content("apple-touch-icon-144x144.png".AddApplicationRoot())">
+	<link rel="apple-touch-icon-precomposed" sizes="120x120" href="@Url.Content("apple-touch-icon-120x120.png".AddApplicationRoot())">
+	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="@Url.Content("apple-touch-icon-114x114.png".AddApplicationRoot())">
+	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="@Url.Content("apple-touch-icon-72x72.png".AddApplicationRoot())">
+	<link rel="apple-touch-icon-precomposed" href="@Url.Content("apple-touch-icon.png".AddApplicationRoot())">       
+    @Styles.Render("~/css/boostrap")
+    @Styles.Render("~/css/commonstyles")
+    @Scripts.Render("~/modernizr")
+    @Html.Raw(canonicalLink)
+    @Html.Raw(headtags)
+	<script>
+
+	    var appPath = "@(appPath)";
+
+	    // Set up Classic GA
+	    var _gaq = _gaq || [];
+	    _gaq.push(['_setAccount', 'UA-40234132-1']);
+	    _gaq.push(['_trackPageview']);
+
+	    
+	    (function () {
+	        var _fbq = window._fbq || (window._fbq = []);
+	        if (!_fbq.loaded) { var fbds = document.createElement('script'); fbds.async = true; fbds.src = '//connect.facebook.net/en_US/fbds.js'; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(fbds, s); _fbq.loaded = true; }
+	        _fbq.push(['addPixelId', "1466923183524823"]);
+	    })();
+	    window._fbq = window._fbq || [];
+	    window._fbq.push(["track", "PixelInitialized", {}]);
+    </script> 
+    <noscript><img height="1" width="1" border="0" alt="" style="display:none" src="https://www.facebook.com/tr?id=1466923183524823&ev=NoScript" /></noscript>
+</head>
+<body class="@Html.GetThemeClass(Model)">
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-5S897K"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>    (function (w, d, s, l, i) {
+        w[l] = w[l] || []; w[l].push({ 'gtm.start':
+new Date().getTime(), event: 'gtm.js'
+        }); var f = d.getElementsByTagName(s)[0],
+j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+'//www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-5S897K');</script>
+<!-- End Google Tag Manager -->
+	<div id="wrap" class="page-container">
+		@Html.Partial("~/Views/Partials/CookieBar.cshtml")
+		@Html.Partial("~/Views/Partials/Header.cshtml")
+        @Html.Partial("~/Views/Partials/MainNavigation.cshtml")
+		<div id="main">
+			<article>
+				@RenderBody()
+			</article>
+		</div>
+		@Html.Partial("~/Views/Partials/UserFeedback.cshtml")
+        @{
+            Html.RenderAction("Index", "Footer");
+        }
+	</div>
+    
+    <script src="//s7.addthis.com/js/250/addthis_widget.js#pubid=xa-51653d4037934213"></script>
+    @{
+        var _settings = WebConfiguration.Current;
+        string mapsKeyParam = !String.IsNullOrEmpty(_settings.GoogleMapsAPIKey) ? "&key=" + _settings.GoogleMapsAPIKey : "";
+        }
+    <script src="//maps.googleapis.com/maps/api/js?v=3.exp&sensor=false@(mapsKeyParam)"></script>
+    <script src="@Url.Content("~/resources/labels/resources.js")"></script>
+
+    @Scripts.Render("~/jquery")
+    @Scripts.Render("~/commonscripts")
+	<script>
+	// Load jQuery if not already present
+	if (typeof jQuery == 'undefined') {
+		var e = document.createElement('script');
+		e.src = '@Url.Content("~/js/vendor/jquery-1.9.1.js")';
+	    e.type = 'text/javascript';
+	    document.getElementsByTagName("head")[0].appendChild(e);
+	}
+	</script> 
+    @if (!String.IsNullOrEmpty(Request.QueryString["download"]))
+    {
+        <script>window.open('@Request.QueryString["download"]', '_blank')</script>
+    }
+    
+    <script src="@Url.Content("~/js/MyCustomValidation.js")" type="text/javascript"></script>
+
+    </body>
+</html>

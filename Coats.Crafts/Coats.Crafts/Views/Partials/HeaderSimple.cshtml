@@ -1,0 +1,116 @@
+﻿@using DD4T.ContentModel;
+@using DD4T.Mvc.Html;
+@using Coats.Crafts.Configuration;
+
+@using Coats.Crafts.Extensions;
+@using Coats.Crafts.Models;
+
+@model IComponentPresentation
+           
+@{
+    Layout = null;
+    var fields = Model.Component.Fields;
+
+    string title = String.Empty;
+    if (fields.ContainsKey("title"))
+    {
+        if (fields["title"].FieldType == FieldType.Xhtml)
+        {
+            title = fields["title"].ResolveRichText().ToHtmlString();
+        }
+        else
+        {
+            title = fields["title"].Value;
+        }
+    }
+
+    IField logo = null;
+    string logoless = "";
+
+    if (String.IsNullOrEmpty(title))
+    {
+        title = fields.ContainsKey("titleText") ? fields["titleText"].EmbeddedValues[0]["title"].Value : string.Empty;
+    }
+
+    if (Model.Component.Schema.Title == WebConfiguration.Current.ContentTypeBrand)
+    {
+        var linkedKeywordFields = fields.ContainsKey("title") ? fields["title"].Keywords[0].MetadataFields : null;
+        title = fields["title"].Keywords[0].Description;
+        if (linkedKeywordFields != null)
+        {
+            logo = linkedKeywordFields.ContainsKey("logo") ? linkedKeywordFields["logo"] : null;
+        }
+    }
+
+    // Final check for a logo (they weren't appearing on the project detail page).
+    if (logo == null)
+    {
+        try
+        {
+            // No messing around, just go straight for the jugular. It either exists, or it throws an exception - right?
+            logo = fields["brand"].Keywords[0].MetadataFields["logo"];
+        }
+        catch (Exception)
+        {
+            logo = null;
+        }
+    }
+
+    // If actually nul then set string for class
+    if (logo == null)
+    {
+        logoless = "logoless";
+    }    
+}
+
+<div class="row-fluid headers">
+	<div class="span12">
+		<h1 class="js-header-title @logoless" itemprop="name">@Html.Raw(title)</h1>
+		<span itemprop="url" class="hidden">@Request.Url</span>
+
+        @if (logo != null)
+        {
+            var urlHelper = new UrlHelper(
+                 ((MvcHandler)HttpContext.Current.Handler).RequestContext);
+
+            //The ? is needed because firefox doesn't scale 2 of the same images on a page correctly unless they have different urls (CC-1199)
+            var logoUrl = urlHelper.Content(logo.LinkedComponentValues[0].Multimedia.Url) + "?";
+
+            if (WebConfiguration.Current.RemoteImagePath != null)
+            {
+                logoUrl = WebConfiguration.Current.RemoteImagePath + logoUrl;
+            }
+
+            //Change by Ajaya on 22-7-14 for Brand Logo
+            if (logo.LinkedComponentValues[0].MetadataFields.Count > 0)
+            {
+                if (logo.LinkedComponentValues[0].MetadataFields.ContainsKey("redirecturl"))
+                {
+                    if (logo.LinkedComponentValues[0].MetadataFields["redirecturl"].Value != "")
+                    {
+                        if (WebConfiguration.Current.OurBrandsOpenInNewTab.Contains(title))
+                        {
+                            <a href=@Html.Raw(logo.LinkedComponentValues[0].MetadataFields["redirecturl"].Value) target="_blank"> <img src="@logoUrl" alt="" length="0" /> </a>
+                        }
+                        else
+                        {
+                               <a href=@Html.Raw(logo.LinkedComponentValues[0].MetadataFields["redirecturl"].Value)> <img src="@logoUrl" alt="" length="0" /> </a>
+                        }
+                    }
+                    else
+                    { 
+                      <img src="@logoUrl" alt="" length="0" /> 
+                    }
+                }
+                else
+                { 
+                      <img src="@logoUrl" alt="" length="0" /> 
+                }
+
+
+            }
+        }
+        
+        
+	</div>
+</div>

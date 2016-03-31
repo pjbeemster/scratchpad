@@ -1,0 +1,589 @@
+﻿@using DD4T.ContentModel;
+@using Coats.Crafts.Configuration;
+@using Coats.Crafts.ConfigurationHelpers;
+@using Coats.Crafts.Extensions;
+@using System.Globalization;
+
+@model IComponent
+@{
+    Layout = null;
+     
+    if (Model.Fields.ContainsKey("thumb"))
+    {
+        DD4T.ContentModel.IField thumb = Model.Fields["thumb"];
+    }
+
+	String microDataType = "http://schema.org/Article"; // Article by default
+
+    string contentType = string.Empty;
+    string contentTypeAlternativeTitle = string.Empty;
+    string schemaTitle = Model.Schema.Title.ToLower();
+    bool activeDiscussion = false;
+    if (WebConfiguration.Current.ContentTypeActiveDiscussion.Match(schemaTitle))
+    {
+        activeDiscussion = true;
+        schemaTitle = schemaTitle.Replace(".ActiveDiscussion", "");
+    }
+     
+    // -----------------------------------------------
+    // Section switches - default settings for Project
+    // -----------------------------------------------
+    // Image
+    bool displayImage = true;
+    // Head
+    bool displayHeaderCommentCount = false;
+    bool displayRating = true;
+    bool displayBy = true;
+	bool displaySubtitle = false;
+    bool displayDate = false; // Used for blogs and events
+    bool displayShortDesc = false; // Used for products and brands
+    bool displayLocation = false; // Used for events
+	bool displayFlash = false; // Used for projects
+    // Facets
+    bool displayFacets = true;
+    // Summary
+    bool displaySummary = true;
+    // Comments
+    bool displayComments = false;
+    // Base
+    bool displayBase = true;
+    bool displayMoreLink = false;
+    // View all comments
+    bool displayViewAllComments = false;
+
+    // -----------------------------------------------
+
+    //var title = (Model.Fields.ContainsKey("title") ? Model.Fields["title"].Value : String.Empty);
+    string title = String.Empty;
+    string cleanTitle = String.Empty;
+    
+    if (Model.Fields.ContainsKey("title"))
+    {
+        if (Model.Fields["title"].FieldType == FieldType.Xhtml)
+        {
+            title = Model.Fields["title"].ResolveRichText().ToHtmlString();
+        }
+        else
+        {
+            title = Model.Fields["title"].Value;
+            if (WebConfiguration.Current.ContentTypeBrand.Match(schemaTitle))
+            {
+                title = Model.Fields["title"].Keywords[0].Description;
+            }
+        }
+
+        cleanTitle = Regex.Replace(title, @"<[^>]*>", String.Empty);
+    }
+
+    var spotlightAlternativeTitle = (Model.Fields.ContainsKey("alternate") ? Model.Fields["alternate"].Value : String.Empty);
+    var summary = (Model.Fields.ContainsKey("summary") ? Model.Fields["summary"].Values[0] : String.Empty);
+
+    var fredHopperId = (Model.Fields.ContainsKey("secondid") ? Model.Fields["secondid"].Values[0] : String.Empty);
+    
+    var url = (!String.IsNullOrEmpty(Model.Url)) ? Url.Content(Model.GetResolvedUrl().AddApplicationRoot()) : String.Empty;
+    
+    var commentCounter = (Model.Fields.ContainsKey("commentcount") ? Model.Fields["commentcount"].Value : String.Empty);
+
+    bool displayCounter = (!commentCounter.Equals("0") && !string.IsNullOrEmpty(commentCounter));
+
+    //removed the belt and braces comment count and just leave it to FredHopper
+    //if (string.IsNullOrEmpty(commentCounter) || commentCounter == "0")
+    //{
+    //    MvcHtmlString commentCount = Html.Action("CommentCount", "Comments", new { compid = Model.Id, fredHopperId = fredHopperId });
+
+    //    int ugCcount = 0;
+
+    //    if (int.TryParse(commentCount.ToString(), out ugCcount))
+    //    {
+    //        if (ugCcount > 0)
+    //        {
+    //            displayCounter = true;
+    //            commentCounter = ugCcount.ToString();
+    //        }
+    //    }
+    //}
+
+	var imageURL = Model.Fields.ContainsKey("thumb") ? Coats.Crafts.HtmlHelpers.ImageHelper.GetImagePhysicalPath(Model.Fields["thumb"]) : string.Empty;
+	var logoUrl = (String.IsNullOrEmpty(imageURL)) ? Coats.Crafts.HtmlHelpers.ImageHelper.GetImagePhysicalPath(WebConfiguration.Current.Logo) : String.Empty;
+
+
+	var pinInterestUrl = string.Empty;
+
+    string pinReturnUrl = string.Empty;
+    try
+    {
+        if(url.ToLower().StartsWith(Request.Url.Scheme))
+        {
+            pinReturnUrl = url;
+        }
+        else
+        {
+            pinReturnUrl = url.StartsWith("~") ? url.Substring(1) : url;
+            pinReturnUrl = pinReturnUrl.StartsWith("/") ? pinReturnUrl : "/" + pinReturnUrl;
+            pinReturnUrl = string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Host, pinReturnUrl);
+        }
+    }
+    catch (Exception)
+    {
+        pinReturnUrl = url;
+    }
+    
+	if (imageURL == string.Empty) {
+        //pinInterestUrl = String.Format("openPinIterest('//pinterest.com/pin/create/button/?url={0}&media={1}&description={2}')", url, logoUrl, Url.Encode(title));
+        pinInterestUrl = String.Format("openPinIterest('//pinterest.com/pin/create/button/?url={0}&media={1}&description={2}')", pinReturnUrl, logoUrl, Url.Encode(title));
+    }
+    else
+    {
+        //pinInterestUrl = String.Format("openPinIterest('//pinterest.com/pin/create/button/?url={0}&media={1}&description={2}')", url, imageURL, Url.Encode(title));
+        pinInterestUrl = String.Format("openPinIterest('//pinterest.com/pin/create/button/?url={0}&media={1}&description={2}')", pinReturnUrl, imageURL, Url.Encode(title));
+    }
+
+   
+    
+    // Discover settings...
+    if (WebConfiguration.Current.ContentTypeArticle.Match(schemaTitle))
+    {
+        contentType = WebConfiguration.Current.ContentTypeArticleTitle;
+        contentTypeAlternativeTitle = Html.GetResource("Articles");
+		microDataType = "http://schema.org/Article";
+    }
+    else if (WebConfiguration.Current.ContentTypeProject.Match(schemaTitle))
+    {
+        contentType = WebConfiguration.Current.ContentTypeProjectTitle;
+        contentTypeAlternativeTitle = Html.GetResource("Project");
+		microDataType = "http://schema.org/Article";
+		displayFlash = true;
+    }
+    else if (WebConfiguration.Current.ContentTypeMoodboard.Match(schemaTitle))
+    {
+        displayFacets = false;
+        displaySummary = false;
+		microDataType = "http://schema.org/Article";
+        contentType = WebConfiguration.Current.ContentTypeMoodboardTitle;
+    }
+    else if (WebConfiguration.Current.ContentTypeDesigner.Match(schemaTitle))
+    {
+        contentType = WebConfiguration.Current.ContentTypeDesignerTitle;
+		microDataType = "http://schema.org/Person";
+        displayRating = false;
+        displayBy = false;
+        displayFacets = false;
+        displaySummary = false;
+        displayBase = false;
+    }
+
+    // Learn settings...    
+    else if (WebConfiguration.Current.ContentTypeTutorial.Match(schemaTitle))
+    {
+        contentType = WebConfiguration.Current.ContentTypeTutorialTitle;
+		microDataType = "http://schema.org/Article";
+        displaySummary = false;
+    }
+    else if (WebConfiguration.Current.ContentTypeCareRepair.Match(schemaTitle))
+    {
+		contentType = WebConfiguration.Current.ContentTypeCareRepairTitle;
+		displayFacets = false;
+    }
+    else if (WebConfiguration.Current.ContentTypeFAQ.Match(schemaTitle))
+    {
+        contentType = WebConfiguration.Current.ContentTypeFAQTitle;
+        summary = (Model.Fields.ContainsKey("summary") ? Model.Fields["summary"].Values[0] : String.Empty);
+		microDataType = "http://schema.org/Article";
+        displayBy = false;
+        displayFacets = false;
+        displayMoreLink = true;
+    }
+
+    // Share settings...
+    else if (WebConfiguration.Current.ContentTypeBlog.Match(schemaTitle))
+    {
+        contentType = WebConfiguration.Current.ContentTypeBlogTitle;
+		microDataType = "http://schema.org/Blog";
+        displayFacets = false;
+		displayDate = true; // Used for blogs and events
+    }
+    else if (WebConfiguration.Current.ContentTypeEvent.Match(schemaTitle))
+    {
+        contentType = WebConfiguration.Current.ContentTypeEventTitle;
+		microDataType = "http://schema.org/Event";
+        displayRating = false;
+        displayBy = false;
+        displayDate = true; // Used for blogs and events
+        displayShortDesc = true; // Used for products and brands
+        displayFacets = false;
+        displayLocation = true;
+    }
+
+    // Product Explorer settings...        
+    else if (WebConfiguration.Current.ContentTypeBrand.Match(schemaTitle))
+    {
+        //contentType = WebConfiguration.Current.ContentTypeBrandTitle;
+        contentType = ""; // Doesn't display if string is empty 
+		microDataType = "http://schema.org/Brand";
+        displayRating = false;
+        displayBy = false;
+        displayShortDesc = true; // Used for products and brands
+        displayFacets = false;
+        displayBase = false;
+    }
+    else if (WebConfiguration.Current.ContentTypeProduct.Match(schemaTitle))
+    {
+        //contentType = WebConfiguration.Current.ContentTypeProductTitle;
+        contentType = ""; // Doesn't display if string is empty 
+		microDataType = "http://schema.org/Product";
+        displayRating = false;
+        displayBy = false;
+		displaySubtitle = true;
+        displayShortDesc = true; // Used for products and brands
+        displayFacets = false;
+        displayBase = false;
+    }
+    else if (WebConfiguration.Current.ContentTypeGenericPromo.Match(schemaTitle))
+    {
+        displayFacets = false;
+
+        if (Model.Fields.ContainsKey("link") && Model.Fields["link"].EmbeddedValues[0].ContainsKey("linkURL") && Model.Fields["link"].EmbeddedValues[0].ContainsKey("linkTitle"))
+        {
+            url = Model.Fields["link"].EmbeddedValues[0]["linkURL"].Value;
+        }
+        else
+        {
+            if (Model.Fields.ContainsKey("link") && Model.Fields["link"].EmbeddedValues[0].ContainsKey("linkComponent") && Model.Fields["link"].EmbeddedValues[0].ContainsKey("linkTitle"))
+            {
+                var link = Model.Fields["link"].EmbeddedValues[0]["linkComponent"].LinkedComponentValues[0].GetResolvedUrl();
+                if (link != null)
+                {
+                    if (!string.IsNullOrEmpty(link))
+                    {
+                        url = Url.Content(link.AddApplicationRoot());
+                    }
+                }
+            }
+        }
+
+    }
+
+    // Exceptions to the rules...
+    else if (WebConfiguration.Current.ContentTypeGenericGeneral.Match(schemaTitle))
+    {
+        displayRating = false;
+        displayBy = false;
+        displayFacets = false;
+        displayBase = false;
+    }
+
+    string span = ViewBag.PodGenericSpan;
+    if (string.IsNullOrEmpty(span)) { span = "span4"; }
+   
+        
+	//if (Model.Fields.ContainsKey("view"))	
+	bool use_view = false;
+	if (!String.IsNullOrEmpty(Model.Url))
+	{
+		if (Model.Url.StartsWith("use_view"))
+		{
+			use_view = true;
+		}
+	}				
+	
+    if (use_view)
+    {
+        // Match the view field to the partial view. e.g. view="GetInvolvedPod" -> "GetInvolvedPod.cshtml", "FindAStorePod" -> "FindAStorePod.cshtml"
+        //Html.RenderPartial("~/Views/Partials/" + Model.Fields["view"].Value + ".cshtml", Model);
+        string view = Model.Url.Replace("use_view=", "");
+        //Html.RenderPartial("~/Views/Partials/" + Model.Fields["view"].Value + ".cshtml", Model);
+        Html.RenderPartial("~/Views/Partials/" + view + ".cshtml", Model);
+    }
+    else if (contentType == WebConfiguration.Current.ContentTypeArticleTitle)
+    {
+        // Pop the article out to the dedicated partial view
+        Html.RenderPartial("~/Views/Partials/PodArticle.cshtml", Model);
+    }
+    else if (schemaTitle == WebConfiguration.Current.ContentTypeIntroduction.ToLower())
+    {
+	<article class="@span pod introduction">
+			<div class="content">
+				<div class="head">
+                    @if (Model.Fields.ContainsKey("intro"))
+                    {
+                        @Html.Raw(Model.Fields["intro"].Value)
+                    }
+				</div>
+			</div>
+		</article>
+    }
+    else
+    {
+        if (activeDiscussion)
+        {
+            // Image
+            displayImage = false;
+            // Head
+            displayHeaderCommentCount = true;
+            // Facets
+            displayFacets = false;
+            // Summary
+            displaySummary = false;
+            // Comments
+            displayComments = true;
+            // Base
+            displayBase = false;
+            // View all comments
+            displayViewAllComments = true;
+        }
+
+	<article class="pod @span @Model.DataFilterClasses("techniques")" itemscope itemtype="@microDataType">
+			<!-- Schema: @schemaTitle  @contentType -->
+            <!-- Image Section -->
+            @if (displayImage)
+            {
+                if (Model.Fields.ContainsKey("thumbnail"))
+                {            
+                <div class="image">
+					@if (Model.Fields.ContainsKey("project_type") && displayFlash)
+     {
+         if (Model.Fields["project_type"].Value == "Free pattern")
+         {
+							<span class="flash">@Html.GetResource("FreePatterns")</span>
+         }
+     }
+				    <a href="@url" title="@cleanTitle">@Html.Image(Model.Fields["thumbnail"])</a>
+                </div>
+                }
+                else if (Model.Fields.ContainsKey("thumb"))
+                {
+                <div class="image">
+					@if (Model.Fields.ContainsKey("project_type") && displayFlash)
+     {
+         if (Model.Fields["project_type"].Value == "Free pattern")
+         {
+							<span class="flash">@Html.GetResource("FreePatterns")</span>
+         }
+     }
+			        <a href="@url" title="@cleanTitle">@Html.Image(Model.Fields["thumb"])</a>    
+                </div>
+                }
+            }
+            
+            <div class="content">
+		        <div class="head">
+                    @{
+                        if (displayHeaderCommentCount)
+                        {
+                            /* Make sure we have at least one comment, if so show the count */
+                            if (displayCounter)
+                            {
+                                    <ul class="actions">
+                                        <li><a href="@url#comments" class="icon comments">@commentCounter</a></li>
+                                    </ul>
+                            }
+                        }
+					}
+                    @if (!String.IsNullOrEmpty(contentType))
+                    {
+                        @*<span class="type">@contentType</span>*@
+                        if (!String.IsNullOrEmpty(contentTypeAlternativeTitle))
+                        {
+                            <span class="type">@contentTypeAlternativeTitle</span>
+                        }
+                          else
+                          {
+                            <span class="type">@contentType</span>
+                          }
+                    }
+
+                    <h1 itemprop="name">
+                    @if (String.IsNullOrEmpty(url))
+                    {
+                        if (!String.IsNullOrEmpty(spotlightAlternativeTitle))
+                        {
+                            @spotlightAlternativeTitle
+                        }
+                        else
+                        {
+                            @Html.Raw(title)
+                        }
+                    }
+                    else
+                    {
+                        <a href="@url" title="@(!String.IsNullOrEmpty(spotlightAlternativeTitle) ? spotlightAlternativeTitle : cleanTitle)" itemprop="url">
+                        @if (!String.IsNullOrEmpty(spotlightAlternativeTitle))
+                        {
+						    @spotlightAlternativeTitle
+                        }
+                        else
+                        {
+						    @Html.Raw(title)
+                        }</a>
+                    }
+					</h1>
+                    
+                    @if (displayBy)
+                    {
+                        if (!String.IsNullOrEmpty(@Html.addAuthor(Model).ToString()))
+                        {
+                        <span class="author" itemprop="author">@Html.GetResource("By") @Html.addAuthor(Model)</span>
+                        }
+                    }
+                    
+                    @if (displayDate)
+                    {
+                        if (Model.Fields.ContainsKey("date") && Model.Fields["date"].EmbeddedValues.Count > 0)
+                        {
+                            var dates = Model.Fields.ContainsKey("date") ? Model.Fields["date"].EmbeddedValues[0] : null;
+                            var specificDate = dates.ContainsKey("specific") ? dates["specific"] : null;
+                            //var repeaterDate = dates.ContainsKey("repeat") ? dates["repeat"] : null;
+
+
+                            if (Model.Fields.ContainsKey("date"))
+                            {
+
+                                if (dates != null)
+                                {
+
+                                    if (specificDate != null)
+                                    {
+                                        DateTime? specificStartDate = @specificDate.EmbeddedValues[0].ContainsKey("start") ? @specificDate.EmbeddedValues[0]["start"].DateTimeValues[0] : (DateTime?)null;
+                                        DateTime? specificEndDate = @specificDate.EmbeddedValues[0].ContainsKey("end") ? @specificDate.EmbeddedValues[0]["end"].DateTimeValues[0] : (DateTime?)null;
+
+                                        //string startStr = string.Empty;
+                                        //string endStr = string.Empty;
+
+                                        string startDate = string.Empty;
+                                        string startDateWithYear = string.Empty;
+                                        string endDate = string.Empty;
+                                        string formatDate = string.Empty;
+
+                                        if (specificStartDate != null)
+                                        {
+                                            startDate = specificStartDate.Value.ToString(CultureInfo.CreateSpecificCulture(WebConfiguration.Current.Culture).DateTimeFormat.MonthDayPattern, CultureInfo.CreateSpecificCulture(WebConfiguration.Current.Culture));
+                                            startDateWithYear = specificStartDate.Value.ToString(DateTimeFormatExtensions.CorrectedLongDatePattern(CultureInfo.CreateSpecificCulture(WebConfiguration.Current.Culture)), CultureInfo.CreateSpecificCulture(WebConfiguration.Current.Culture));
+                                            formatDate = startDateWithYear;
+                                        }
+
+                                        if (specificEndDate != null)
+                                        {
+                                            endDate = specificEndDate.Value.ToString(DateTimeFormatExtensions.CorrectedLongDatePattern(CultureInfo.CreateSpecificCulture(WebConfiguration.Current.Culture)), CultureInfo.CreateSpecificCulture(WebConfiguration.Current.Culture));
+                                            formatDate = startDate + " - " + endDate;
+                                        }
+
+                                <p>@formatDate</p>
+                                    }
+                                }
+                            }
+                        }
+                        else if (Model.Fields.ContainsKey("date") && Model.Fields["date"].EmbeddedValues.Count == 0)
+                        {
+							<p>@(Model.Fields["date"].DateTimeValues[0].ToString(DateTimeFormatExtensions.CorrectedLongDatePattern(CultureInfo.CreateSpecificCulture(WebConfiguration.Current.Culture)), CultureInfo.CreateSpecificCulture(WebConfiguration.Current.Culture)))</p>
+                        }
+                    }
+					
+                    @if (displaySubtitle)
+                    {
+                        if (Model.Fields.ContainsKey("subtitle"))
+                        {
+						<span class="from">@Model.Fields["subtitle"].Value</span>
+                        }
+                    }
+
+                    @if (displayLocation)
+                    {
+                        var loc = Model.Fields.ContainsKey("location") ? Model.Fields["location"].LinkedComponentValues[0].Fields : null;
+
+                        var location = Model.Fields.ContainsKey("location") ? Model.Fields["location"].LinkedComponentValues[0].Title : null;
+
+                        if (loc != null)
+                        {
+                            location = loc.ContainsKey("locationName") ? loc["locationName"].Value : location;
+                        }
+
+                        if (location != null)
+                        {
+                            //link removed
+                            <span class="location">@location</span>
+                        }
+                    }
+                    
+                    @if (displayRating)
+                    {
+                        @Html.Partial("~/Views/Partials/Rating.cshtml", Model)
+                    }
+                </div>
+
+
+                @if (displayFacets)
+                {
+					@Html.Partial("~/Views/Partials/FacetItemDisplay.cshtml", Model, new ViewDataDictionary { { "divClass", "body" }, { "hideFields", "tutorial_number,project_number,techniques,enduses,themes" }, { "isBold", false } })
+                }
+            
+
+                @if (displaySummary)
+                {
+                <div class="body">
+				    <p>@summary.ResolveRichText()</p>
+                    @if (displayMoreLink)
+                    {
+                        <p><a href="@url" title="">@Html.GetResource("ReadFullAnswer")</a></p>   
+                    }
+			    </div>
+                }
+                
+                @if (displayComments)
+                {
+                    for (int i = 0; i < 3; i++)
+                    {
+                        string comment = "comment" + i.ToString();
+                        string commentby = "commentby" + i.ToString();
+                        string commentdate = "commentdate" + i.ToString();
+                        <div class="comments">
+                            @if (Model.Fields.ContainsKey(commentby))
+                            {
+                                <div>
+                                    @Html.Raw(Model.Fields[commentby].Value)
+                                </div>
+                            }
+                            @if (Model.Fields.ContainsKey(comment))
+                            {
+                                <div>
+                                    @Html.Raw(Model.Fields[comment].Value)
+                                </div>
+                            }
+                            @if (Model.Fields.ContainsKey(commentdate))
+                            {
+                                <div>
+                                    @Html.Raw(Model.Fields[commentdate].Value)
+                                </div>
+                            }
+                        </div>
+                    }
+                }
+            
+                @if (displayBase)
+                {
+                <div class="base">
+			        <ul class="actions">
+				        <li>@{Html.RenderPartial("~/Views/Scrapbook/AddScrapbookItemForm.cshtml", Model);}</li>
+
+                    @if (displayCounter)
+                    {
+                        <li><a href="@url#comments" class="icon comments">@commentCounter</a></li>
+                    }
+
+				       @* <li><a class="addthis_button_pinterest_share icon pinterest"><!-- --></a></li>*@
+					   <li><a class="icon pinterest" onclick=@pinInterestUrl data-pin-do="buttonPin" data-pin-config="above"></a>
+				
+			        </ul>
+		        </div>
+                }
+                
+                @if (displayViewAllComments)
+                {
+                    <div class="viewAllCommentsBase">
+                        <a href="@url#comments">@Html.GetResource("ViewAllComments")</a>
+                    </div>
+                }
+
+            </div>
+        </article>        
+	}
+}

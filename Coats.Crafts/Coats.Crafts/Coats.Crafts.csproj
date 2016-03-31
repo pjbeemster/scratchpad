@@ -1,0 +1,932 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{732FAD9D-5A75-4FF9-A64E-00F1BC2CE8A2}</ProjectGuid>
+    <ProjectTypeGuids>{E53F8FEA-EAE0-44A6-8774-FFD645390401};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Coats.Crafts</RootNamespace>
+    <AssemblyName>Coats.Crafts</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>false</UseIISExpress>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'FAS XML|x64'">
+    <OutputPath>bin\x64\FAS XML\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+    <WarningLevel>3</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'FAS XML|AnyCPU'">
+    <OutputPath>bin\FAS XML\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Amaze.Net4.Framework.Core">
+      <HintPath>..\..\..\lib\AmazeFramework\Amaze.Net4.Framework.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Amaze.Net4.Framework.DTO">
+      <HintPath>..\..\..\lib\AmazeFramework\Amaze.Net4.Framework.DTO.dll</HintPath>
+    </Reference>
+    <Reference Include="Amaze.Net4.Framework.Repository">
+      <HintPath>..\..\..\lib\AmazeFramework\Amaze.Net4.Framework.Repository.dll</HintPath>
+    </Reference>
+    <Reference Include="Amaze.Net4.Framework.Services">
+      <HintPath>..\..\..\lib\AmazeFramework\Amaze.Net4.Framework.Services.dll</HintPath>
+    </Reference>
+    <Reference Include="AntiXssLibrary">
+      <HintPath>..\packages\AntiXSS.4.2.1\lib\net40\AntiXssLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime, Version=3.3.1.7705, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\WebGrease.1.1.0\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Core, Version=3.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Castle.Core.3.0.0.4001\lib\net40-client\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Facilities.Logging, Version=3.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Castle.LoggingFacility.3.0.0.4001\lib\net40\Castle.Facilities.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Services.Logging.Log4netIntegration, Version=3.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Castle.Core-log4net.3.0.0.4003\lib\net40\Castle.Services.Logging.Log4netIntegration.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Windsor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Castle.Windsor.3.0.0.4001\lib\net40\Castle.Windsor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DataAnnotationsExtensions">
+      <HintPath>..\packages\DataAnnotationsExtensions.1.1.0.0\lib\NETFramework40\DataAnnotationsExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="DataAnnotationsExtensions.ClientValidation">
+      <HintPath>..\packages\DataAnnotationsExtensions.MVC3.1.1.0.0\lib\NETFramework40\DataAnnotationsExtensions.ClientValidation.dll</HintPath>
+    </Reference>
+    <Reference Include="DD4T.ContentModel, Version=1.24.0.0, Culture=neutral, PublicKeyToken=4450e3c7f68bf872, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\lib\DD4T\1.22\Debug\DD4T.ContentModel.dll</HintPath>
+    </Reference>
+    <Reference Include="DD4T.ContentModel.Contracts, Version=1.25.0.0, Culture=neutral, PublicKeyToken=4450e3c7f68bf872, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\lib\DD4T\build\DD4T.ContentModel.Contracts.dll</HintPath>
+    </Reference>
+    <Reference Include="DD4T.Factories, Version=1.25.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\lib\DD4T\build\DD4T.Factories.dll</HintPath>
+    </Reference>
+    <Reference Include="DD4T.Mvc, Version=1.24.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\lib\DD4T\1.22\Debug\DD4T.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="DD4T.Providers.WCFServices, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Services\DD4T.Providers.WCFServices\bin\DD4T.Providers.WCFServices.dll</HintPath>
+    </Reference>
+    <Reference Include="DD4T.Utils, Version=1.24.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\lib\DD4T\1.22\Debug\DD4T.Utils.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.4.1.10331.0\lib\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Facebook">
+      <HintPath>..\packages\Facebook.6.4.0\lib\net40-client\Facebook.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlSanitizationLibrary">
+      <HintPath>..\packages\AntiXSS.4.2.1\lib\net40\HtmlSanitizationLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Core, Version=0.42.0.6, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\FredHopperLibs\ikvm-0.42.0.6\bin\IKVM.OpenJDK.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.Runtime, Version=0.42.0.6, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\FredHopperLibs\ikvm-0.42.0.6\bin\IKVM.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.Runtime.JNI, Version=0.42.0.6, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\FredHopperLibs\ikvm-0.42.0.6\bin\IKVM.Runtime.JNI.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="LowercaseRoutesMVC">
+      <HintPath>..\packages\LowercaseRoutesMVC.1.0.3\lib\LowercaseRoutesMVC.dll</HintPath>
+    </Reference>
+    <Reference Include="MVC Foolproof Validation">
+      <HintPath>..\packages\foolproof.0.9.4517\lib\MVC Foolproof Validation.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="query-lang-2.17.1.1, Version=2.17.1.1, Culture=neutral, PublicKeyToken=8c66e4a774d3d79b, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\FredHopperLibs\query-lang-2.17.1.1.dll</HintPath>
+    </Reference>
+    <Reference Include="RouteDebugger">
+      <HintPath>..\packages\routedebugger.2.1.4.0\lib\net40\RouteDebugger.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Data.Services.Client" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.0.0\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.Helpers, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Tridion.ContentDelivery">
+      <HintPath>..\..\..\lib\Tridion 2011\Tridion.ContentDelivery.dll</HintPath>
+    </Reference>
+    <Reference Include="Tridion.ContentDelivery.UGC">
+      <HintPath>..\..\..\lib\Tridion 2011\Tridion.ContentDelivery.UGC.dll</HintPath>
+    </Reference>
+    <Reference Include="Tridion.ContentDelivery.Webservice">
+      <HintPath>..\..\..\lib\Tridion 2011\Tridion.ContentDelivery.Webservice.dll</HintPath>
+    </Reference>
+    <Reference Include="WebActivator, Version=1.4.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\WebActivator.1.4.4\lib\net40\WebActivator.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <HintPath>..\packages\WebGrease.1.1.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\RegisterClientValidationExtensions.cs" />
+    <Compile Include="Attributes\CustomRequiredIfAttribute.cs" />
+    <Compile Include="Attributes\CustomEmailAttribute.cs" />
+    <Compile Include="Attributes\CustomRegularExpressionAttribute.cs" />
+    <Compile Include="Attributes\CustomStringLengthAttribute.cs" />
+    <Compile Include="Attributes\CustomCompareAttribute.cs" />
+    <Compile Include="Attributes\OldCustomStringLengthAttribute.cs" />
+    <Compile Include="Attributes\CustomResourceRequiredAttribute.cs" />
+    <Compile Include="Attributes\MvcCustomValidation.cs" />
+    <Compile Include="Attributes\NoCacheAttribute.cs" />
+    <Compile Include="Attributes\ResourceRequiredAttribute.cs" />
+    <Compile Include="ConfigurationHelpers\ConfigurationHelper.cs" />
+    <Compile Include="Configuration\SchemaTemplate.cs" />
+    <Compile Include="Configuration\CountryConfig.cs" />
+    <Compile Include="Configuration\CountrySection.cs" />
+    <Compile Include="Configuration\CtaTemplateIdConfig.cs" />
+    <Compile Include="Configuration\CtaTemplateIdSection.cs" />
+    <Compile Include="Configuration\FredHopperExtendedProperties.cs" />
+    <Compile Include="Configuration\HomePageTabsConfig.cs" />
+    <Compile Include="Configuration\HomePageTabsSection.cs" />
+    <Compile Include="Configuration\SocialMediaLinkConfig.cs" />
+    <Compile Include="Configuration\SocialMediaLinkSection.cs" />
+    <Compile Include="Configuration\WebConfiguration.cs" />
+    <Compile Include="ControllerHelpers\AuthorisationUtility.cs" />
+    <Compile Include="ControllerHelpers\EmailUtility.cs" />
+    <Compile Include="ControllerHelpers\FacebookHelper.cs" />
+    <Compile Include="ControllerHelpers\FacetedContentHelper.cs" />
+    <Compile Include="ControllerHelpers\ProfileHelper.cs" />
+    <Compile Include="ControllerHelpers\UtilityHelper.cs" />
+    <Compile Include="Controllers\AddRatingController.cs" />
+    <Compile Include="Controllers\CATSController.cs" />
+    <Compile Include="Controllers\FacetedContentBaseController.cs" />
+    <Compile Include="Controllers\GoogleSiteMapController.cs" />
+    <Compile Include="Controllers\OurBrandsController.cs" />
+    <Compile Include="Controllers\PasswordReminderController.cs" />
+    <Compile Include="Controllers\CountrySelectorController.cs" />
+    <Compile Include="Controllers\EventsNearYouController.cs" />
+    <Compile Include="Controllers\EventController.cs" />
+    <Compile Include="Controllers\FacebookController.cs" />
+    <Compile Include="Controllers\FeaturedItemsController.cs" />
+    <Compile Include="Controllers\FooterController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ProductBrandBaseController.cs" />
+    <Compile Include="Controllers\ProductExplorerController.cs" />
+    <Compile Include="Controllers\RegistrationConfirmationController.cs" />
+    <Compile Include="Controllers\RemoteValidationController.cs" />
+    <Compile Include="Controllers\ResourcesController.cs" />
+    <Compile Include="Controllers\ShoppingListController.cs" />
+    <Compile Include="Controllers\LogoutController.cs" />
+    <Compile Include="Controllers\ProfileController.cs" />
+    <Compile Include="Controllers\FacetedContentController.cs" />
+    <Compile Include="Controllers\CommentsController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\RegistrationController.cs" />
+    <Compile Include="Controllers\ScrapbookController.cs" />
+    <Compile Include="Controllers\StoreLocatorController.cs" />
+    <Compile Include="Controllers\TridionComponentController.cs" />
+    <Compile Include="Controllers\TridionPageController.cs" />
+    <Compile Include="CustomOutputCache\FredHopperOutputCache.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extensions\DateTimeFormatExtensions.cs" />
+    <Compile Include="Extensions\FredHopperExtensions.cs" />
+    <Compile Include="Extensions\HttpRequestBaseExtensions.cs" />
+    <Compile Include="Extensions\IComponentExtensions.cs" />
+    <Compile Include="Extensions\IEnumeralExtensions.cs" />
+    <Compile Include="Extensions\SessionExtensions.cs" />
+    <Compile Include="Extensions\SiteMapNode.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Data\RetailerExtendedInfoOffer.cs" />
+    <Compile Include="Data\RetailerExtendedInfoImage.cs" />
+    <Compile Include="Data\StoreLocatorRetailer.cs" />
+    <Compile Include="Extensions\WindsorExtensions.cs" />
+    <Compile Include="Filters\CheckCountryFilter.cs" />
+    <Compile Include="Filters\CheckActionFilter.cs" />
+    <Compile Include="Filters\ContactActionFilter.cs" />
+    <Compile Include="Filters\Level1BrandFilter.cs" />
+    <Compile Include="FredHopper\DD4TComponents.cs" />
+    <Compile Include="FredHopper\FredHopperInterface.cs" />
+    <Compile Include="FredHopper\FredHopperQuery.cs" />
+    <Compile Include="Data\GoogleMapsMarker.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="HtmlHelpers\AddAuthorHelper.cs" />
+    <Compile Include="HtmlHelpers\BannerHelper.cs" />
+    <Compile Include="HtmlHelpers\CheckBoxHelper.cs" />
+    <Compile Include="HtmlHelpers\AddThisHelper.cs" />
+    <Compile Include="HtmlHelpers\ComponentInfoHelper.cs" />
+    <Compile Include="HtmlHelpers\CategoryListHelper.cs" />
+    <Compile Include="ControllerHelpers\CookieHelper.cs" />
+    <Compile Include="HtmlHelpers\ProductCareHelper.cs" />
+    <Compile Include="HtmlHelpers\EventHelper.cs" />
+    <Compile Include="HtmlHelpers\StoreLocatorHelper.cs" />
+    <Compile Include="HtmlHelpers\StripHtmlHelper.cs" />
+    <Compile Include="HtmlHelpers\GravatarHtmlHelper.cs" />
+    <Compile Include="HtmlHelpers\FacetKeywordHelper.cs" />
+    <Compile Include="HtmlHelpers\SiteMapHelper.cs" />
+    <Compile Include="HtmlHelpers\ThemeHelper.cs" />
+    <Compile Include="HtmlHelpers\VideoHelper.cs" />
+    <Compile Include="HtmlHelpers\DropDownHelper.cs" />
+    <Compile Include="HtmlHelpers\ImageHelper.cs" />
+    <Compile Include="HtmlHelpers\LabelHelper.cs" />
+    <Compile Include="HtmlHelpers\LinkHelper.cs" />
+    <Compile Include="HtmlHelpers\MvcCheckBoxList.cs" />
+    <Compile Include="HtmlHelpers\RenderPartialHelper.cs" />
+    <Compile Include="HtmlHelpers\ResourceHelper.cs" />
+    <Compile Include="HtmlHelpers\RichTextHelper.cs" />
+    <Compile Include="HtmlHelpers\SpamProtectionExtensions.cs" />
+    <Compile Include="Installers\LookupInstaller.cs" />
+    <Compile Include="Installers\ConfigurationInstaller.cs" />
+    <Compile Include="Installers\ControllersInstaller.cs" />
+    <Compile Include="Installers\ActionInvokerInstaller.cs" />
+    <Compile Include="Installers\DD4TInstaller.cs" />
+    <Compile Include="Installers\LoggerInstaller.cs" />
+    <Compile Include="Installers\ResourceInstaller.cs" />
+    <Compile Include="Installers\SiteMapInstaller.cs" />
+    <Compile Include="Interfaces\ICoatsData.cs" />
+    <Compile Include="Interfaces\IEmail.cs" />
+    <Compile Include="Interfaces\ILogin.cs" />
+    <Compile Include="Interfaces\IUserProfile.cs" />
+    <Compile Include="Logging\Log4NetLogger.cs" />
+    <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\Address.cs" />
+    <Compile Include="Models\BaseCustomer.cs" />
+    <Compile Include="Models\Comment.cs" />
+    <Compile Include="Models\CatsContactForm.cs" />
+    <Compile Include="Models\CommentEmail.cs" />
+    <Compile Include="Models\Email.cs" />
+    <Compile Include="Models\RegistrationConfirmation.cs" />
+    <Compile Include="Models\ResetPassword.cs" />
+    <Compile Include="Models\EmailNewsletter.cs" />
+    <Compile Include="Models\Events.cs" />
+    <Compile Include="Models\EventsNearYou.cs" />
+    <Compile Include="Models\Keyword.cs" />
+    <Compile Include="Models\CraftType.cs" />
+    <Compile Include="Models\PostModels.cs" />
+    <Compile Include="Models\PasswordReminder.cs" />
+    <Compile Include="Models\ShoppingList.cs" />
+    <Compile Include="Models\Customer.cs" />
+    <Compile Include="Models\FacetModels.cs" />
+    <Compile Include="Models\Locations.cs" />
+    <Compile Include="Models\Login.cs" />
+    <Compile Include="Models\Scrapbook.cs" />
+    <Compile Include="Models\ShoppingListEmail.cs" />
+    <Compile Include="Models\ToolService.cs" />
+    <Compile Include="Models\UserProfile.cs" />
+    <Compile Include="Models\StoreLocator.cs" />
+    <Compile Include="Models\TridionTcmUri.cs" />
+    <Compile Include="NewsletterAPI\PublicasterServiceRequest.cs" />
+    <Compile Include="Plumbing\WindsorActionInvoker.cs" />
+    <Compile Include="Plumbing\WindsorControllerFactory.cs" />
+    <Compile Include="Plumbing\WindsorDependencyResolver.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Redirector\CoatsGeoIPRedirection.ashx.cs">
+      <DependentUpon>CoatsGeoIPRedirection.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Repositories\Interfaces\ICatsRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IRegistrationRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IEventsRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IShoppingListRepository.cs" />
+    <Compile Include="Repositories\Interfaces\ICountryLangSelectorRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IKeywordRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IScrapbookRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IStoreLocatorRepository.cs" />
+    <Compile Include="Repositories\Interfaces\ICommentRepository.cs" />
+    <Compile Include="Repositories\Tridion\CommentRepository.cs" />
+    <Compile Include="Repositories\Tridion\CatsRepository.cs" />
+    <Compile Include="Repositories\Tridion\RegistrationRepository.cs" />
+    <Compile Include="Repositories\Tridion\EventsRepository.cs" />
+    <Compile Include="Repositories\Tridion\ShoppingListRespository.cs" />
+    <Compile Include="Repositories\Tridion\CountryLangSelectorRespository.cs" />
+    <Compile Include="Repositories\Tridion\KeywordRepository.cs" />
+    <Compile Include="Repositories\Tridion\ScrapbookRepository.cs" />
+    <Compile Include="Repositories\Tridion\StoreLocatorRespository.cs" />
+    <Compile Include="Resources\DynamicResourceProviderFactory.cs" />
+    <Compile Include="Service References\CDS\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.datasvcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\FASWebService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Sitemap\ISiteMap.cs" />
+    <Compile Include="Sitemap\TridionSiteMap.cs" />
+    <Compile Include="Sitemap\TridionSiteMapNode.cs" />
+    <Compile Include="Sitemap\TridionSiteMapProvider.cs" />
+    <Compile Include="Utils\TokenAdapter.cs" />
+    <Compile Include="Utils\Utils.cs" />
+    <Compile Include="Validators\UserNameValidator.cs" />
+    <Compile Include="Validators\EmailValidator.cs" />
+    <Content Include="akamai-sureroute-test-object.htm" />
+    <Content Include="apple-touch-icon-114x114.png" />
+    <Content Include="apple-touch-icon-120x120.png" />
+    <Content Include="apple-touch-icon-144x144.png" />
+    <Content Include="apple-touch-icon-152x152.png" />
+    <Content Include="apple-touch-icon-72x72.png" />
+    <Content Include="apple-touch-icon.png" />
+    <Content Include="App_Data\301_redirects_crafts.txt" />
+    <Content Include="App_Data\GeoLiteCity.dat" />
+    <None Include="App_Data\password_reminder.xml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="App_Data\register_confirmation.xml" />
+    <Content Include="css\customScroller.css" />
+    <Content Include="css\iconography.css" />
+    <Content Include="css\printshopping.css" />
+    <Content Include="css\anchor.css" />
+    <Content Include="css\freespirit.css" />
+    <Content Include="css\redheart.css" />
+    <Content Include="css\rowan.css" />
+    <Content Include="css\schachenmayr.css" />
+    <Content Include="fonts\sudtipos_-_brownstonesanslight-webfont.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="googleda924aac13c5fbc7.html" />
+    <Content Include="Images\css\rateit\star.png" />
+    <Content Include="img\back-arrow-dark.png" />
+    <Content Include="img\back-arrow-pink.png" />
+    <Content Include="img\ball-of-string.jpg" />
+    <Content Include="img\ball_of_wool.jpg" />
+    <Content Include="img\base-arrow.png" />
+    <Content Include="img\cats-logo.png" />
+    <Content Include="img\coats-logo-dark.png" />
+    <Content Include="img\dark-heart.png" />
+    <Content Include="img\dark-list.png" />
+    <Content Include="img\dark-profile.png" />
+    <Content Include="img\de-de.jpg" />
+    <Content Include="img\delete.gif" />
+    <Content Include="img\dropdown-arr-purple.png" />
+    <Content Include="img\en-gb.jpg" />
+    <Content Include="img\en-us.jpg" />
+    <Content Include="img\es-br.jpg" />
+    <Content Include="img\es-es.jpg" />
+    <Content Include="img\gb.png" />
+    <Content Include="img\icon-sprite-anchor.png" />
+    <Content Include="img\icon-sprite-freespirit.png" />
+    <Content Include="img\icon-sprite-ginetex.png" />
+    <Content Include="img\icon-sprite-redheart.png" />
+    <Content Include="img\icon-sprite-rowan.png" />
+    <Content Include="img\icon-sprite-schachenmayr.png" />
+    <Content Include="img\listicon.png" />
+    <Content Include="img\loading.gif" />
+    <Content Include="img\logo_bw.jpg" />
+    <Content Include="img\map-icon-fg-current.png" />
+    <Content Include="img\marker-white-center.png" />
+    <Content Include="img\markers\marker_A.png" />
+    <Content Include="img\markers\marker_B.png" />
+    <Content Include="img\markers\marker_C.png" />
+    <Content Include="img\markers\marker_D.png" />
+    <Content Include="img\markers\marker_E.png" />
+    <Content Include="img\markers\marker_F.png" />
+    <Content Include="img\markers\marker_G.png" />
+    <Content Include="img\markers\marker_H.png" />
+    <Content Include="img\markers\marker_I.png" />
+    <Content Include="img\markers\marker_J.png" />
+    <Content Include="img\markers\marker_K.png" />
+    <Content Include="img\markers\marker_L.png" />
+    <Content Include="img\markers\marker_M.png" />
+    <Content Include="img\markers\marker_N.png" />
+    <Content Include="img\markers\marker_O.png" />
+    <Content Include="img\markers\marker_P.png" />
+    <Content Include="img\markers\marker_Q.png" />
+    <Content Include="img\markers\marker_R.png" />
+    <Content Include="img\markers\marker_S.png" />
+    <Content Include="img\markers\marker_T.png" />
+    <Content Include="img\markers\marker_U.png" />
+    <Content Include="img\markers\marker_V.png" />
+    <Content Include="img\markers\marker_W.png" />
+    <Content Include="img\markers\marker_X.png" />
+    <Content Include="img\markers\marker_Y.png" />
+    <Content Include="img\markers\marker_Z.png" />
+    <Content Include="img\mCSB_buttons.png" />
+    <Content Include="img\minus.png" />
+    <Content Include="img\plus.png" />
+    <Content Include="img\remove-icon.jpg" />
+    <Content Include="img\semi-trans-pixel-white.png" />
+    <Content Include="img\semi-trans-pixel.png" />
+    <Content Include="img\sort-asc.png" />
+    <Content Include="img\sort-desc.png" />
+    <Content Include="img\sort.png" />
+    <Content Include="img\star-large.png" />
+    <Content Include="img\star.png" />
+    <Content Include="js\MyCustomValidation.js" />
+    <Content Include="js\vendor\jquery.scrolldepth.js" />
+    <Content Include="js\vendor\jquery.scrolldepth.min.js" />
+    <Content Include="js\helper.isotope.js" />
+    <Content Include="js\infobox.js" />
+    <Content Include="js\native.history.js" />
+    <Content Include="js\vendor\jquery.customScroller.js" />
+    <Content Include="js\vendor\jquery.customScroller.min.js" />
+    <Content Include="js\vendor\jquery.tablesorter.js" />
+    <Content Include="js\vendor\jquery.tablesorter.min.js" />
+    <Content Include="js\vendor\mvcfoolproof.unobtrusive.js" />
+    <Content Include="js\vendor\mvcfoolproof.unobtrusive.min.js" />
+    <Content Include="robots.txt" />
+    <Content Include="web-sitemap.xslt" />
+    <Content Include="Web.Coats TEST.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Coats DEV.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="fonts\25568C_0_0.eot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fonts\25568C_0_0.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fonts\25568C_0_0.woff">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fonts\sudtipos_-_brownstonesanslight-webfont.eot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fonts\sudtipos_-_brownstonesanslight-webfont.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fonts\sudtipos_-_brownstonesanslight-webfont.woff">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web.Coats PROD.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Deploy.ps1" />
+    <None Include="img\plus-minus.psd" />
+    <Content Include="Redirector\CoatsGeoIPRedirection.ashx" />
+    <None Include="Service References\CDS\Reference.datasvcmap">
+      <Generator>DataServiceClientGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="App_Data\email_shopping_list.xml" />
+    <Content Include="css\bootstrap-modal.css" />
+    <Content Include="css\bootstrap.css" />
+    <Content Include="css\bootstrap.min.css" />
+    <Content Include="css\normalize.css" />
+    <Content Include="css\rateit.css" />
+    <Content Include="css\structure.css" />
+    <Content Include="css\style.css" />
+    <Content Include="Favicon.ico" />
+    <Content Include="Images\css\rateit\delete.gif" />
+    <Content Include="img\icon-sprite.png" />
+    <Content Include="js\bootstrap-modal.js" />
+    <Content Include="js\bootstrap-modalmanager.js" />
+    <Content Include="img\author-mid.jpg" />
+    <Content Include="img\author-small.JPG" />
+    <Content Include="img\back-arrow.png" />
+    <Content Include="img\brand-banner.jpg" />
+    <Content Include="img\brand-main.jpg" />
+    <Content Include="img\branding-rowan.png" />
+    <Content Include="img\brazil.jpg" />
+    <Content Include="img\breadcrumb-arrow.png" />
+    <Content Include="img\bullet-arrow.png" />
+    <Content Include="img\checkbox-bg-light.png" />
+    <Content Include="img\checkbox-bg.png" />
+    <Content Include="img\checkbox-radio-bg.png" />
+    <Content Include="img\china.jpg" />
+    <Content Include="img\coats-logo.png" />
+    <Content Include="img\dropdown-arr.png" />
+    <Content Include="img\events.jpg" />
+    <Content Include="img\events2.jpg" />
+    <Content Include="img\facebook-icon-navbar.png" />
+    <Content Include="img\facebook-icon.png" />
+    <Content Include="img\facebook-post-image.jpg" />
+    <Content Include="img\forward-arrow.png" />
+    <Content Include="img\four-col-img.jpg" />
+    <Content Include="img\france.jpg" />
+    <Content Include="img\gb-flag.png" />
+    <Content Include="img\gb.jpg" />
+    <Content Include="img\germany.jpg" />
+    <Content Include="img\glyphicons-halflings-white.png" />
+    <Content Include="img\glyphicons-halflings.png" />
+    <Content Include="img\heart-icon.png" />
+    <Content Include="img\home-banner.jpg" />
+    <Content Include="img\input-search-icon.png" />
+    <Content Include="img\isotope-placeholder.jpg" />
+    <Content Include="img\italy.jpg" />
+    <Content Include="img\johnlewis.jpg" />
+    <Content Include="img\large-star-icon.png" />
+    <Content Include="img\list-icon.png" />
+    <Content Include="img\logo-anchor.png" />
+    <Content Include="img\logo-duet.png" />
+    <Content Include="img\logo-opti.png" />
+    <Content Include="img\logo-red-heart.png" />
+    <Content Include="img\main-sprite.png" />
+    <Content Include="img\map-icon-bg.png" />
+    <Content Include="img\map-icon-fg.png" />
+    <Content Include="img\marker.png" />
+    <Content Include="img\moreless.png" />
+    <Content Include="img\pinterest-icon-navbar.png" />
+    <Content Include="img\pinterest-icon.png" />
+    <Content Include="img\play-icon.png" />
+    <Content Include="img\plus-minus.png" />
+    <Content Include="img\product-shot.jpg" />
+    <Content Include="img\radio-bg.png" />
+    <Content Include="img\retailer-network-bg.jpg" />
+    <Content Include="img\retailer-network-img.png" />
+    <Content Include="img\rope-girl.jpg" />
+    <Content Include="img\share-icon-navbar.png" />
+    <Content Include="img\share-icon.png" />
+    <Content Include="img\showhide-icon.png" />
+    <Content Include="img\slider-arrow-sprite.png" />
+    <Content Include="img\slider-pip-sprite.png" />
+    <Content Include="img\star-icon.png" />
+    <Content Include="img\tab-outline-left.png" />
+    <Content Include="img\tab-outline-right.png" />
+    <Content Include="img\twitter-icon-navbar.png" />
+    <Content Include="img\twitter-icon.png" />
+    <Content Include="img\user-icon.png" />
+    <Content Include="js\bootstrap.js" />
+    <Content Include="js\bootstrap.min.js" />
+    <Content Include="js\tracking.js" />
+    <Content Include="js\jquery.facebook.poc-1.0.js" />
+    <Content Include="js\main.js" />
+    <Content Include="js\plugins.js" />
+    <Content Include="js\vendor\jquery-migrate-1.1.1.js" />
+    <Content Include="js\vendor\jquery-1.9.1.js" />
+    <Content Include="js\vendor\jquery-1.9.1.min.js" />
+    <Content Include="js\vendor\jquery-ui-1.10.2.js" />
+    <Content Include="js\vendor\jquery-ui-1.10.2.min.js" />
+    <Content Include="js\vendor\jquery.isotope.js" />
+    <Content Include="js\vendor\jquery.isotope.min.js" />
+    <Content Include="js\vendor\jquery.rateit.js" />
+    <Content Include="js\vendor\jquery.rateit.min.js" />
+    <Content Include="js\vendor\jquery.validate.js" />
+    <Content Include="js\vendor\jquery.validate.min.js" />
+    <Content Include="js\vendor\jquery.validate.unobtrusive.js" />
+    <Content Include="js\vendor\jquery.validate.unobtrusive.min.js" />
+    <Content Include="js\vendor\modernizr-2.6.2.js" />
+    <Content Include="js\vendor\modernizr-2.6.2.min.js" />
+    <None Include="Service References\FASWebService\Coats.Crafts.FASWebService.page.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\FASWebService\configuration91.svcinfo" />
+    <None Include="Service References\FASWebService\configuration.svcinfo" />
+    <None Include="Service References\FASWebService\FASWebService1.wsdl" />
+    <None Include="Service References\FASWebService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <Content Include="Views\Partials\Comment_Form.cshtml" />
+    <Content Include="Views\TridionComponent\Project.cshtml" />
+    <Content Include="Views\Comments\AddComment.cshtml" />
+    <None Include="Service References\CDS\service.edmx" />
+    <Content Include="Views\Comments\Comments.cshtml" />
+    <Content Include="Views\Comments\AddRating.cshtml" />
+    <Content Include="Views\Partials\Rating_Form.cshtml" />
+    <Content Include="Views\StoreLocator\Index.cshtml" />
+    <Content Include="Views\Shared\ComponentTypes.cshtml" />
+    <Content Include="Views\Partials\CountrySelector.cshtml" />
+    <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="Views\Profile\Index.cshtml" />
+    <Content Include="Views\Registration\Index.cshtml" />
+    <Content Include="Views\ShoppingList\ShoppingListPrint.cshtml" />
+    <Content Include="Views\ShoppingList\Index.cshtml" />
+    <Content Include="Views\Scrapbook\AddScrapbookItemForm.cshtml" />
+    <Content Include="Views\Scrapbook\Index.cshtml" />
+    <Content Include="Views\Partials\Header.cshtml" />
+    <Content Include="Views\TridionComponent\FullWidthBanner.cshtml" />
+    <Content Include="Views\Shared\AddToShoppingList.cshtml" />
+    <Content Include="Views\ShoppingList\ShoppingListInsertItems.cshtml" />
+    <Content Include="Views\ShoppingList\EmailShoppingList.cshtml" />
+    <Content Include="Views\Event\Index.cshtml" />
+    <Content Include="Views\EventsNearYou\Index.cshtml" />
+    <Content Include="Views\TridionComponent\OurBrandsSpotlight.cshtml" />
+    <Content Include="Views\TridionComponent\BlogSummary.cshtml" />
+    <Content Include="Views\Partials\AuthorRating.cshtml" />
+    <Content Include="Views\Partials\FullWidthCarousel.cshtml" />
+    <Content Include="Views\Partials\ProjectTable.cshtml" />
+    <Content Include="Views\Partials\CrumbsLight.cshtml" />
+    <Content Include="Views\TridionComponent\SpotlightLight.cshtml" />
+    <Content Include="Views\Footer\Footer.cshtml" />
+    <Content Include="Views\Partials\FullWidthBanner.cshtml" />
+    <Content Include="Views\TridionComponent\FindAStore.cshtml" />
+    <Content Include="Views\TridionComponent\Moodboard.cshtml" />
+    <Content Include="Views\TridionComponent\Article.cshtml" />
+    <Content Include="Views\TridionComponent\Blog.cshtml" />
+    <Content Include="Views\Comments\CommentCount.cshtml" />
+    <Content Include="Views\TridionComponent\Tutorial.cshtml" />
+    <Content Include="Views\Partials\T9-Faqs.cshtml" />
+    <Content Include="Views\TridionComponent\Product.cshtml" />
+    <Content Include="Views\Partials\ProductSummary.cshtml" />
+    <Content Include="Views\Partials\ColourSwatches.cshtml" />
+    <Content Include="Views\TridionComponent\DisplayComments.cshtml" />
+    <Content Include="Views\TridionComponent\MediaLeftTextRight.cshtml" />
+    <Content Include="Views\Partials\Rating.cshtml" />
+    <Content Include="Views\Partials\PodGeneric.cshtml" />
+    <Content Include="Views\Partials\PodArticle.cshtml" />
+    <Content Include="Views\TridionComponent\Designer.cshtml" />
+    <Content Include="Views\FacetedContent\Index.cshtml" />
+    <Content Include="Views\Partials\FilterPanel.cshtml" />
+    <Content Include="Views\Partials\SideSharing.cshtml" />
+    <Content Include="Views\Partials\T3-Header.cshtml" />
+    <Content Include="Views\Partials\T3-Isotope.cshtml" />
+    <Content Include="Views\Partials\T3-Menu.cshtml" />
+    <Content Include="Views\Partials\GeneralContentNavigation.cshtml" />
+    <Content Include="Views\Learn\Index.cshtml" />
+    <Content Include="Views\Share\Index.cshtml" />
+    <Content Include="Views\TridionComponent\FacebookActivity.cshtml" />
+    <Content Include="Views\Partials\CookieBar.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\TridionComponent\GeneralContent.cshtml" />
+    <Content Include="Views\TridionComponent\GeneralContentNavigation.cshtml" />
+    <Content Include="Views\Partials\T3-MenuVariant.cshtml" />
+    <Content Include="Views\FacetedContent\Product-Explorer.cshtml" />
+    <Content Include="Views\Facebook\Index.cshtml" />
+    <Content Include="Views\Partials\InlineCarousel.cshtml" />
+    <Content Include="Views\Partials\HomepageCarousel.cshtml" />
+    <Content Include="Views\Partials\HeaderSimple.cshtml" />
+    <Content Include="Views\Partials\Video.cshtml" />
+    <Content Include="Views\TridionComponent\GetInvolved.cshtml" />
+    <Content Include="Web.Coats QA.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\TridionComponent\Event.cshtml" />
+    <Content Include="Views\TridionComponent\RetailerNetworkSpotlight.cshtml" />
+    <Content Include="Views\TridionComponent\SpotlightDark.cshtml" />
+    <Content Include="Views\Partials\ProductCanvas.cshtml" />
+    <Content Include="Views\Partials\ProductConsumerSewing.cshtml" />
+    <Content Include="Views\Partials\ProductCrochet.cshtml" />
+    <Content Include="Views\Partials\ProductEmbroidery.cshtml" />
+    <Content Include="Views\Partials\ProductHaberdashery.cshtml" />
+    <Content Include="Views\Partials\ProductHandknitting.cshtml" />
+    <Content Include="Views\Partials\ProductKit.cshtml" />
+    <Content Include="Views\Partials\ProductLifeStyleFabric.cshtml" />
+    <Content Include="Views\Partials\ProductMachineEmbroidery.cshtml" />
+    <Content Include="Views\Partials\ProductPublications.cshtml" />
+    <Content Include="Views\Partials\ProductZip.cshtml" />
+    <Content Include="Views\Partials\FindAStore.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Partials\ProductHaberdasheryProductTable.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Partials\T3-LevelOneFilter.cshtml" />
+    <Content Include="Views\TridionComponent\Brand.cshtml" />
+    <Content Include="Views\Partials\MainNavigation.cshtml" />
+    <Content Include="Views\Partials\FindAStorePod.cshtml" />
+    <Content Include="Views\Partials\GetInvolvedPod.cshtml" />
+    <Content Include="Views\TridionComponent\FindAStorePod.cshtml" />
+    <Content Include="Views\TridionComponent\GetInvolvedPod.cshtml" />
+    <Content Include="Views\FeaturedItems\Index.cshtml" />
+    <Content Include="Views\TridionComponent\OurBrandsHighlighter.cshtml" />
+    <Content Include="Views\Partials\ProductColourSwatch.cshtml" />
+    <Content Include="Views\TridionComponent\FAQ.cshtml" />
+    <Content Include="Views\Partials\ProductZipTable.cshtml" />
+    <Content Include="Views\Partials\ProductConsumerSewingTable.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Partials\ProductCrochetTable.cshtml" />
+    <Content Include="Views\Partials\ProductMachineEmbroideryTable.cshtml" />
+    <Content Include="Views\Partials\HomepageIsotope.cshtml" />
+    <Content Include="Views\Partials\CountrySelectorFooter.cshtml" />
+    <Content Include="Views\TridionComponent\CareAndRepair.cshtml" />
+    <Content Include="Views\Partials\EmailNewsletter.cshtml" />
+    <Content Include="Views\PasswordReminder\Index.cshtml" />
+    <Content Include="Views\TridionPage\Empty.cshtml" />
+    <Content Include="Views\Hybrid\Index.cshtml" />
+    <Content Include="Views\Hybrid\Post.cshtml" />
+    <Content Include="Views\ShoppingList\AddItem.cshtml" />
+    <Content Include="Views\FacetedContent\Our-Brands.cshtml" />
+    <Content Include="Views\Partials\ProductCareInstructions.cshtml" />
+    <Content Include="Views\Partials\UserFeedback.cshtml" />
+    <Content Include="Views\Partials\CrumbsTrans.cshtml" />
+    <Content Include="Views\Partials\FacetedSearchInput.cshtml" />
+    <Content Include="Views\CATS\Index.cshtml" />
+    <Content Include="Views\Partials\ProductNeedleCraftTable.cshtml" />
+    <Content Include="Views\Comments\AllCommentsByUser.cshtml" />
+    <Content Include="Views\Partials\FacetItemDisplay.cshtml" />
+    <Content Include="Views\TridionComponent\SiteMap.cshtml" />
+    <Content Include="site configs\ENGB.Coats PROD.config" />
+    <Content Include="site configs\ENUS.Coats PROD.config" />
+    <None Include="Testing\Coats Crafts.jmx" />
+    <None Include="Testing\Coats Industrial.jmx" />
+    <Content Include="Views\RegistrationConfirmation\Index.cshtml" />
+    <Content Include="Views\ThankYou\Index.cshtml" />
+    <None Include="Web.sitemap">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Global.asax" />
+    <EmbeddedResource Include="google-sitemap.xsl" />
+    <Content Include="Views\TridionPage\ContentPage.cshtml" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Coats.Crafts.csproj.nuspec">
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="log4net.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\TridionComponent\HomepageBanner.cshtml" />
+    <Content Include="Views\TridionPage\Homepage.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Coats.Crafts.SmartTartget\Coats.Crafts.SmartTartget.csproj">
+      <Project>{A57DAD6E-2FB6-4B98-8F26-2C0050E8CFB1}</Project>
+      <Name>Coats.Crafts.SmartTartget</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GeoIP\GeoIP.csproj">
+      <Project>{73A505BE-3AEC-4B36-819E-191644E9F063}</Project>
+      <Name>GeoIP</Name>
+    </ProjectReference>
+    <ServiceReferenceMetadataStorage Include="Service References\CDS\">
+      <Type>datasvcmap</Type>
+    </ServiceReferenceMetadataStorage>
+    <ProjectReference Include="..\..\Coats.IndustrialPortal\Coats.IndustrialPortal.Constants\Coats.IndustrialPortal.Constants.csproj">
+      <Project>{43967DFA-159F-402A-BD5F-23E141505863}</Project>
+      <Name>Coats.IndustrialPortal.Constants</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Coats.IndustrialPortal\Coats.IndustrialPortal.Gateway.Implementation\Coats.IndustrialPortal.Gateway.Implementation.csproj">
+      <Project>{37EE9CF0-2B45-4624-9575-54B0B7091D88}</Project>
+      <Name>Coats.IndustrialPortal.Gateway.Implementation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Coats.IndustrialPortal\Coats.IndustrialPortal.Gateway.Interfaces\Coats.IndustrialPortal.Gateway.Interfaces.csproj">
+      <Project>{02EDBD80-BB1A-47DA-AE41-8E26FF09A474}</Project>
+      <Name>Coats.IndustrialPortal.Gateway.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Coats.IndustrialPortal\Coats.IndustrialPortal.Gateway\Coats.IndustrialPortal.Gateway.csproj">
+      <Project>{B7BD7BA2-D14E-4893-8008-E171F89698DE}</Project>
+      <Name>Coats.IndustrialPortal.Gateway</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Coats.IndustrialPortal\Coats.IndustrialPortal.Providers\Coats.IndustrialPortal.Providers.csproj">
+      <Project>{FB470A75-13D6-4080-9A94-50A73ACF7468}</Project>
+      <Name>Coats.IndustrialPortal.Providers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Coats.Crafts.Gateway\Coats.Crafts.Gateway.csproj">
+      <Project>{A452925A-A205-431E-838E-965AA0562775}</Project>
+      <Name>Coats.Crafts.Gateway</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\FASWebService\" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>63146</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>
+          </IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+</Project>

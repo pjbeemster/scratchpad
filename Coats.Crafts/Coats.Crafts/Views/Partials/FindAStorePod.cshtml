@@ -1,0 +1,73 @@
+﻿@using DD4T.ContentModel;
+@using Coats.Crafts.Configuration;
+@using Coats.Crafts.Extensions;
+
+@using System.Xml.Serialization;
+@using System.Text;
+@using log4net;
+
+@model IComponent
+
+@{           
+    string span = ViewBag.PodGenericSpan;
+    if (string.IsNullOrEmpty(span)) { span = "span4"; }
+
+    var logger = log4net.LogManager.GetLogger(typeof(DD4T.ContentModel.Component));
+
+    logger.Error("STRANGE ERROR: CHECK TITLE");
+    var ee = Model.Fields.GetEnumerator();
+    while (ee.MoveNext())
+    {
+        logger.ErrorFormat("PRECHECK: '{0}'", ee.Current.Key);
+        logger.ErrorFormat("PRECHECK: {0}", ee.Current.Key.GetHashCode());
+        logger.ErrorFormat("PRECHECK: '{0}'", ee.Current.Value.Value);
+    }
+
+    var keyIsThere = Model.Fields.ContainsKey("title");
+    logger.ErrorFormat("PRECHECK: '{0}'", keyIsThere);
+
+    if (!keyIsThere)
+    {
+
+        logger.ErrorFormat("STRANGE ERROR: {0}", Model.Fields.Count);//builder.ToString());
+        logger.ErrorFormat("STRANGE ERROR MODEL: {0}", @Json.Encode(Model));
+        logger.ErrorFormat("STRANGE ERROR MODEL: {0}", Model.Fields["view"].Value);
+
+        var eee = Model.Fields.GetEnumerator();
+        while (eee.MoveNext())
+        {
+            logger.ErrorFormat("STRANGE ERROR: '{0}'", eee.Current.Key);
+            logger.ErrorFormat("STRANGE ERROR: {0}", eee.Current.Key.GetHashCode());
+            logger.ErrorFormat("STRANGE ERROR: '{0}'", eee.Current.Value.Value);
+        }
+
+        logger.ErrorFormat("STRANGE ERROR: '{0}'", System.Threading.Thread.CurrentThread.CurrentCulture);
+    }    
+}
+
+<article class="@span pod cta">
+	<div class="content">
+		<div class="body">			
+			@if (Model.Fields.ContainsKey("title"))
+            {
+                <h3>@Model.Fields["title"].Value</h3>
+            }
+			@if (Model.Fields.ContainsKey("subtitle"))
+            {
+                <p>@Model.Fields["subtitle"].Value</p>
+            }
+			@if (Model.Fields.ContainsKey("summary"))
+            {
+                @Html.Raw(Model.Fields["summary"].Value);
+            }
+            <form action="@Url.Content(WebConfiguration.Current.StoreLocatorFormPath.AddApplicationRoot())" method="get" class="storefinder">
+                @Html.Raw(Html.SpamProtectionTimeStamp())
+                <input type="text" name="Location" id="Location" placeholder="@Html.GetResource("EnterPostcodeOrTown")" />
+                <input type="hidden" name="Distance" id="Distance" value="@WebConfiguration.Current.StoreLocatorDefaultValue" />
+                <input class="btn yellow" type="submit" name="submit" value="@Html.GetResource("StoreLocatorSearchButtonText")" />
+            </form>
+
+		</div>
+	</div>  
+</article>
+

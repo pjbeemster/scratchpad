@@ -1,0 +1,31 @@
+﻿@using DD4T.ContentModel;
+@model IComponent
+@{
+    Layout = null;
+    var fields = Model.Fields;
+    string body = string.Empty;
+
+
+    if (fields.ContainsKey("body"))
+    {
+        body = fields["body"].Value.ResolveRichText().ToHtmlString();
+    }
+}
+<div>
+    <p>
+        <strong>@Html.GetResource("Details")</strong></p>
+    @if (!String.IsNullOrEmpty(body))
+    {
+        <p>@Html.Raw(body)</p>
+    }
+</div>
+@if (!Coats.Crafts.Configuration.WebConfiguration.Current.DisableWishList)
+{
+    <div>
+        @Html.Partial("~/Views/ShoppingList/AddItem.cshtml", Model)
+    </div>
+}
+@if (fields.ContainsKey("care"))
+{
+    Html.RenderPartial("~/Views/Partials/ProductCareInstructions.cshtml", fields["care"]);
+}

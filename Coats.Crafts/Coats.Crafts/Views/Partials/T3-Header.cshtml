@@ -1,0 +1,112 @@
+﻿@model Coats.Crafts.Models.FacetedContentBase
+		   
+@{
+	
+	/* @TODO - Convert Active Discussions Form to use link instead */
+	
+	string selectedSortLabel = String.Empty;
+	string sortLabel = String.Empty;
+
+	var formAction = "http://" + Request.Url.Host + Request.Url.LocalPath;
+	
+	if (Model.Sort.SortByList != null)
+	{
+
+		 foreach (var item in Model.Sort.SortByList)
+		 {
+			 if (item.Selected)
+			 {
+				 selectedSortLabel = item.Text.ToLower();
+			 }
+		 }
+
+		 sortLabel = Html.GetResource((String.IsNullOrEmpty(selectedSortLabel)) ? "SortBy" : "SortedBy") + " " + selectedSortLabel;
+	 }
+
+    string title = @ViewBag.Title;
+    
+    if (Request["pg"] != null)
+    {
+        string emptyPattern = @"\[[^]]+\] not found";
+        
+        string pgTitle = Request["pg"];
+        string h1Label = Html.GetResource("labels/seo_resources.resx", "facetedh1_" + pgTitle);
+
+        if (!Regex.IsMatch(h1Label, emptyPattern))
+        {
+            title = h1Label;
+        }
+    }
+
+    string ticked = String.Empty;
+    if (!String.IsNullOrEmpty(Request["fh_ticked"]))
+    {
+        ticked = "?fh_ticked=" + Request["fh_ticked"];
+    }
+
+    // Product explorer can take advantage of slightly  wider titles - its controller set a viewbag property
+    string titleSpan = "span6";
+    string sortSpan = "span6";
+    if (ViewBag.ExpandForProductExplorer != null)
+    {
+        titleSpan = "span8";
+        sortSpan = "span4";        
+    }
+    
+}
+
+<section class="product-header">
+	<div class="row-fluid headers">
+		<div class="@titleSpan">
+			<h1>@title</h1>
+		</div>
+		<div class="@sortSpan filters">
+			@if (Model.Sort.SortByList != null)
+			{
+			<div class="dropdown sort dark">
+				<span>@sortLabel</span>
+				<ul>
+				@foreach (var item in Model.Sort.SortByList)
+				{
+                    <li>
+					@if (item.Selected)
+					{
+						<span>@item.Text</span>
+					}
+					else
+					{
+						<a href="@item.Value">@item.Text</a>
+					}
+					</li>
+				}
+				</ul>
+			</div>
+            }
+
+            @if (ViewBag.ShowActiveDiscussionFilter != null && ViewBag.ShowActiveDiscussionFilter)
+            {
+                <div id="activeDiscussion" class="active-discussion">
+                    
+					@{ string classer = (Model.Sort.ActiveDiscussions) ? "radioesque selected" : "radioesque"; }
+    			    <a href="@Model.Sort.ActiveDiscussionsUrl" title="@Html.GetResource("ActiveDiscussions")" class="@classer" rel="nofollow"><span></span>@Html.GetResource("ActiveDiscussions")</a>
+
+                    <form action="@ticked" class="fh-filter" method="post">
+						@*@Html.CheckBoxFor(m => m.Sort.ActiveDiscussions, new { id="filterAD" })
+						<label for="filterAD">Active Discussions</label>*@
+						@Html.HiddenFor(m => m.FredHopperLocation)
+						@Html.HiddenFor(m => m.Sort.SortBy)
+						@Html.HiddenFor(m => m.ComponentSection.SearchTerm)
+						@for (int i = 0; i < Model.ComponentSection.ComponentTypes.Facets.Count; i++)
+						{
+							@Html.HiddenFor(m => m.ComponentSection.ComponentTypes.Facets[i].Text)
+							@Html.HiddenFor(m => m.ComponentSection.ComponentTypes.Facets[i].Value)
+							@Html.HiddenFor(m => m.ComponentSection.ComponentTypes.Facets[i].Href)
+							@Html.HiddenFor(m => m.ComponentSection.ComponentTypes.Facets[i].Selected)
+						}
+					</form>
+                </div>
+                
+			}
+		</div>
+	</div>
+</section>

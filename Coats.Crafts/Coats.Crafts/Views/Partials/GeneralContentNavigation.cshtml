@@ -1,0 +1,141 @@
+﻿@using DD4T.ContentModel;
+@using DD4T.Mvc.Html;
+@using DD4T.ContentModel.Factories;
+@using System.Web;
+@using Coats.Crafts.Extensions;
+@using Coats.Crafts.HtmlHelpers;
+
+
+@model IComponentPresentation
+
+@functions
+{
+    
+    private int GetNodeLevel(SiteMapNode node, int level)
+    {
+        if (node.ParentNode == SiteMap.RootNode)
+            return level;
+        else
+            level++;
+        return GetNodeLevel(node.ParentNode, level);
+    }
+    
+    // ASH: I don't really like the idea of functions with a view, but this was required due to the recursive calls required.
+    protected System.Text.StringBuilder WalkBreadcrumb(SiteMapNodeCollection currentNodes, List<SiteMapNode> breadCrumb, System.Text.StringBuilder markup)
+    {
+        // What we are trying to acheive...
+        //<ul>
+        //    <li class="active"><a href="#">Lorem ipsum dolor sit</a>
+        //        <ul>
+        //            <li><a href="#">Lorem ipsum dolor sit</a></li>
+        //            <li  class="active"><a href="#">Lorem ipsum dolor sit</a></li>
+        //            <li><a href="#">Lorem ipsum dolor sit</a></li>
+        //            <li><a href="#">Lorem ipsum dolor sit</a></li>
+        //        </ul>
+        //    </li>
+        //    <li><a href="#">Lorem ipsum dolor sit</a></li>
+        //    <li><a href="#">Lorem ipsum dolor sit</a></li>
+        //    <li><a href="#">Lorem ipsum dolor sit</a></li>
+        //    <li><a href="#">Lorem ipsum dolor sit</a></li>
+        //</ul>        
+        
+        // Get the number of levels we should be going down to
+        //int maxLevel = ((Coats.Crafts.Sitemap.TridionSiteMapNode)breadCrumb[breadCrumb.Count - 1]).Level;
+        int maxLevel = 5;
+        
+        // Check we haven't exceeded the level limit
+        //if(currentNodes != null && currentNodes.Count > 0 && ((Coats.Crafts.Sitemap.TridionSiteMapNode)currentNodes[0]).Level > maxLevel)
+        if (currentNodes != null && currentNodes.Count > 0 && (GetNodeLevel(currentNodes[0], 0) > maxLevel))
+        {
+            return markup;
+        }
+
+        // Ensure the StringBuilder is a valid, instanciated object
+        if (markup == null) { markup = new System.Text.StringBuilder(); }
+                    
+        // Add the opening ul tag
+        markup.Append("<ul>");
+
+        foreach (SiteMapNode node in currentNodes)
+        {
+            if (node["primarynavigation"] == "No")
+            {
+                continue;
+            }
+            
+            // Get the link title
+            string title = string.Empty;
+            if (node["navigationtitle"] != "")
+            {
+                title = node["navigationtitle"];
+            }
+            else
+            {
+                // No link title, so no point in rendering a blank link (shouldn't strictly happen)
+                continue;
+            }
+            
+            // Check if this is an active link (i.e. present in the breadcrumb)
+            if(breadCrumb.Contains(node))
+            {
+                // Add li and link, but leave the li open
+                markup.AppendFormat("<li class=\"active\"><a href=\"{0}\">{1}</a>", Url.Content(node.Url), title);
+
+                // Make a recursive call
+                if(node.HasVisibleChildNodes())
+                {
+                    markup = WalkBreadcrumb(node.ChildNodes, breadCrumb, markup);
+                }
+                
+                // Add the closing li tag
+                markup.Append("</li>");
+            }
+            else
+            {
+                // Simply add the link and move to the next node in the collection
+                markup.AppendFormat("<li><a href='{0}'>{1}</a></li>", Url.Content(node.Url), title);
+            }
+        }
+        
+        // Add the closing ul tag
+        markup.Append("</ul>");
+
+        // Finally, return the whole gubbins
+        return markup;
+    }
+}
+
+@{
+    
+    Layout = null;
+
+    var current = SiteMap.CurrentNode;
+    var previous = SiteMap.CurrentNode;
+
+    //int currentLevel = ((Coats.Crafts.Sitemap.TridionSiteMapNode)current).Level;
+
+    if (current != null)
+    {
+        // ASH....
+        List<SiteMapNode> currentBreadcrumb = new List<SiteMapNode>();
+
+        //while (current.ParentNode != null && ((Coats.Crafts.Sitemap.TridionSiteMapNode)current.ParentNode).Level >= 2)
+        while (current.ParentNode != null && (GetNodeLevel(current, 0) >= 1))
+        {
+            currentBreadcrumb.Insert(0, current);
+            previous = current;
+            current = current.ParentNode;
+        }
+
+        System.Text.StringBuilder markup = new System.Text.StringBuilder();
+        markup = WalkBreadcrumb(current.ChildNodes, currentBreadcrumb, markup);
+        
+        ViewBag.CurrentCss = " class=\"current\"";
+        <div class="span3">
+            <nav id="side">
+                @Html.Raw(markup.ToString())
+            </nav>
+        </div>         
+        // ...ASH
+    }
+}

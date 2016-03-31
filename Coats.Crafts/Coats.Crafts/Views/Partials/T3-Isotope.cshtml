@@ -1,0 +1,81 @@
+﻿@model Coats.Crafts.Models.PaginatedComponentList
+
+@{ 
+    string span = ViewBag.PodGenericSpan;
+    if (string.IsNullOrEmpty(span)) { span = "span3"; }
+    int itemsPerRow = (span == "span3") ? 4 : 3;
+    var noResults = "hide";
+    
+    if (Model.Components.Count == 0)
+    {
+        noResults = "display";
+    }
+} 
+
+<section class="faceted clearfix">
+    <div id="no-results" class="row-fluid @noResults">
+        <div class="span12">
+            <div class="container">    
+                <span class="no-results-image"></span>
+                <h2>@Html.GetResource("NoResultsFoundTitle")</h2>
+                <p>@Html.GetResource("NoResultsFound")</p>
+            </div>
+        </div>
+    </div>
+
+    @if (Model.Components.Count > 0)
+    {
+        <div class="pods">
+            @foreach (var item in Model.Components)
+            {
+                @Html.Partial("~/Views/Partials/PodGeneric.cshtml", @item);
+            }
+        </div>
+    }
+
+    @if (Model.Pagination.Count > 0 && Model.Pagination[Model.Pagination.Count - 1].Selected == false)
+    {
+        int selectedIndex = -1;
+        int i=0;
+        int j=0;
+        foreach (var pageLink in Model.Pagination)
+        {
+            if (pageLink.Selected) {
+                selectedIndex = i;
+            }
+            i++;
+        }
+        
+        <div class="row-fluid show-more">
+            <div class="span12">
+                <span><a href="" title="" class="load-more">@Html.GetResource("ShowMore")</a></span>
+                <ul>
+                    @foreach (var pageLink in Model.Pagination)
+                    {
+                        if (!pageLink.Selected)
+                        {
+                            <li>
+                                @if (selectedIndex > -1 && selectedIndex + 1 == j)
+                                {
+                                    <a rel="next" href="@pageLink.Url">@pageLink.LinkText</a>
+                                }
+                                else if (selectedIndex > -1 && selectedIndex - 1 == j)
+                                {
+                                    <a rel="prev" href="@pageLink.Url">@pageLink.LinkText</a>
+                                }
+                                else{
+                                    <a href="@pageLink.Url">@pageLink.LinkText</a>
+                                }
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="current">@Html.Raw(pageLink.LinkText)</li>
+                        }
+                        j++;
+                    }
+                </ul>
+            </div>
+        </div>
+    }
+</section>

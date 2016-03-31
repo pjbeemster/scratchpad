@@ -1,0 +1,193 @@
+# Robots.txt for www.makeitcoats.com
+# Last updated 26th Feb 2014
+
+User-agent: iisbot/1.0 (+http://www.iis.net/iisbot.html)
+user-agent: AhrefsBot
+user-agent: MJ12bot
+Disallow: 
+
+User-agent: Asterias
+Allow: /*?countryurl
+Allow: /*?vanity_url
+Allow: /*?source
+Allow: /*?pg
+Disallow: /*?fh_ticked
+Disallow: /*?fh_params
+Disallow: /*?action
+Disallow: /*?ReturnUrl
+Disallow: /*?events
+
+User-agent: BingBot
+User-agent: MSNbot
+Allow: /*?countryurl
+Allow: /*?vanity_url
+Allow: /*?source
+Allow: /*?pg
+Disallow: /*?fh_ticked
+Disallow: /*?fh_params
+Disallow: /*?action
+Disallow: /*?ReturnUrl
+Disallow: /*?events
+
+User-agent: Mediapartners-Google/2.1
+User-agent: Mediapartners-Google
+User-agent: Googlebot-Image/1.0
+User-agent: Googlebot
+Allow: /*?countryurl
+Allow: /*?vanity_url
+Allow: /*?source
+Allow: /*?pg
+Disallow: /*?fh_ticked
+Disallow: /*?fh_params
+Disallow: /*?action
+Disallow: /*?ReturnUrl
+Disallow: /*?events
+
+User-agent: rogerbot
+Allow: /*?countryurl
+Allow: /*?vanity_url
+Allow: /*?source
+Allow: /*?pg
+Disallow: /*?fh_ticked
+Disallow: /*?fh_params
+Disallow: /*?action
+Disallow: /*?ReturnUrl
+Disallow: /*?events
+
+User-agent: ScoutJet
+Allow: /*?countryurl
+Allow: /*?vanity_url
+Allow: /*?source
+Allow: /*?pg
+Disallow: /*?fh_ticked
+Disallow: /*?fh_params
+Disallow: /*?action
+Disallow: /*?ReturnUrl
+Disallow: /*?events
+
+User-agent: ia_archiver
+Allow: /*?countryurl
+Allow: /*?vanity_url
+Allow: /*?source
+Allow: /*?pg
+Disallow: /*?fh_ticked
+Disallow: /*?fh_params
+Disallow: /*?action
+Disallow: /*?ReturnUrl
+Disallow: /*?events
+
+User-agent: SpeedySpider
+Allow: /*?countryurl
+Allow: /*?vanity_url
+Allow: /*?source
+Allow: /*?pg
+Disallow: /*?fh_ticked
+Disallow: /*?fh_params
+Disallow: /*?action
+Disallow: /*?ReturnUrl
+Disallow: /*?events
+
+User-agent: TechnoratiBot/8.1
+Allow: /*?countryurl
+Allow: /*?vanity_url
+Allow: /*?source
+Allow: /*?pg
+Disallow: /*?fh_ticked
+Disallow: /*?fh_params
+Disallow: /*?action
+Disallow: /*?ReturnUrl
+Disallow: /*?events
+
+User-agent: Twiceler
+Allow: /*?countryurl
+Allow: /*?vanity_url
+Allow: /*?source
+Allow: /*?pg
+Disallow: /*?fh_ticked
+Disallow: /*?fh_params
+Disallow: /*?action
+Disallow: /*?ReturnUrl
+Disallow: /*?events
+
+User-agent: MJ12bot
+Allow: /*?countryurl
+Allow: /*?vanity_url
+Allow: /*?source
+Allow: /*?pg
+Disallow: /*?fh_ticked
+Disallow: /*?fh_params
+Disallow: /*?action
+Disallow: /*?ReturnUrl
+Disallow: /*?events
+
+User-agent: YandexAntivirus/2.0
+User-agent: YandexBot/3.0
+User-agent: YandexImageResizer/2.0
+User-agent: YandexImages/3.0
+User-agent: YandexMedia/3.0
+User-agent: YandexPagechecker/1.0
+User-agent: YandexWebmaster/2.0
+User-agent: YandexZakladki/3.0
+Allow: /*?countryurl
+Allow: /*?vanity_url
+Allow: /*?source
+Allow: /*?pg
+Disallow: /*?fh_ticked
+Disallow: /*?fh_params
+Disallow: /*?action
+Disallow: /*?ReturnUrl
+Disallow: /*?events
+
+User-agent: Baiduspider
+Disallow: /
+
+User-agent: VoilaBot
+Disallow: /
+
+User-agent: xenu's Link sleuth 1.1c
+Disallow: /
+
+User-agent: yahoo-mmcrawler
+User-agent: yahoo-blogs/v3.9
+User-agent: Slurp/3.0
+Disallow: /
+
+User-agent: Nutch
+Disallow: /
+
+User-agent: psbot
+Disallow: /
+
+User-agent: Purebot
+Disallow: /
+
+User-agent: Robozilla
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: Exabot
+Disallow: /
+
+User-agent: Gigabot
+Disallow: /
+
+User-agent: Scrubby
+Disallow: /
+
+User-agent: Slurp
+User-agent: Slurp/si
+Disallow: /
+
+User-agent: Teoma
+Disallow: /
+
+User-agent: 008
+Disallow: /
+
+User-agent: *
+Disallow: /
+
+Sitemap: http://www.makeitcoats.com/en-gb/googlesitemap.xml
+Sitemap: http://www.makeitcoats.com/en-us/googlesitemap.xml

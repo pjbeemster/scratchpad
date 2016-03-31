@@ -1,0 +1,24 @@
+﻿@using Coats.Crafts.HtmlHelpers
+@model Coats.Crafts.Models.FacetedContent
+
+@{
+    Layout = null;
+    ViewBag.Title = "Bobby Davro";
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(m => m.FredHopperLocation)
+
+    <!-- Maps to ComponentTypes.cshtml -->
+    Html.RenderPartial("~/Views/Partials/T3-MenuVariant.cshtml", Model.ComponentSection, "ComponentSection");
+    <!-- Maps to FacetMap.cshtml -->
+    Html.RenderPartial("~/Views/Partials/FilterPanel.cshtml", Model.FacetMap, "FacetMap");
+    <!-- No existing view to map to -->
+    Html.Partial("~/Views/Partials/SideSharing.cshtml");
+    <!-- Maps to dropdown listbox -->
+    Html.RenderPartial("~/Views/Partials/T3-Header.cshtml", Model.Sort, "Sort");
+    <!-- No existing view to map to: contains the actual result set -->
+    Html.RenderPartial("~/Views/Partials/T3-IsotopeVariant.cshtml", Model.ComponentList, "ComponentList");
+}

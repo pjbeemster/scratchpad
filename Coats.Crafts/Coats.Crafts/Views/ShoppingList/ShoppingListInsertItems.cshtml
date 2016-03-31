@@ -1,0 +1,52 @@
+﻿@model Coats.Crafts.Models.ShoppingList
+@{
+    Layout = null;
+}
+<div id="shopping-list">
+    @if (Model.items != null)
+    {
+        if (Model.items.Count() == 0)
+        {
+		<p class="no-items">
+			@Html.GetResource("ShoppingListNoItems")
+        </p>
+        }
+        else
+        {      
+            <table id="shopping-list-items">
+            <tr>
+                <th>
+                    @Html.GetResource("ShoppingListProduct")
+                </th>
+                <th>
+                    @Html.GetResource("ShoppingListBrand")
+                </th>
+                <th>
+                    @Html.GetResource("ShoppingListQuantity")
+                </th>
+            </tr>
+
+            @foreach (var s in Model.items)
+            {
+                int totalQuantity = 0;
+                foreach (var productEntry in s)
+                {
+                    totalQuantity += productEntry.Quantity;
+                }
+                if (totalQuantity != 0)
+                {
+                    <tr>
+                        <td>@s.First().ProductName</td>
+                        <td>@s.First().Brand</td>
+                        <td>@totalQuantity</td>
+                    </tr>
+                }
+            }
+        </table>
+        }
+
+    }
+    
+    
+    
+</div>

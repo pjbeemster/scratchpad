@@ -1,0 +1,241 @@
+﻿@using DD4T.ContentModel;
+@using Coats.Crafts.Extensions;
+@using Coats.Crafts.Configuration;
+@model IComponentPresentation
+           
+@functions {
+
+    string SetLocation(IFieldSet locationFields, string retailerTitle)
+    {       
+        string fullAddress = string.Empty;
+        string delim = string.Empty;
+        
+        if (locationFields != null)
+        {
+            string road = locationFields.ContainsKey("road") ? locationFields["road"].Values[0] : null;
+            string towncity = locationFields.ContainsKey("towncity") ? locationFields["towncity"].Values[0] : null;
+            string postcode = locationFields.ContainsKey("postcode") ? locationFields["postcode"].Values[0] : null;
+            string country = locationFields.ContainsKey("country") ? locationFields["country"].Values[0] : null;
+
+            if (!String.IsNullOrEmpty(retailerTitle))
+            {
+                fullAddress = retailerTitle;
+                delim = ", ";
+            }	
+            if (!String.IsNullOrEmpty(road))
+            {
+                fullAddress += delim + road;
+                delim = ", ";        
+		    }				
+            if (!String.IsNullOrEmpty(towncity))
+            {
+                fullAddress += delim + towncity;
+                delim = ", ";        
+		    }	
+            if (!String.IsNullOrEmpty(postcode))
+            {
+                fullAddress += delim + postcode;
+                delim = ", ";        
+		    }
+            if (!String.IsNullOrEmpty(country))
+            {
+                fullAddress += delim + country;
+		    }
+        }
+        return fullAddress;
+    }
+    
+}
+
+@{
+	Layout = null;
+
+	var fields = @Model.Component.Fields;
+	var banner = fields.ContainsKey("banner") ? fields["banner"] : null;
+	var location = fields.ContainsKey("location") ? fields["location"] : null;
+
+	var road = string.Empty;
+	var towncity = string.Empty;
+	var postcode = string.Empty;
+	var country = string.Empty;
+
+	var categories = fields.ContainsKey("category") ? fields["category"].Keywords : null;
+	var subject = fields.ContainsKey("subject") ? fields["subject"].Values[0] : null;
+	var contactDetails = fields.ContainsKey("contacts") ? fields["contacts"].LinkedComponentValues[0].Fields : null;
+
+	var contactName = string.Empty;
+	string contactPhone = string.Empty;
+	var contactEmail = string.Empty;
+
+	if (contactDetails != null)
+	{
+		contactName = contactDetails.ContainsKey("name") ? contactDetails["name"].Values[0] : null;
+		contactPhone = contactDetails.ContainsKey("phone") ? contactDetails["phone"].Values[0] : null;
+		contactEmail = contactDetails.ContainsKey("email") ? contactDetails["email"].Values[0] : null;
+	}
+
+	var bookingForm = fields.ContainsKey("forms") ? fields["forms"].LinkedComponentValues[0] : null;
+	var promo = fields.ContainsKey("promos") ? fields["promos"].LinkedComponentValues[0].Fields : null;
+	var retailer = fields.ContainsKey("retailer") ? fields["retailer"].LinkedComponentValues[0] : null;
+
+    var retailerTitle = string.Empty;
+    
+    // If we don't have a location but we have a retailer then use the retailer's address
+	if (location == null && retailer != null)
+	{
+		location = retailer.Fields.ContainsKey("location") ? retailer.Fields["location"] : null;
+        retailerTitle = retailer.Fields.ContainsKey("title") ? retailer.Fields["title"].Value : null;
+	}
+
+    var locationFields = location != null ? location.LinkedComponentValues[0].Fields["address"].EmbeddedValues[0] : null;
+
+    var locationAddress = SetLocation(locationFields, retailerTitle);
+    
+}
+<!-- @@ Template - T14 -->
+@Html.Partial("~/Views/Partials/CrumbsLight.cshtml")
+<section class="sidebar-layout" itemscope itemtype="http://schema.org/Event">
+	@Html.Partial("~/Views/Partials/HeaderSimple.cshtml")
+	@*@Html.Partial("~/Views/Partials/AuthorRating.cshtml", Model)*@
+	<div class="row-fluid">
+		<div class="span7">
+			@if (banner != null)
+   {
+			<div class="inline-image">
+				@Html.Image(banner, new { @class = "shaded" })
+				<ul class="actions">
+				    <li>@{Html.RenderPartial("~/Views/Scrapbook/AddScrapbookItemForm.cshtml", banner.LinkedComponentValues[0]);}</li>
+				</ul>
+			</div>
+   }
+			@if (fields.ContainsKey("body"))
+			{
+				@fields["body"].ResolveRichText()
+			}
+			<footer>
+				<p><a href="@Url.Content(WebConfiguration.Current.EventsUrl.AddApplicationRoot())" title="" class="back-to-search">@Html.GetResource("SearchForAnotherEvent")</a></p>
+			</footer>
+		</div>
+		<div class="span4 pull-right">
+			<aside>
+				<div>
+					<ul>
+					@if (!string.IsNullOrEmpty(locationAddress))
+					{<li> <strong>@Html.GetResource("EventLocation"):</strong> 
+                        @locationAddress
+					</li>
+					}
+						
+					</ul>
+
+					<p>@Html.GetEvent(Model)</p>
+
+
+				</div>
+
+				@if (categories != null || subject != null || contactDetails != null)
+	{
+				<div>
+					<p><strong>@Html.GetResource("EventDetailsTitle")</strong></p>
+					<ul>
+						@if (categories != null)
+	  {
+							<li>
+								<strong>@Html.GetResource("EventCategory"):</strong>
+							    <span class="js-event-categories">@for (var i = 0; i < categories.Count; i++)
+											 {
+												 var category = categories[i];
+
+												 if (i == categories.Count - 1)
+												 {
+							                      @(category.Title)
+												 }
+												 else
+												 {
+							                      @(category.Title + ", ")
+												 }
+											 }
+							    </span>
+							</li>
+	  }
+						@if (subject != null)
+	  {
+							<li>
+							<strong>@Html.GetResource("EventSubject"):</strong>
+							    <span class="js-event-subject">@subject</span>
+							</li>
+	  }
+						@if (contactDetails != null)
+	  {
+		  if (@contactName != null)
+		  {
+								<li>
+								<strong>@Html.GetResource("EventContactName"):</strong> 
+								@contactName
+								</li>
+		  }
+		  if (!String.IsNullOrEmpty(@contactPhone))
+		  {
+								<li>
+									<strong>@Html.GetResource("EventContactPhone"):</strong> 
+									@contactPhone
+								</li>
+		  }
+		  if (@contactEmail != null)
+		  {
+								<li>
+								<strong>@Html.GetResource("EventContactEmail"):</strong> 
+								<a href="mailto:@contactEmail" title="Email @contactName for more details on this event.">@contactEmail</a>
+								</li>
+		  }
+	  }
+					</ul>
+				</div>
+	}
+				@if (bookingForm != null)
+	{
+							<div class="downloader">
+								<a href="@bookingForm.Multimedia.Url" target="_blank" title="" class="btn pink booking-form js-no-nav-tracking">@Html.GetResource("DownloadBookingForm")</a>
+							</div>
+	}
+				@if (promo != null)
+	{ 
+				<div>
+					<div class="pod js-promo-pod">
+						<div class="content">
+							<div class="head">
+								<span class="type">@promo["subtitle"].Values[0]</span>
+                                @if (promo["link"].EmbeddedValues[0].ContainsKey("linkComponent"))
+								{
+									<h3 class="js-promo-title">@promo["title"].Value</h3>
+								}
+								else
+								{
+									<h3><a href="@promo["link"].EmbeddedValues[0]["linkURL"].Values[0]" title="">@promo["title"].Value</a></h3>
+								}
+							</div>
+							<div class="body">
+								<p class="small">@promo["summary"].Values[0]</p>
+							</div>
+							<div class="base">
+					            @if (promo["link"].EmbeddedValues[0].ContainsKey("linkComponent"))
+				 {
+                                    String targetLink = "";
+                                    if (promo["link"].EmbeddedValues[0]["linkComponent"].LinkedComponentValues[0].Fields.ContainsKey("boolNewWindow"))
+                                    {
+                                        if (promo["link"].EmbeddedValues[0]["linkComponent"].LinkedComponentValues[0].Fields["boolNewWindow"].Value == "True")
+                                        {
+                                            targetLink = "target=\"_blank\"";
+                                        }
+                                    }
+                            <p><a href="@promo["link"].EmbeddedValues[0]["linkComponent"].LinkedComponentValues[0].Multimedia.Url" title="" @targetLink class="btn pink js-promo-link">@promo["link"].EmbeddedValues[0]["linkTitle"].Values[0]</a></p>
+                 }
+							</div>
+						</div>
+					</div>
+				</div>
+	}
+			</aside>
+		</div>
+	</div>
+</section>

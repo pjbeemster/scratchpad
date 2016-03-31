@@ -1,0 +1,123 @@
+﻿@using DD4T.ContentModel;
+@model IComponent
+@{
+    Layout = null;
+    var fields = @Model.Fields;
+    string categories = string.Empty;
+    string segments = string.Empty;
+    string finishes = string.Empty;
+    string puller = string.Empty;
+    string type = string.Empty;
+    string packages = string.Empty;
+    string desc = string.Empty;
+    string body = string.Empty;
+    string enduses = string.Empty;
+    string modelTitle = string.Empty;
+    string articleNumber = string.Empty;
+    string length = string.Empty;
+    string width = string.Empty;
+
+    if (fields.ContainsKey("summary"))
+    {
+        body = fields["summary"].Value.ResolveRichText().ToHtmlString();
+    }
+    if (fields.ContainsKey("body"))
+    {
+        body = fields["body"].Value.ResolveRichText().ToHtmlString();
+    }
+    if (fields.ContainsKey("segments"))
+    {
+        segments = @Html.CategoryList(fields["segments"]);
+    }
+    if (fields.ContainsKey("categories"))
+    {
+        categories = @Html.CategoryList(fields["categories"]);
+    }
+    if (fields.ContainsKey("finishes"))
+    {
+        finishes = @Html.CategoryList(fields["finishes"]);
+    }
+    if (fields.ContainsKey("puller"))
+    {
+        puller = @Html.CategoryList(fields["puller"]);
+    }
+    if (fields.ContainsKey("type"))
+    {
+        type = @Html.CategoryList(fields["type"]);
+    }
+    if (fields.ContainsKey("package"))
+    {
+        packages = @Html.CategoryList(fields["package"]);
+    }
+    if (fields.ContainsKey("end_uses"))
+    {
+        enduses = @Html.CategoryList(fields["end_uses"]);
+    }
+
+
+    if (fields.ContainsKey("model"))
+    {
+        var f1 = fields["model"].LinkedComponentValues[0];
+        var f2 = f1.Fields;
+        if (f2.ContainsKey("title"))
+        {
+            modelTitle = f2["title"].Value;
+        }
+        if (f2.ContainsKey("article_ticket"))
+        {
+            articleNumber = f2["article_ticket"].Value;
+        }
+        if (f2.ContainsKey("length"))
+        {
+            length = f2["length"].Value;
+        }
+        if (f2.ContainsKey("width"))
+        {
+            width = f2["width"].Value;
+        }
+    }
+}
+<div>
+    <ul>
+        <li><strong>@Html.GetResource("Details")</strong></li>
+        @if (!String.IsNullOrEmpty(articleNumber))
+        { <li><strong>@Html.GetResource("ArticleNumber"):</strong> @articleNumber</li> }
+        @if (!String.IsNullOrEmpty(segments))
+        { <li><strong>@Html.GetResource("Segments"):</strong> @segments</li> }
+        @if (!String.IsNullOrEmpty(modelTitle))
+        { <li><strong>@Html.GetResource("Model"):</strong> @modelTitle</li> }
+        @if (!String.IsNullOrEmpty(finishes))
+        { <li><strong>@Html.GetResource("Finishes"):</strong> @finishes</li> }
+        @if (!String.IsNullOrEmpty(finishes))
+        { <li><strong>@Html.GetResource("Puller"):</strong> @puller</li> }
+        @if (!String.IsNullOrEmpty(type))
+        { <li><strong>@Html.GetResource("ZipType"):</strong> @type</li> }
+        @if (!String.IsNullOrEmpty(packages))
+        { <li><strong>@Html.GetResource("Packages"):</strong> @packages</li> }
+        @if (!String.IsNullOrEmpty(length))
+        { <li><strong>@Html.GetResource("Length"):</strong> @length</li> }
+        @if (!String.IsNullOrEmpty(width))
+        { <li><strong>@Html.GetResource("Width"):</strong> @width</li> }
+        @if (!String.IsNullOrEmpty(enduses))
+        { <li><strong>@Html.GetResource("end_uses"):</strong> @enduses</li> }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+@*if (!String.IsNullOrEmpty(categories))
+                { <li><strong>@Html.GetResource("Category"):</strong> @categories</li> }*@
+    </ul>
+</div>
+@if (!String.IsNullOrEmpty(body))
+{
+    <div>
+        <p>@Html.Raw(body)</p>
+    </div>
+}
+@if (!Coats.Crafts.Configuration.WebConfiguration.Current.DisableWishList)
+{
+    <div>
+        @Html.Partial("~/Views/ShoppingList/AddItem.cshtml", Model)
+    </div>
+}
+@if (fields.ContainsKey("care"))
+{
+    Html.RenderPartial("~/Views/Partials/ProductCareInstructions.cshtml", fields["care"]);
+}

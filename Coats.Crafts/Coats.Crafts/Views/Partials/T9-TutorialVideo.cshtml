@@ -1,0 +1,132 @@
+﻿@using DD4T.ContentModel;
+@using DD4T.Mvc.Html;
+
+@model IComponentPresentation
+           
+@{
+    Layout = null;
+    var itemid = @Model.Component.Id;
+}
+
+<script>
+
+    // Load in youtube scripts
+    var tag = document.createElement('script'),
+		firstTag = document.getElementsByTagName('script')[0];
+
+    tag.src = 'https://www.youtube.com/iframe_api';
+    firstTag.parentNode.insertBefore(tag, firstTag);
+
+    // Check if post message is enabled before swapping out stock iframe
+    var html = document.getElementsByTagName('html'),
+		classes = html[0].className;
+
+    if (classes.indexOf('postmessage') >= 0) {
+
+        // Initialise player on page
+        var player;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                height: '356',
+                width: '632',
+                videoId: 'OixjXpbYfD0',
+                playerVars: {
+                    'controls': 0,
+                    'modestbranding': 1,
+                    'showinfo': 0,
+                    'wmode': 'transparent'
+                },
+                events: {
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+
+        function onPlayerStateChange(e) {
+            if (e.data === 2) {
+                player.pauseVideo();
+            }
+        }
+
+        var tutorialVideoComponent = function () {
+
+            var overlay = $('#player-overlay');
+
+            overlay.find('#play-pause').on('mousedown', function (e) {
+
+                console.log(player.playVideo);
+
+                // Catch default action
+                e.preventDefault();
+
+                // hide the stock iframe
+                $('#original').hide();
+
+                // Play the video
+                player.playVideo();
+
+                overlay.find('#play-pause').fadeOut(250);
+
+                // Hide the overlay after 250 milliseconds to hide youtube play button
+                setTimeout(function () {
+                    overlay.hide();
+                }, 250);
+            });
+
+            // Catch form submissions
+            // @@ TODO - Can we handle multiple instances of form submissions in one script?
+            $('form').on('submit', function (e) {
+
+                e.preventDefault();
+
+                var target = $(e.target),
+						button = target.find('button');
+
+                // Check if not already submitting
+                if (!button.hasClass('submitting')) {
+                    button.addClass('submitting');
+
+                    // @@ TODO - Post form data - need to know what page we're posting the data to and handle the response
+
+                    // Simulate slow response
+                    setTimeout(function () {
+                        button.removeClass('submitting');
+                    }, 2000)
+                }
+            });
+        }
+
+        // Add event binding function to window load so we can use jquery
+        load.win.push(tutorialVideoComponent);
+    }
+
+</script>
+<section class="tutorial-video component">
+    <div class="row-fluid">
+        <div class="span8">
+			<div id="player-overlay">
+				<a id="play-pause">Play/Pause</a>
+				<img src="../../img/rope-girl.jpg" />
+			</div>
+			<div id="player">
+				<iframe id="original" width="632" height="356" src="http://www.youtube.com/embed/OixjXpbYfD0?list=PL27CC428BEC780E48" frameborder="0" allowfullscreen></iframe>
+			</div>
+        </div>
+		<div class="span4">
+			<dl>
+				<dt>Tutorial number:</dt>
+				<dd>K21</dd>
+				<dt>Technique:</dt>
+				<dd>Knitting</dd>
+				<dt>End use:</dt>
+				<dd>Apparel, Home furnishings</dd>
+			</dl>
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ipsum lacus, eleifend vel porta vel, laoreet vel turpis. Nam luctus convallis nisi euismod eleifend. Aliquam vitae tortor non augue dapibus sagittis vel non arcu. Fusce pellentesque ligula ut est imperdiet sodales. Proin nulla nunc, cursus sit amet aliquet et, blandit eget dolor. Aliquam dictum pulvinar nulla at interdum. Pellentesque scelerisque ipsum et quam hendrerit mattis. Aliquam iaculis risus ac neque aliquam tristique. Suspendisse adipiscing quam vel erat auctor ultrices.</p>
+			<form action="" method="post">
+				<input type="hidden" name="" value="" />
+				<button type="submit" class="scrapbook"></button>
+			</form>
+        </div>
+    </div>
+</section>
+

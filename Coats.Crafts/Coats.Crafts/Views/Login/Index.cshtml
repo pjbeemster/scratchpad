@@ -1,0 +1,65 @@
+﻿@using DD4T.ContentModel;
+@using DD4T.Mvc.Html;
+@model Coats.Crafts.Models.Login
+
+@{
+    Layout = null;
+    var returnurl = ViewBag.ReturnUrl;
+    bool rememberChk = ViewBag.RememberMe != null ? ViewBag.RememberMe : false;
+}
+
+Login index view
+    
+    <div class="row span16 rounded" id="login">
+        <div id="login-loading-placeholders" style="display: none">
+            <div id="login-loading">
+                <h2><!--@*Labels.SubmittingForm*@--> </h2>
+            </div>
+            <div id="login-completed">
+                <h2>
+                    Response!</h2>
+            </div>
+            <div id="login-error">
+                <p>@*Labels.SubmittingError*@</p>
+            </div>
+        </div>
+        @using (Html.BeginForm("Index", "login", FormMethod.Post, new { @class = "login-form " }))
+            {
+                if (!String.IsNullOrEmpty(Request.QueryString["ReturnUrl"]))
+                {
+                    <input type="hidden" id="ReturnUrl" name="ReturnUrl" value="@Server.HtmlEncode(Request.QueryString["ReturnUrl"])" />
+                } 
+            
+        <h1>@*Labels.Login*@</h1>
+                <fieldset>
+                    @Html.ValidationSummary(true)
+                    <div class="row">
+                        <div class="span5">
+                            @Html.LabelFor(model => model.EmailAddress, new { @class = "not_required" })
+                            @Html.EditorFor(model => model.EmailAddress)
+                            @Html.ValidationMessageFor(model => model.EmailAddress)
+                        </div>
+                        <div class="span11 no-margin">
+                            @Html.LabelFor(model => model.Password, new { @class = "not_required" })
+                            @Html.EditorFor(model => model.Password)
+                            @Html.ValidationMessageFor(model => model.Password)
+                        </div>
+                    </div>
+                    <div class="clearfix">
+                    </div>
+                    <div class="row">
+                        <div class="span5">
+                            <input type="checkbox" class="chk-box" name="rememberMe" id="rememberMe" value="true" checked="@*rememberChk*@"/>
+                            <label for="rememberMe" class="chk-box">@Html.GetResource("RememberMe")</label>
+                        </div>
+                        <div class="span11 no-margin">
+                            <a href="#" title="@Html.GetResource("LostPassword")" id="resetPassword">@Html.GetResource("LostPassword")</a>
+                        </div>
+                    </div>
+                </fieldset>
+        <div class="clearfix"></div>            
+            
+                <input type="submit" class="btn primary" value="@Html.GetResource("Login")" id="btnLogin"/>
+              <input type="hidden" id="returnurl" value="@*returnurl*@" name="returnurl"/>
+            }
+        </div>    

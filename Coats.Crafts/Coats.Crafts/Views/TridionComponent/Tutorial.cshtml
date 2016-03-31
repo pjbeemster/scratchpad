@@ -1,0 +1,44 @@
+﻿@using DD4T.ContentModel;
+@using DD4T.Mvc.Html;
+@using System.Security.Principal;
+@using Coats.Crafts.Models;
+
+@model IComponentPresentation
+           
+@{
+    Layout = null;
+    var fields = @Model.Component.Fields;
+    var componentid = @Model.Component.Id;
+    var banner = Model.Component.Fields.ContainsKey("banner") ? Model.Component.Fields["banner"] : null;
+}
+@Html.Partial("~/Views/Partials/CrumbsLight.cshtml")
+<section class="sidebar-layout" itemscope itemtype="http://schema.org/Article">
+    @Html.Partial("~/Views/Partials/HeaderSimple.cshtml")
+
+	@Html.Partial("~/Views/Partials/AuthorRating.cshtml", Model)
+
+     <div class="row-fluid tutorial-video">
+		<div class="span7">
+            @Html.Banner(banner, "inline")
+		</div>
+		<div class="span4 pull-right">
+			<aside>
+				@Html.Partial("~/Views/Partials/FacetItemDisplay.cshtml", Model.Component, new ViewDataDictionary { { "isBold", true }, { "seperator", ":" } })
+				<div>
+                @if (Model.Component.Fields.ContainsKey("body"))
+                {
+                    foreach (var body in Model.Component.Fields["body"].Values)
+                    {
+                        @body.ResolveRichText()
+                    }
+                }
+				</div>
+				<div>
+					<ul class="actions">
+				        <li>@{Html.RenderPartial("~/Views/Scrapbook/AddScrapbookItemForm.cshtml", Model.Component);}</li>
+					</ul>
+				</div>
+			</aside>
+		</div>
+    </div>
+</section>

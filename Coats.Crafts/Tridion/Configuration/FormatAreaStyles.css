@@ -1,0 +1,15 @@
+BODY, TABLE
+{
+	BACKGROUND-COLOR: 	#ffffff;
+	COLOR: 				#000033;
+	/*FONT-FAMILY: 		Verdana, Helvetica;
+	FONT-SIZE: 			8.5pt;*/
+}
+ 
+p.Blockquote{
+	color: #5F294F;
+	font-style: italic;
+	text-align: center;
+	font-size: 14px;
+	padding: 10px;
+}

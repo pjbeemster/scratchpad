@@ -1,0 +1,216 @@
+﻿@using Coats.Crafts.Models;
+@model List<PostModel>
+@{
+    Layout = null;
+    var listcount = @Model.Count;
+    string orient = "vertical";
+    string facebookid = string.Empty;
+}
+
+@functions {
+
+    string AddLink(string message)
+    {
+        if (!string.IsNullOrEmpty(message))
+        {
+            try
+            {
+                Regex r = new Regex("(https?://[^ ]+)");
+                message = r.Replace(message, "<a href=\"$1\">$1</a>");
+                message = message.Replace("\r\n\r", "</p><p>");
+                message = AddTarget(message);
+            }
+            catch (Exception ex) { }
+        }
+        return message;
+    }
+
+    string AddTarget(string message)
+    {
+        if (!string.IsNullOrEmpty(message))
+        {
+            try
+            {
+                Regex _r = new Regex("<a (.+?)>");
+                foreach (Match m in _r.Matches(message))
+                {
+                    string Link = m.Groups[0].Value;
+
+                    if (!Link.Contains("target"))
+                    {
+                        message = message.Replace(Link, string.Format("{0} target=\"_blank\">", Link.Substring(0, Link.Length - 1)));
+                    }
+                }
+            }
+            catch (Exception ex) { }
+        }
+        return message;
+    }
+    
+    string AddPeriod(DateTime created)
+    {
+        TimeSpan newtime = DateTime.Now - created;
+        int hours = newtime.Hours;
+        int days = newtime.Days;
+        var period = string.Empty;
+
+        if (days > 0)
+        {
+            if (days == 1)
+            {
+                period = days + " " + @Html.GetResource("DayAgo");
+            }
+            else
+            {
+                period = days + " " + @Html.GetResource("DaysAgo");
+            }
+        }
+        else
+        {
+            if (hours == 0)
+            {
+                period = @Html.GetResource("LessThanHourAgo");
+            } 
+            else if (hours == 1)
+            {
+                period = hours + " " + @Html.GetResource("HourAgo");
+            }
+            else
+            {
+                period = hours + " " + @Html.GetResource("HoursAgo");
+            }
+        }
+        
+        return period;
+    }
+}
+
+
+
+    @if (listcount > 0)
+    {
+        var firstitem = @Model[0];
+        if (!string.IsNullOrEmpty(firstitem.Orientation))
+        {
+            orient = firstitem.Orientation;
+        }
+        if (!string.IsNullOrEmpty(firstitem.FacebookID))
+        {
+            facebookid = firstitem.FacebookID;
+        } 
+    }
+    
+
+    @if (orient == "vertical")
+    {
+         foreach (var item in @Model)
+         {
+             var picture = item.Picture;
+             var caption = item.Caption;
+             var story = item.Story;
+             var link = item.Link;
+             var icon = item.Icon;
+             var message = item.Message;
+             message = AddLink(message);
+             
+             if (!string.IsNullOrEmpty(story))
+             {
+                 caption = story;
+             }
+
+             if (!string.IsNullOrEmpty(message))
+             {
+                 caption = message;
+             }
+
+             Regex _r = new Regex("<a (.+?)>");
+             foreach (Match m in _r.Matches(caption))
+             {
+                 string Link = m.Groups[0].Value;
+
+                 if (!Link.Contains("target"))
+                 {
+                     caption = caption.Replace(Link, string.Format("{0} target=\"_blank\">", Link.Substring(0, Link.Length - 1)));
+                 }
+             }
+             
+             
+            <article>
+                <img src="https://graph.facebook.com/@facebookid/picture" alt="@Html.GetResource("ViewOnFacebook")" class="avatar" />
+                <div class="content">
+                    <div class="recent-activity-picture">
+                    @if (!string.IsNullOrEmpty(picture))
+                    {
+                        picture = picture.Replace("_q.jpg", "_n.jpg");
+                        <img src="@picture" alt="@Html.GetResource("ViewOnFacebook")" />
+                    }
+                    </div>
+                    <div class="recent-activity-text">
+                        <p>@Html.Raw(caption)</p>
+                    </div>
+                    <ul class="metadata">
+                        <li class="datetime">@AddPeriod(item.FCTime)</li>
+			            <li class="category"><a href="@link" title="@Html.GetResource("ViewOnFacebook")" target="_blank">@Html.GetResource("ViewOnFacebook")</a></li>
+                    </ul>
+                </div>
+                </article>
+         }
+    }
+    else
+	{  
+        <div class="pods">
+        @foreach (var item in @Model)
+        {
+            var pictureh = item.Picture;
+            if (!string.IsNullOrEmpty(pictureh))
+            {
+                pictureh = pictureh.Replace("_s.jpg", "_n.jpg");
+                pictureh = pictureh.Replace("_q.jpg", "_n.jpg");
+            }
+
+            var captionh = item.Caption;
+            var storyh = item.Story;
+            var messageh = item.Message;
+
+            messageh = AddLink(messageh);
+
+            if (!string.IsNullOrEmpty(storyh))
+            {
+                captionh = storyh;
+            }
+            
+            if (!string.IsNullOrEmpty(messageh))
+            {
+                captionh = messageh;
+            }
+
+            var linkh = item.Link;
+            var iconh = item.Icon;
+            
+            
+            <article class="pod span4">
+			    <div class="image">
+				    <img src="@pictureh" alt="@Html.GetResource("ViewOnFacebook")" />
+			    </div>
+			    <div class="content">
+				    <div class="body">
+                        <p>@Html.Raw(captionh)</p>
+				    </div>
+				    <div class="base">
+					    <span class="date">@AddPeriod(item.FCTime)</span>
+					    <span class="view"><a href="@linkh" title="@Html.GetResource("ViewOnFacebook")" target="_blank">@Html.GetResource("ViewOnFacebook")</a></span>
+				    </div>
+			    </div>
+		    </article>
+        }
+        </div>
+
+    }
+
+ 
+  
+
+
+
+  
+

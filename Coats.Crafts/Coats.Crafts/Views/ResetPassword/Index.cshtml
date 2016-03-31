@@ -1,0 +1,41 @@
+﻿@using Coats.Crafts.Models;
+@using Coats.Crafts.Configuration;
+@using Coats.Crafts.ControllerHelpers;
+
+@model Coats.Crafts.Models.Email
+           
+@{
+    Layout = null;
+    //var title = ViewBag.Title;
+}
+
+    <div class="row span16 rounded" id="reset-password">
+        <div id="reset-password-loading-placeholders" style="display: none">
+            <div id="reset-password-loading">
+                <h2>@*Labels.SubmittingForm*@</h2>
+            </div>
+            <div id="reset-password-completed">
+                <h2>
+                    Response!</h2>
+            </div>
+            <div id="reset-password-error">
+                <p>@*Labels.SubmittingError*@</p>
+            </div>
+        </div>
+             @using (Html.BeginForm("Index", "resetpassword", FormMethod.Post, new { @class = "login-form " }))
+             {
+                 <h1>@Html.GetResource("ResetPassword")</h1>
+                 <p class="span16">@Html.GetResource("ResetPasswordIntro")</p>
+                 <fieldset>
+                     <div class="row">
+                         <div class="span16">
+                             @Html.LabelFor(model => model.EmailAddress, new { @class = "required" })
+                             @Html.EditorFor(model => model.EmailAddress)
+                             @Html.ValidationMessageFor(model => model.EmailAddress)
+                         </div>
+                     </div>
+                 </fieldset>
+                 <div class="clearfix"></div>
+                 <input type="submit" class="btn primary" value="@Html.GetResource("ResetMyPassword")" id="btnResetPassword" />
+             }
+    </div>

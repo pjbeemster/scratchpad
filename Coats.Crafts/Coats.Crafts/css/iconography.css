@@ -1,0 +1,1080 @@
+﻿/*-----------------------------------------------
+
+ 
+ * Description: 	Iconography Stylesheet
+ * Version:			1.0
+ * Website: 		http://coatscrafts.com
+ * Author(s):		James Carroll
+
+ * Sizing:
+ *  - 18px x 18px (macro - 50%)
+ *  - 28px x 28px (small - 75%)
+ *  - 36px x 36px (standard - 100%)
+ *  - 56px x 56px (large - 150%)
+
+
+-----------------------------------------------*/
+
+.icon {
+    background-color: transparent;
+    background-image: url('../img/icon-sprite.png') !important;
+    background-position: 0 0;
+    background-repeat: no-repeat;
+	background-color:transparent;
+    border: 0;
+    box-shadow: none !important;
+    color: #5F294F;
+    display: block;
+    filter: alpha(opacity=100) !important;
+    font-size: 11px;
+    font-weight: bold;
+    float: left;
+    height: 36px;
+    line-height: 36px;
+    opacity: 1 !important;
+    outline: none;
+    overflow: hidden;
+    padding: 0;
+    text-align: left;
+    text-indent: -9999px;
+    width: 36px;
+}
+button.icon,
+a.icon {
+    cursor: pointer;
+}
+.icon:hover {
+}
+.icon:active {
+}
+.icon:focus {
+}
+.icon.google-plus {
+    background-position: 0px -108px;
+}
+.icon.google-plus:hover {
+    background-position: 0px -144px;    
+}
+.icon.facebook {
+    background-position: -36px -108px;    
+}
+.icon.facebook:hover {
+    background-position: -36px -144px;
+}
+.icon.linked-in {
+    background-position: -72px -108px;
+}
+.icon.linked-in:hover {
+    background-position: -72px -144px;
+}
+.icon.pinterest {
+    background-position: -108px -108px;
+}
+.icon.pinterest:hover {
+    background-position: -108px -144px;    
+}
+.icon.share {
+    background-position: -144px -108px;
+}
+.icon.share:hover {
+    background-position: -144px -144px;
+}
+.icon.twitter {
+    background-position: -180px -108px;
+}
+.icon.twitter:hover {
+    background-position: -180px -144px;
+}
+.icon.tumblr {
+    background-position: -216px -108px;
+}
+.icon.tumblr:hover {
+    background-position: -216px -144px;
+}
+.icon.youtube {
+    background-position: -252px -108px;
+}
+.icon.youtube:hover {
+    background-position: -252px -144px;
+}
+.icon.rss {
+    background-position: -288px -108px;
+}
+.icon.rss:hover {
+    background-position: -288px -144px;
+}
+.icon.collapse {
+    background-position: -324px -108px;
+}
+.icon.collapse:hover {
+    background-position: -324px -144px;
+}
+.icon.expand {
+    background-position: -360px -108px;
+}
+.icon.expand:hover {
+    background-position: -360px -144px;
+}
+.icon.down {
+    background-position: -396px -108px;
+}
+.icon.down:hover {
+    background-position: -396px -144px;
+}
+.icon.up {
+    background-position: -432px -108px;
+}
+.icon.up:hover {
+    background-position: -432px -144px;
+}
+.icon.right {
+    background-position: -468px -108px;
+}
+.icon.right:hover {
+    background-position: -468px -144px;    
+}
+.icon.left {
+    background-position: -504px -108px;
+}
+.icon.left:hover {
+    background-position: -504px -144px;
+}
+.icon.download {
+    background-position: -540px -108px;
+}
+.icon.download:hover {
+    background-position: -540px -144px;    
+}
+.icon.filter {
+    background-position: -576px -108px;
+}
+.icon.filter:hover {
+    background-position: -576px -144px;
+}
+.icon.zoom-in {
+    background-position: -612px -108px;
+}
+.icon.zoom-in:hover {
+    background-position: -612px -144px;
+}
+.icon.zoom-out {
+    background-position: -648px -108px;
+}
+.icon.zoom-out:hover {
+    background-position: -648px -144px;
+}
+.icon.delete {
+    background-position: -684px -108px;
+}
+.icon.delete:hover {
+    background-position: -684px -144px;
+}
+.icon.close {
+    background-position: -720px -108px;
+}
+.icon.close:hover {
+    background-position: -720px -144px;
+}
+.icon.menu {
+    background-position: -756px -108px;
+}
+.icon.menu:hover {
+    background-position: -756px -144px;
+}
+.icon.home {
+    background-position: -792px -108px;
+}
+.icon.home:hover {
+    background-position: -792px -144px;
+}
+.icon.scrapbook {
+    background-position: -864px -108px;
+}
+.icon.scrapbook:hover {
+    background-position: -864px -144px;
+}
+.icon.alert {
+    background-position: -900px -108px;
+}
+.icon.alert:hover {
+    background-position: -900px -144px;
+}
+.icon.comments {
+    background-position: -936px -108px;
+    text-align: center;
+    text-indent: 0;
+}
+.icon.comments:hover {
+    background-position: -936px -144px;
+}
+.icon.settings {
+    background-position: -972px -108px;
+}
+.icon.settings:hover {
+    background-position: -972px -144px;
+}
+.icon.lock {
+    background-position: -1008px -108px;
+}
+.icon.lock:hover {
+    background-position: -1008px -144px;
+}
+.icon.unlock {
+    background-position: -1044px -108px;
+}
+.icon.unlock:hover {
+    background-position: -1044px -144px;
+}
+.icon.email {
+    background-position: -1080px -108px;
+}
+.icon.email:hover {
+    background-position: -1080px -144px;
+}
+.icon.profile {
+    background-position: -1116px -108px;
+}
+.icon.profile:hover {
+    background-position: -1116px -144px;
+}
+.icon.refresh {
+    background-position: -1152px -108px;
+    animation: rotate 0.75s ease-in-out infinite;
+    -moz-animation: rotate 0.75s ease-in-out infinite;
+    -webkit-animation: rotate 0.75s ease-in-out infinite;
+}
+.icon.refresh:hover {
+    background-position: -1152px -144px;
+}
+.icon.accept {
+    background-position: -1188px -108px;
+}
+.icon.accept:hover {
+    background-position: -1188px -144px;
+}
+.icon.add-to-shopping-list {
+    background-position: -1224px -108px;
+}
+.icon.add-to-shopping-list:hover {
+    background-position: -1224px -144px;
+}
+.icon.shopping-list {
+    background-position: -1260px -108px;
+}
+.icon.shopping-list:hover {
+    background-position: -1260px -144px;
+}
+.icon.ellipse {
+    background-position: -1296px -108px;
+}
+.icon.ellipse:hover {
+    background-position: -1296px -144px;
+}
+.icon.question {
+    background-position: -1332px -108px;
+}
+.icon.question:hover {
+    background-position: -1332px -144px;
+}
+
+.icon.washable {
+   background-position: -1368px -108px;
+}
+.icon.washable:hover {
+   background-position: -1368px -144px;  
+}
+
+.icon.max-temp-forty {
+   background-position: -1404px -108px;
+}
+.icon.max-temp-forty:hover {
+   background-position: -1404px -144px;
+}
+
+.icon.do-not-wash {
+   background-position: -1440px -108px;
+}
+.icon.do-not-wash:hover {
+   background-position: -1440px -144px;
+}
+
+.icon.do-not-wash-alt {
+   background-position: -1476px -108px;
+}
+.icon.do-not-wash-alt:hover {
+   background-position: -1476px -144px;
+}
+
+.icon.tumble-dry {
+   background-position: -1512px -108px;
+}
+.icon.tumble-dry:hover {
+   background-position: -1512px -144px;
+}
+
+.icon.tumble-dry-lowest {
+   background-position: -1548px -108px;
+}
+.icon.tumble-dry-lowest:hover {
+   background-position: -1548px -144px;
+}
+
+.icon.dry-flat {
+   background-position: -1584px -108px;
+}
+.icon.dry-flat:hover {
+   background-position: -1584px -144px;
+}
+
+.icon.dry-hanging {
+   background-position: -1620px -108px;
+}
+.icon.dry-hanging:hover {
+   background-position: -1620px -144px;
+}
+
+.icon.iron-hot {
+   background-position: -1656px -108px;
+}
+.icon.iron-hot:hover {
+   background-position: -1656px -144px;
+}
+
+.icon.iron-warm {
+   background-position: -1692px -108px;
+}
+.icon.iron-warm:hover {
+   background-position: -1692px -144px;
+}
+
+.icon.iron-cool {
+   background-position: -1728px -108px;
+}
+.icon.iron-cool:hover {
+   background-position: -1728px -144px;
+}
+
+.icon.icon.do-not-iron {
+   background-position: -1764px -108px;
+}
+.icon.icon.do-not-iron:hover {
+   background-position: -1764px -144px;
+}
+
+.icon.dry-clean-only {
+   background-position: -1800px -108px;
+}
+.icon.dry-clean-only:hover {
+   background-position: -1800px -144px;
+}
+
+.icon.dry-clean-mild {
+   background-position: -1836px -108px;
+}
+.icon.dry-clean-mild:hover {
+   background-position: -1836px -144px;
+}
+
+.icon.do-not-tumble-dry {
+   background-position: -1872px -108px;
+}
+.icon.do-not-tumble-dry:hover {
+   background-position: -1872px -144px;
+}
+
+.icon.mild-wash {
+   background-position: -1908px -108px;
+}
+.icon.mild-wash:hover {
+   background-position: -1908px -144px;
+}
+
+.icon.very-mild-wash {
+   background-position: -1944px -108px;
+}
+.icon.very-mild-wash:hover {
+   background-position: -1944px -144px;
+}
+
+.icon.hand-wash-only {
+   background-position: -1980px -108px;
+}
+.icon.hand-wash-only:hover {
+   background-position: -1980px -144px;
+}
+
+.icon.google-light {
+    background-position: -2016px -108px;
+}
+.icon.google-light:hover {
+    background-position: -2016px -144px;
+}
+
+.icon.facebook-light {
+    background-position: -2052px -108px;
+}
+.icon.facebook-light:hover {
+    background-position: -2052px -144px;
+}
+
+.icon.linkedin-light {
+    background-position: -2088px -108px;
+}
+.icon.linkedin-light:hover {
+    background-position: -2088px -144px;
+}
+
+.icon.pinterest-light {
+    background-position: -2124px -108px;
+}
+.icon.pinterest-light:hover {
+    background-position: -2124px -144px;
+}
+
+.icon.share-light {
+    background-position: -2160px -108px;
+}
+.icon.share-light:hover {
+    background-position: -2160px -144px;
+}
+
+.icon.twitter-light {
+    background-position: -2196px -108px;
+}
+.icon.twitter-light:hover {
+    background-position: -2196px -144px;
+}
+
+.icon.tumblr-light {
+    background-position: -2232px -108px;
+}
+.icon.tumblr-light:hover {
+    background-position: -2232px -144px;
+}
+
+.icon.youtube-light {
+    background-position: -2268px -108px;
+}
+.icon.youtube-light:hover {
+    background-position: -2268px -144px;
+}
+
+.icon.rss-light {
+    background-position: -2304px -108px;
+}
+.icon.rss-light:hover {
+    background-position: -2304px -144px;
+}
+
+.icon.macro {
+    height: 18px;
+    line-height: 18px;
+    width: 18px;
+}
+
+.icon.macro.right {
+    background-position: 0px -236px;
+}
+.icon.macro.right:hover {
+    background-position: 0px -254px;
+}
+
+.icon.macro.left {
+    background-position: -18px -236px;
+}
+.icon.macro.left:hover {
+    background-position: -18px -254px;
+}
+
+.icon.macro.up {
+    background-position: -36px -236px;
+}
+.icon.macro.up:hover {
+    background-position: -36px -254px;
+}
+
+.icon.macro.down {
+    background-position: -54px -236px;
+}
+.icon.macro.down:hover {
+    background-position: -54px -254px;
+}
+
+.icon.macro.download {
+    background-position: -72px -236px;
+}
+.icon.macro.download:hover {
+    background-position: -72px -254px;
+}
+
+.icon.macro.plus {
+    background-position: -90px -236px;
+}
+.icon.macro.plus:hover {
+    background-position: -90px -254px;
+}
+
+.icon.macro.minus {
+    background-position: -108px -236px;
+}
+.icon.macro.minus:hover {
+    background-position: -108px -254px;
+}
+
+.icon.macro.close {
+    background-position: -126px -236px;
+}
+.icon.macro.close:hover {
+    background-position: -126px -254px;
+}
+
+.icon.macro.accept {
+    background-position: -144px -236px;
+}
+.icon.macro.accept:hover {
+    background-position: -144px -254px;
+}
+
+.icon.small {
+    height: 28px;
+    line-height: 28px;
+    width: 28px;
+}
+
+.icon.small.google-plus {}
+.icon.small.google-plus:hover {}
+
+.icon.small.facebook {}
+.icon.small.facebook:hover {}
+
+.icon.small.linked-in {}
+.icon.small.linked-in:hover {}
+
+.icon.small.pinterest {}
+.icon.small.pinterest:hover {}
+
+.icon.small.share {}
+.icon.small.share:hover {}
+
+.icon.small.tumblr {}
+.icon.small.tumblr:hover {}
+
+.icon.small.twitter {}
+.icon.small.twitter:hover {}
+
+.icon.small.youtube {}
+.icon.small.youtube:hover {}
+
+.icon.small.rss {}
+.icon.small.rss:hover {}
+
+.icon.small.collapse {}
+.icon.small.collapse:hover {}
+
+.icon.small.expand {}
+.icon.small.expand:hover {}
+
+.icon.small.down {}
+.icon.small.down:hover {}
+
+.icon.small.up {}
+.icon.small.up:hover {}
+
+.icon.small.left {}
+.icon.small.left:hover {}
+
+.icon.small.right {}
+.icon.small.right:hover {}
+
+.icon.small.download {}
+.icon.small.download:hover {}
+
+.icon.small.filter {}
+.icon.small.filter:hover {}
+
+.icon.small.zoom-in {
+    background-position: -672px -180px;
+}
+.icon.small.zoom-in:hover {
+    background-position: -672px -208px;
+}
+
+.icon.small.zoom-out {
+    background-position: -700px -180px;
+}
+.icon.small.zoom-out:hover {
+    background-position: -700px -208px;
+}
+
+.icon.small.delete {}
+.icon.small.delete:hover {}
+
+.icon.small.close {
+        background-position: -448px -180px;
+}
+.icon.small.close:hover {
+        background-position: -448px -208px;
+}
+
+.icon.small.menu {}
+.icon.small.menu:hover {}
+
+.icon.small.home {}
+.icon.small.home:hover {}
+
+.icon.small.scrapbook {
+    background-position: -504px -180px;
+}
+.icon.small.scrapbook:hover {
+    background-position: -504px -208px;
+}
+
+.icon.small.alert {}
+.icon.small.alert:hover {}
+
+.icon.small.comments {}
+.icon.small.comments:hover {}
+
+.icon.small.settings {}
+.icon.small.settings:hover {}
+
+.icon.small.lock {}
+.icon.small.lock:hover {}
+
+.icon.small.unlock {}
+.icon.small.unlock:hover {}
+
+.icon.small.email {}
+.icon.small.email:hover {}
+
+.icon.small.profile {}
+.icon.small.profile:hover {}
+
+.icon.small.refresh {
+    background-position: -644px -180px;
+}
+.icon.small.refresh:hover {
+    background-position: -644px -208px;
+}
+
+.icon.small.accept {}
+.icon.small.accept:hover {}
+
+.icon.small.add-to-shopping-list {}
+.icon.small.add-to-shopping-list:hover {}
+
+.icon.small.shopping-list {}
+.icon.small.shopping-list:hover {}
+
+.icon.small.washable {}
+.icon.small.washable:hover {}
+
+.icon.small.mild-wash {}
+.icon.small.mild-wash:hover {}
+
+.icon.small.very-mild-wash {}
+.icon.small.very-mild-wash:hover {}
+
+.icon.small.hand-wash-only {}
+.icon.small.hand-wash-only:hover {}
+
+.icon.small.do-not-wash {}
+.icon.small.do-not-wash:hover {}
+
+.icon.small.do-not-wash-alt {}
+.icon.small.do-not-wash-alt:hover {}
+
+.icon.small.tumble-dry {}
+.icon.small.tumble-dry:hover {}
+
+.icon.small.tumble-dry-lowest {}
+.icon.small.tumble-dry-lowest:hover {}
+
+.icon.small.dry-flat {}
+.icon.small.dry-flat:hover {}
+
+.icon.small.dry-hanging {}
+.icon.small.dry-hanging:hover {}
+
+.icon.small.iron-hot {}
+.icon.small.iron-hot:hover {}
+
+.icon.small.iron-warm {}
+.icon.small.iron-warm:hover {}
+
+.icon.small.iron-cool {}
+.icon.small.iron-cool:hover {}
+
+.icon.small.do-not-iron {}
+.icon.small.do-not-iron:hover {}
+
+.icon.small.dry-clean-only {}
+.icon.small.dry-clean-only:hover {}
+
+.icon.small.dry-clean-mild {}
+.icon.small.dry-clean-mild:hover {}
+
+.icon.small.do-not-tumble-dry {}
+.icon.small.do-not-tumble-dry:hover {}
+
+.icon.large {
+    height: 56px;
+    line-height: 56px;
+    width: 56px;
+}
+
+.icon.large.google-plus {}
+.icon.large.google-plus:hover {}
+
+.icon.large.facebook {}
+.icon.large.facebook:hover {}
+
+.icon.large.linked-in {}
+.icon.large.linked-in:hover {}
+
+.icon.large.pinterest {}
+.icon.large.pinterest:hover {}
+
+.icon.large.share {}
+.icon.large.share:hover {}
+
+.icon.large.tumblr {}
+.icon.large.tumblr:hover {}
+
+.icon.large.twitter {}
+.icon.large.twitter:hover {}
+
+.icon.large.youtube {}
+.icon.large.youtube:hover {}
+
+.icon.large.rss {}
+.icon.large.rss:hover {}
+
+.icon.large.collapse {}
+.icon.large.collapse:hover {}
+
+.icon.large.expand {}
+.icon.large.expand:hover {}
+
+.icon.large.down {}
+.icon.large.down:hover {}
+
+.icon.large.up {}
+.icon.large.up:hover {}
+
+.icon.large.left {}
+.icon.large.left:hover {}
+
+.icon.large.right {}
+.icon.large.right:hover {}
+
+.icon.large.download {}
+.icon.large.download:hover {}
+
+.icon.large.filter {}
+.icon.large.filter:hover {}
+
+.icon.large.zoom-in {}
+.icon.large.zoom-in:hover {}
+
+.icon.large.zoom-out {}
+.icon.large.zoom-out:hover {}
+
+.icon.large.delete {}
+.icon.large.delete:hover {}
+
+.icon.large.close {}
+.icon.large.close:hover {}
+
+.icon.large.menu {}
+.icon.large.menu:hover {}
+
+.icon.large.home {}
+.icon.large.home:hover {}
+
+.icon.large.scrapbook {}
+.icon.large.scrapbook:hover {}
+
+.icon.large.alert {}
+.icon.large.alert:hover {}
+
+.icon.large.comments {}
+.icon.large.comments:hover {}
+
+.icon.large.settings {}
+.icon.large.settings:hover {}
+
+.icon.large.lock {}
+.icon.large.lock:hover {}
+
+.icon.large.unlock {}
+.icon.large.unlock:hover {}
+
+.icon.large.email {}
+.icon.large.email:hover {}
+
+.icon.large.profile {}
+.icon.large.profile:hover {}
+
+.icon.large.refresh {}
+.icon.large.refresh:hover {}
+
+.icon.large.accept {}
+.icon.large.accept:hover {}
+
+.icon.large.add-to-shopping-list {}
+.icon.large.add-to-shopping-list:hover {}
+
+.icon.large.shopping-list {}
+.icon.large.shopping-list:hover {}
+
+.icon.large.washable {}
+.icon.large.washable:hover {}
+
+.icon.large.mild-wash {}
+.icon.large.mild-wash:hover {}
+
+.icon.large.very-mild-wash {}
+.icon.large.very-mild-wash:hover {}
+
+.icon.large.hand-wash-only {}
+.icon.large.hand-wash-only:hover {}
+
+.icon.large.do-not-wash {}
+.icon.large.do-not-wash:hover {}
+
+.icon.large.do-not-wash-alt {}
+.icon.large.do-not-wash-alt:hover {}
+
+.icon.large.tumble-dry {}
+.icon.large.tumble-dry:hover {}
+
+.icon.large.tumble-dry-lowest {}
+.icon.large.tumble-dry-lowest:hover {}
+
+.icon.large.dry-flat {}
+.icon.large.dry-flat:hover {}
+
+.icon.large.dry-hanging {}
+.icon.large.dry-hanging:hover {}
+
+.icon.large.iron-hot {}
+.icon.large.iron-hot:hover {}
+
+.icon.large.iron-warm {}
+.icon.large.iron-warm:hover {}
+
+.icon.large.iron-cool {}
+.icon.large.iron-cool:hover {}
+
+.icon.large.do-not-iron {}
+.icon.large.do-not-iron:hover {}
+
+.icon.large.dry-clean-only {}
+.icon.large.dry-clean-only:hover {}
+
+.icon.large.dry-clean-mild {}
+.icon.large.dry-clean-mild:hover {}
+
+.icon.large.do-not-tumble-dry {}
+.icon.large.do-not-tumble-dry:hover {}
+
+.icon.marker {
+    background: url('../img/marker.png') no-repeat 0 0 !important;
+    color: #5f294f;
+    display: block;
+    float: left;
+    font-size: 0.917em;
+    font-weight: bold;
+    height: 45px;
+    line-height: 16px;
+    margin: 0 10px 0 0;
+    padding: 8px 0 0 0;
+    text-align: center;
+    text-transform: uppercase;
+    text-indent: 0;
+    width: 34px;
+}
+
+.icon.marker.white {
+    background: url('../img/marker-white-center.png') no-repeat 0 0 !important;
+}
+
+
+/* Ginetex ------------------------------------*/
+
+.icon.ginetex {
+    background-image: url('../img/icon-sprite-ginetex.png') !important;
+}
+
+
+/* Ginetex: Professional textile care ---------*/
+
+/* Do not wet clean */
+.icon.ginetex.ptc-dnwc {
+    background-position: 0 0;
+}
+/* Wet cleaning very mild process */
+.icon.ginetex.ptc-wcvmp {
+    background-position: -36px 0;
+}
+/* Wet cleaning mild process */
+.icon.ginetex.ptc-wcmp {
+    background-position: -72px 0;
+}
+/* Wet cleaning normal process */
+.icon.ginetex.ptc-wcnp {
+    background-position: -108px 0;
+}
+/* Do not dry clean */
+.icon.ginetex.ptc-dndc {
+    background-position: -144px 0;
+}
+/* Dry cleaning mild process (f) */
+.icon.ginetex.ptc-dcmp-f {
+    background-position: -180px 0;
+}
+/* Dry cleaning normal process (f) */
+.icon.ginetex.ptc-dcnp-f {
+    background-position: -216px 0;
+}
+/* Dry cleaning mild process (p) */
+.icon.ginetex.ptc-dcmp-p {
+    background-position: -252px 0;
+}
+/* Dry cleaning normal process (p) */
+.icon.ginetex.ptc-dcnp-p {
+    background-position: -288px 0;
+}
+
+
+/* Ginetex: Ironing ---------------------------*/
+
+/* Do not iron */
+.icon.ginetex.i-dni {
+    background-position: -324px 0;
+}
+/* Iron at max sole plate temperature 200 */
+.icon.ginetex.i-mspt110 {
+    background-position: -360px 0;
+}
+/* Iron at max sole plate temperature 150 */
+.icon.ginetex.i-mspt150 {
+    background-position: -396px 0;
+}
+/* Iron at max sole plate temperature 110 */
+.icon.ginetex.i-mspt200 {
+    background-position: -432px 0;
+}
+
+
+/* Ginetex: Drying ----------------------------*/
+
+/* Drip flat dring in the shade */
+.icon.ginetex.d-dfdis {
+    background-position: -468px 0;
+}
+/* Flat drying in the shade */
+.icon.ginetex.d-fdis {
+    background-position: -504px 0;
+}
+/* Drip line drying in the shade */
+.icon.ginetex.d-dldis {
+    background-position: -540px 0;
+}
+/* Line drying in the shade */
+.icon.ginetex.d-ldis {
+    background-position: -576px 0;
+}
+/* Drip flat drying */
+.icon.ginetex.d-dfd {
+    background-position: -612px 0;
+}
+/* Flat drying */
+.icon.ginetex.d-fd {
+    background-position: -648px 0;
+}
+/* Drip line drying */
+.icon.ginetex.d-dld {
+    background-position: -684px 0;
+}
+/* Line drying */
+.icon.ginetex.d-ld {
+    background-position: -720px 0;
+}
+/* Do not tumble dry */
+.icon.ginetex.d-dntd {
+    background-position: -756px 0;
+}
+/* Tumble drying possible (60) */
+.icon.ginetex.d-tdp60 {
+    background-position: -792px 0;
+}
+/* Tumble drying possible (80) */
+.icon.ginetex.d-tdp80 {
+    background-position: -828px 0;
+}
+
+
+/* Ginetex: Bleaching -------------------------*/
+
+/* Any bleaching agent */
+.icon.ginetex.b-dnb {
+	background-position: -864px 0;
+}
+/* Only oxygen/non-chlorine bleach allowed */
+.icon.ginetex.b-oxncba {
+    background-position: -900px 0;
+}
+/* Do not bleach */
+.icon.ginetex.b-abaa {
+    background-position: -936px 0;
+}
+
+
+/* Ginetex: Washing ---------------------------*/
+
+/* Do not wash */
+.icon.ginetex.w-dnw {
+    background-position: -972px 0;
+}
+/* Wash by hand maximum temperature 40 */
+.icon.ginetex.w-wbh40 {
+    background-position: -1008px 0;
+}
+/* Very mild process (30) */
+.icon.ginetex.w-vmp30 {
+    background-position: -1044px 0;
+}
+/* Mild process (30) */
+.icon.ginetex.w-mp30 {
+    background-position: -1080px 0;
+}
+/* Normal process (30) */
+.icon.ginetex.w-np30 {
+    background-position: -1116px 0;
+}
+/* Very mild process (40) */
+.icon.ginetex.w-vmp40 {
+    background-position: -1152px 0;
+}
+/* Mild process (40) */
+.icon.ginetex.w-mp40 {
+    background-position: -1188px 0;
+}
+/* Normal process (40) */
+.icon.ginetex.w-np40 {
+    background-position: -1224px 0;
+}
+/* Mild process (60) */
+.icon.ginetex.w-mp60 {
+    background-position: -1260px 0;
+}
+/* Normal process (60) */
+.icon.ginetex.w-np60 {
+    background-position: -1296px 0;
+}
+/* Normal process (95) */
+.icon.ginetex.w-np95 {
+    background-position: -1332px 0;
+}

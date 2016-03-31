@@ -1,0 +1,98 @@
+﻿@using DD4T.ContentModel;
+@using DD4T.Mvc.Html;
+@using System.Linq;
+@using Coats.Crafts.Configuration;
+@using Coats.Crafts.Extensions;
+
+@model IComponentPresentation
+
+@{
+    Layout = null;
+
+	var model = @Model;
+
+	var fields = model.Component.Fields;
+	var title = fields.ContainsKey("title") ? fields["title"].Values[0] : null;
+	var link = fields.ContainsKey("link") ? fields["link"].EmbeddedValues[0] : null;
+	var newWindow = link.ContainsKey("boolNewWindow") ? link["boolNewWindow"].Values[0] : null;	
+	var brandComponents = fields.ContainsKey("items") ? fields["items"].LinkedComponentValues : null;
+    var summary = fields.ContainsKey("summary") ? fields["summary"].Values[0] : null;
+    var target = string.Empty;
+    var linkUrl = string.Empty;
+    var linkTitle = string.Empty;
+}
+<section class="component brands-isotope izotaup">
+    <div class="row-fluid ruled">
+        <div class="span12">
+			@if (title != null)
+			{
+            <h1>@title</h1>
+			}
+			@if (link != null)
+			{
+				target = (newWindow == "True") ? "_blank" : "_top";
+                linkUrl = link.ContainsKey("linkURL") ? link["linkURL"].Values[0] : string.Empty;
+                linkTitle = link.ContainsKey("linkTitle") ? link["linkTitle"].Values[0] : string.Empty;
+       
+                var linkComponent = link.ContainsKey("linkComponent") ? link["linkComponent"].LinkedComponentValues[0] : null;
+                linkUrl = linkComponent != null ? Url.Content(linkComponent.GetResolvedUrl()) : linkUrl;
+       
+				<span><a href="@linkUrl" title="@linkTitle" target="@target">@linkTitle</a></span>
+			}
+        </div>
+    </div>
+	<div class="pods">
+		<div class="row-fluid">
+		@if (brandComponents != null)
+		{
+			for (var i = 0; i < brandComponents.Count; i++)
+			{
+				var brandComponent = brandComponents[i];
+				
+			<article class="span3 pod">
+				<div class="content"> 
+                @if (i != 6)
+                {
+				    if (brandComponent.Fields.ContainsKey("title"))
+				    {
+                        if (brandComponent.Fields["title"].Keywords.Count > 0)
+                        {
+                            if (brandComponent.Fields["title"].Keywords[0].MetadataFields.ContainsKey("logo"))
+                            {
+					        var logo = brandComponent.Fields["title"].Keywords[0].MetadataFields["logo"];
+					            <div class="head">
+                                @if (String.IsNullOrEmpty(brandComponent.Url))
+                                {
+						            @Html.Image(logo)
+                                }
+                                else
+                                {
+                                    <a href="@(Url.Content(brandComponent.Url.AddApplicationRoot()))">@Html.Image(logo)</a>
+                                }
+					            </div>
+                            }
+                        }
+                    }
+                }
+				@if (i == 6)
+    {
+        //bit of a hack but ignore the 7th component and write out the "view all brands" spotlight 
+        
+					<div class="brandSummary">
+						@Html.Raw(summary)
+					</div>		
+		  
+        if (link != null)
+        {
+					<div class="base">
+						<p><a href="@linkUrl" title="@linkTitle" class="btn pink brandLink">@linkTitle</a></p>
+					</div>
+        }
+    }
+				</div>
+			</article>
+			}
+		}
+		</div>
+	</div>
+</section>

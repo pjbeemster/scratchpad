@@ -1,0 +1,25 @@
+﻿@model Coats.Crafts.Models.FacetedContent
+
+<section class="product-nav">
+	<div class="row-fluid">
+		<div class="span12">
+            @for (int i = 0; i < Model.ComponentSection.ComponentTypes.Facets.Count; i++)
+            {
+            <div class="control-group">
+				@if (Model.ComponentSection.ComponentTypes.Facets[i].Enabled)
+				{
+					String classer = (Model.ComponentSection.ComponentTypes.Facets[i].Selected) ? "radioesque selected" : "radioesque";
+					<a href="@Model.ComponentSection.ComponentTypes.Facets[i].Href" title="@Model.ComponentSection.ComponentTypes.Facets[i].Text" class="@classer" rel="nofollow"><span></span>@Html.GetResource(Model.ComponentSection.ComponentTypes.Facets[i].Value)</a>
+				}
+				else
+				{		
+					String classer = (Model.ComponentSection.ComponentTypes.Facets[i].Selected) ? "radioesque locked" : "radioesque disabled";
+				
+					<span class="@classer">@Html.GetResource(Model.ComponentSection.ComponentTypes.Facets[i].Value)<span></span></span>
+				}
+			</div>
+            }
+			@Html.Partial("~/Views/Partials/FacetedSearchInput.cshtml")
+		</div>
+	</div>
+</section>

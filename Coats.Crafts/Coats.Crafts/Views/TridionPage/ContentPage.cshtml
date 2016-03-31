@@ -1,0 +1,26 @@
+﻿@using DD4T.ContentModel;
+@using DD4T.Mvc.Html;
+@using System.Diagnostics;
+
+@model IPage
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Stopwatch sw = new Stopwatch();
+    sw.Start();
+}
+
+@Html.RenderComponentPresentations()
+
+@{
+	// Done show side share if we're loading page into an iframe
+	if (Request.Params["iframe"] != "true") 
+	{
+		Html.RenderPartial("~/Views/Partials/SideSharing.cshtml");
+	}
+
+    string timer = sw.Elapsed.ToString();
+}
+
+<!-- Content Page Elapsed: @timer -->
+<!-- @Model.LastPublishedDate -->

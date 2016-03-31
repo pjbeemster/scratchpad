@@ -1,0 +1,44 @@
+﻿@using DD4T.ContentModel;
+
+@model IComponentPresentation
+           
+@{
+    Layout = null;
+    string title = string.Empty;
+    string userID = string.Empty;
+    
+    var fields = @Model.Component.Fields;
+
+    var feeds = fields.ContainsKey("feeds") ? fields["feeds"].EmbeddedValues[0] : null;
+    
+    if (feeds != null)
+    {
+        title = feeds.ContainsKey("title") ? feeds["title"].Value : string.Empty;
+        userID = feeds.ContainsKey("userID") ? feeds["userID"].Value : string.Empty;        
+    }
+
+    if (fields.ContainsKey("facebook"))
+    {
+        if (fields["facebook"].Value != "")
+        {
+            userID = fields["facebook"].Value;
+        }
+    }
+
+}
+
+<section class="component facebook-activity izotaup">
+    <div class="row-fluid ruled">
+        <div class="span12">
+            <h1>@title</h1>
+        </div>
+    </div>
+
+    @if (!string.IsNullOrEmpty(userID))
+    {
+        @Html.Action("Index", "Facebook", new { facebookID = userID, orientation = "horizontal" })
+    }
+    
+</section>
+
+

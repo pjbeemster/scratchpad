@@ -1,0 +1,61 @@
+﻿@using DD4T.ContentModel;
+@using System.Diagnostics;
+
+@model IComponentPresentation
+
+@{
+    Stopwatch sw = new Stopwatch();
+    sw.Start();
+        
+    Layout = null;
+    
+    // Comments always refer to the first component on the page so lets get the component id
+    /*
+        secondid  unique id for each Component Presentation 
+        The format of the secondid is the combination of a Component and Component Template URI escaped to only use allowed Fredhopper 
+        characters. For example: where Component URI is tcm:15-2334-16 and Component Template URI is tcm:15-1262-32, 
+        the secondid will be: tcm_15_2334_16_tcm_15_1262_32 
+    */
+
+    var componentId = Model.Page.ComponentPresentations[0].Component.Id;
+    var fields = Model.Component.Fields;
+    var componentTemplateId = Model.Page.ComponentPresentations[0].ComponentTemplate.Id;
+    var fredHopperId = string.Format("{0}-16_{1}", componentId, componentTemplateId).Replace(':', '_');
+    
+    var txt = string.Empty;
+    var title = string.Empty;
+    
+    if (fields.ContainsKey("titleText"))
+    {
+        if (fields["titleText"].EmbeddedValues.Count > 0)
+        {
+            txt = fields["titleText"].EmbeddedValues[0].ContainsKey("text") ? fields["titleText"].EmbeddedValues[0]["text"].Value : string.Empty;
+            title = fields["titleText"].EmbeddedValues[0].ContainsKey("title") ? fields["titleText"].EmbeddedValues[0]["title"].Value : string.Empty;
+        }
+    }
+
+    //Fredhopper stores the first 3 comments so we may start using these
+    //only pseudo code so far
+    @*
+    string[] commentText = new string[3];
+    string[] commentUser = new string[3];
+    string[] commentDate = new string[3];
+        
+    for (int i = 0; i < 3; i++)
+    {
+        commentText[i] = Model.Page.ComponentPresentations[0].Component.Fields.ContainsKey("comment1") ? Model.Page.ComponentPresentations[0].Component.Fields["comment1"].Value : string.Empty;
+        commentUser[i] = Model.Page.ComponentPresentations[0].Component.Fields.ContainsKey("commentby1") ? Model.Page.ComponentPresentations[0].Component.Fields["commentby1"].Value : string.Empty;
+        commentDate[i] = Model.Page.ComponentPresentations[0].Component.Fields.ContainsKey("commentdate1") ? Model.Page.ComponentPresentations[0].Component.Fields["commentdate1"].Value : string.Empty;
+    }
+    
+    <div>comment: @commentText[0] </div>
+    <div>comment: @commentUser[0] </div>
+    <div>comment: @commentDate[0] </div>
+    *@
+    
+    Html.RenderAction("Comments", "Comments", new { componentTitle = title, introText = txt, compid = componentId, fredHopperId = fredHopperId, numberToReturn = 100 });
+
+    string timer = sw.Elapsed.ToString();
+}
+
+<!-- Display Comments CT Elapsed: @timer -->

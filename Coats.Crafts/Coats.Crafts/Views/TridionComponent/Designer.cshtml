@@ -1,0 +1,76 @@
+﻿@using DD4T.ContentModel;
+
+@model IComponentPresentation
+           
+@{
+    Layout = null;
+	
+    var fields = @Model.Component.Fields;
+    var componentid = @Model.Component.Id;
+	
+	string name = fields.ContainsKey("title") ? fields["title"].Value : "";
+	string website = fields.ContainsKey("website") ? fields["website"].Value : "";
+	string biography = fields.ContainsKey("bio") ? fields["bio"].Value : "";
+    string facebookID = fields.ContainsKey("facebook") ? fields["facebook"].Value : "";
+    string commenter = fields.ContainsKey("commenter") ? fields["commenter"].Value : "";
+    //facebook style depends whether we have comments
+    string facebookStyle = !string.IsNullOrEmpty(commenter) ? "span6 offset1 facebook" : "facebook-activity izotaup nocomments";
+    //remove the span if we don't have facebook activity
+    string commentStyle = !string.IsNullOrEmpty(facebookID) ? "span5 comments" : "comments";
+    //if we don't have comments then display horizontally
+    string orient = !string.IsNullOrEmpty(commenter) ? "vertical" : "horizontal";
+    
+    // Added facebook and comment titles to ease translation issues with plurals
+	String recentCommentTitle = fields.ContainsKey("recent_comment_title") ? fields["recent_comment_title"].Value : Html.GetResource("RecentCommentsTitle");
+	String recentFacebookTitle = fields.ContainsKey("recent_facebook_title") ? fields["recent_facebook_title"].Value : Html.GetResource("RecentFacebookActivityTitle");
+}
+
+@Html.Partial("~/Views/Partials/CrumbsLight.cshtml")
+<section class="designer" itemscope itemtype="http://schema.org/Person">
+    @Html.Partial("~/Views/Partials/HeaderSimple.cshtml")
+    <div class="row-fluid profile-content">
+        @if (fields.ContainsKey("thumb"))
+        {
+            <div class="span4">
+                @Html.Image(fields["thumb"], new { @class = "shaded" })
+            </div>
+        }
+        <div class="span7 offset1">
+            <dl>
+                <dt>@Html.GetResource("DesignerName")</dt>
+                <dd>@(name)</dd>
+				
+                @if (website.Length > 0)
+                {
+                    <dt>@Html.GetResource("DesignerWebsite")</dt>		
+                    <dd><a href="@(website)" title="@(String.Format(Html.GetResource("DesignerVisitWebsite"), name))" target="_blank">@(website)</a></dd>
+                }
+                <dt>@Html.GetResource("DesignerAbout")</dt>
+                <dd><span itemprop="description">@Html.Raw(biography)</span></dd>
+            </dl>
+        </div>
+    </div>
+</section>
+
+@if (!string.IsNullOrEmpty(commenter) || !string.IsNullOrEmpty(facebookID))
+{
+<section class="recent-activity component designer">
+    <div class="row-fluid">
+        @if (!string.IsNullOrEmpty(commenter))
+        {
+            <div class="@commentStyle">
+                <h1>@(recentCommentTitle)</h1>
+                @Html.Action("AllCommentsByUser", "Comments", new {compid = componentid, username = commenter, numberToReturn = 100})
+            </div>
+        }
+        <div class="@facebookStyle">
+            @if (!string.IsNullOrEmpty(facebookID))
+            {
+                <h1>@(recentFacebookTitle)</h1>
+                @Html.Action("Index", "Facebook", new {facebookID = facebookID, orientation = orient})
+            }
+        </div>
+        
+    </div>
+</section>
+}

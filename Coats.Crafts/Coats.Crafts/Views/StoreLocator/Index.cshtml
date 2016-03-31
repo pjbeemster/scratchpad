@@ -1,0 +1,444 @@
+﻿@using Coats.Crafts.Data;
+@using Coats.Crafts.Configuration;
+@using Coats.Crafts.Extensions;
+@using System.Linq;
+@using System.Text.RegularExpressions;
+@model Coats.Crafts.Models.StoreLocatorResults
+		   
+@{
+	Layout = null;
+}
+@{
+	var Options = (Model.Options != null) ? Model.Options : new List<GoogleMapsMarker>();
+	var Distance = Model.Distance;
+    var DistanceItems = Model.DistanceItems;
+	var WithinItems = Model.WithinItems;
+	var Error = Model.Error;
+	var Latitude = Model.Latitude;
+	var Longitude = Model.Longitude;
+	var Location = (Model.Location != null) ? Model.Location : String.Empty;
+	var Retailers = Model.Retailers;
+	var RetailersJSON = (Model.RetailersJSON != null) ? Model.RetailersJSON : "\"\"";
+	var StaticMapAddress = Model.StaticMapAddress;
+
+	string[] lettering = new string[] {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"
+	};
+	
+    var inputBlockClass = "";
+    
+    if (Model.WithinItems.Any()){
+        inputBlockClass = "within-dll-displayed";
+    }
+    var distanceUnit = WebConfiguration.Current.StoreLocatorUseMilesForDistanceUnit.Equals("true") ? "mile(s)" : "km(s)";
+    
+
+	bool firstShown = false;
+
+    var numEvents = 0;
+    var numPromotions = 0;
+
+    bool displayMaxResultMessage = WebConfiguration.Current.StoreLocatorDisplayMsgWhenMaxResults.Equals("true") ? true : false;
+    int maxResults = 10;
+    int.TryParse(WebConfiguration.Current.StoreLocatorMaxResults, out maxResults);
+
+    if (Model.Retailers == null)  
+    {
+        displayMaxResultMessage = false;
+    }
+    else
+    {
+        if (maxResults != Model.Retailers.Count)
+        {
+            displayMaxResultMessage = false;
+        }
+    }
+}
+
+
+<script>
+
+function ReplaceSpecial(str) {
+      var map = {"ü":"&uuml;", "Ü":"&Uuml;","ö":"&ouml;","Ö":"&Ouml;"}
+      for (var i in map) {
+          str = str.replace(new RegExp(i, "g"), map[i]);
+      }
+  return str;
+  }
+var currentLocationJSON = {
+		latitude	: @Latitude,
+		longitude	: @Longitude
+	},
+	retailersJSON = @Html.Raw(RetailersJSON);
+    
+</script>
+
+<!-- Maps to ComponentTypes.cshtml -->
+@{
+	Coats.Crafts.Models.ProductExplorer ProductExplorer = new Coats.Crafts.Models.ProductExplorer();
+	ProductExplorer.ExtComponentSection = Model.ExtComponentSection;
+	Html.RenderPartial("~/Views/Partials/T3-MenuVariant.cshtml", ProductExplorer);
+}
+<section class="store-finder">
+	<div class="row-fluid headers">
+		<div class="span12">
+			<h1>@Html.GetResource("LocatorHeader")</h1>
+		</div>
+	</div>
+    @Html.Partial("~/Views/Partials/T3-LevelOneFilter.cshtml", Model.Brand)
+	@using (Html.BeginForm(null, null, FormMethod.Get, new { id = "store-locator-form", @autocomplete = "off", @action = Request.Url.LocalPath}))
+	{
+	    <div class="row-fluid store-locator @inputBlockClass">
+		    <div class="span4 visible-desktop">
+			    <p>@Html.GetResource("LocatorBlurb")</p>
+		    </div>
+		    <div class="span3 mid-span5 mid-mr small-span6 small-mr">
+			    @Html.TextBoxFor(m => m.Location, new { @placeholder= Html.GetResource("EnterPostcodeOrTown") })
+		    </div>
+		    <div class="span3 mid-span4 mid-mr small-span6">
+			    @Html.DropDownListFor(m => m.Distance, DistanceItems)
+		    </div>
+            @if (Model.WithinItems.Any())
+            {
+		        <div class="span3 mid-span4 mid-mr small-span6 within-ddl">
+			        @Html.DropDownListFor(m => m.WithinVal, WithinItems)
+		        </div>
+            }
+		    <div class="span2 mid-span3 small-span12 search-btn">
+			    @Html.HiddenFor(m => m.Latitude)
+			    @Html.HiddenFor(m => m.Longitude)
+                <input type="hidden" name="NoJS" id="NoJS" value="true" />
+			    <input id="btnSearch" type="submit" class="btn purple" value="@Html.GetResource("StoreLocatorSearchButtonText")" />
+		    </div>
+	    </div>
+
+        <div class="row-fluid">
+            <span class="store-locator-js-error"></span>
+        </div>
+     
+        if (Error != null)
+	 {
+	<div class="row-fluid" id="store-locator-error">
+		<div class="span12">
+			<p>@Error</p>
+		</div>
+	</div>
+	 }
+	 if (Options.Count > 0)
+	 {
+	<div class="row-fluid">
+		<div class="span12">
+			<p>@Html.GetResource("StoreLocatorMoreThanOne")<!--It looks like there's more than one location with that name, did you mean any of these?...--></p>
+			<ul id="optionList">
+			@foreach (var Option in Options)
+            {
+             var address = Option.AddressLine1;
+				var SearchQuery =String.Empty;
+                address += !string.IsNullOrWhiteSpace(Option.AddressLine2) ? ", " + Option.AddressLine2 : string.Empty;
+                address += !string.IsNullOrWhiteSpace(Option.AddressLine3) ? ", " + Option.AddressLine3 : string.Empty;
+                address += !string.IsNullOrWhiteSpace(Option.AddressLine5) ? ", " + Option.AddressLine5 : string.Empty; 
+				SearchQuery = address;
+				 var map = new Dictionary<string, string>();
+				map["ü"] = "%C3%BC";
+                map["Ü"] = "%C3%BC";
+                map["ö"] = "%C3%B6";
+                map["Ö"] = "%C3%B6";
+                map["ä"] = "%C3%A4";
+                map["Ä"] = "%C3%84";
+                map["ë"] = "%C3%AB";
+                map["Ë"] = "%C3%8B";
+                map["ï"] = "%C3%AF";
+                map["Ï"] = "%C3%8F";
+                map["ÿ"] = "%C3%BF";
+				
+                    foreach (string key in map.Keys)
+                    {
+                        SearchQuery = SearchQuery.Replace(key, map[key]);
+                    }
+					
+				<li><a href="@Url.Content(@Request.Url.LocalPath + "?Latitude=" + Option.lat + "&Longitude=" + Option.lng + "&Distance=" + Model.Distance + "&Address=" + SearchQuery)" title="Search again around @address">@address</a></li>
+             }
+			</ul>
+		</div>
+	</div>
+     }
+    }
+ <div class="staticMapImg">
+    <img height="400" width="640" src="@StaticMapAddress" />
+ </div>
+ 	<div class="googlemap">
+		<div id="mapcanvas">
+		</div>
+	</div>
+	<div class="search-results">	
+	@if (Retailers != null)
+ {
+		<div class="row-fluid">
+			<div class="span12">
+				<h2>@Html.GetResource("LocatorTableOffersEventsHeader")</h2>
+                @if (displayMaxResultMessage && !String.IsNullOrEmpty(Html.GetResource("StoreLocatorMaxResultMessage")))
+                {
+                    <p class="store-max-results">@String.Format(Html.GetResource("StoreLocatorMaxResultMessage").ToString(), maxResults)</p>
+                }
+			</div>
+		</div>
+		<ul class="results">
+		@for (var i = 0; i < Retailers.Count; i++)
+  {
+      StoreLocatorRetailer store = Retailers[i];
+      String storeDescription = (!String.IsNullOrEmpty(store.Description)) ? store.Description : String.Empty;
+      var storeInfo = store.RetailerFromWCF;
+      String storeImage = "";
+      if (store.Images != null)
+      {
+          storeImage = (!String.IsNullOrEmpty(store.Images[0].imageURL)) ? store.Images[0].imageURL : String.Empty;
+      }
+
+      String storeBrands = (!String.IsNullOrEmpty(storeInfo.BrandsStocked)) ? storeInfo.BrandsStocked : String.Empty;
+      String storeName = (!String.IsNullOrEmpty(storeInfo.RetailerName)) ? storeInfo.RetailerName : String.Empty;
+      String storeWebsite = (!String.IsNullOrEmpty(storeInfo.SiteUrl)) ? storeInfo.SiteUrl : String.Empty;
+      double storeDistance = storeInfo.DistanceFromPoint;
+      var storeContact = new
+      {
+          Street = storeInfo.RoadName,
+          Town = storeInfo.Town,
+          Country = storeInfo.Country,
+          Postcode = storeInfo.PostCode,
+          Telephone = storeInfo.ContactTelephone
+      };
+
+      List<RetailerExtendedInfoPromo> storePromotions = store.Promos;
+      var storeEvents = storeInfo.Events;
+
+      int eventCount = (storeEvents != null) ? storeEvents.Length : 0;
+      int promoCount = (storePromotions != null) ? storePromotions.Count : 0;
+
+      List<int> promos = StoreLocatorHelper.OffersBasket(0, 0, eventCount, promoCount);
+
+      int displayEvents = promos[0];
+      int displayPromos = promos[1];
+
+      int eventCounter = 0;
+      int promoCounter = 0;
+
+      int totalPromos = (displayEvents + displayPromos);
+
+      bool moreInfoAvailable = (!String.IsNullOrEmpty(storeImage)) || (!String.IsNullOrEmpty(storeDescription)) || (totalPromos > 0);
+
+      String classer = "";
+
+      String displayDistance = Math.Ceiling(storeInfo.DistanceFromPoint) + distanceUnit;
+
+      if (!firstShown && store.isPromotedRetailer)
+      {
+          classer = "open";
+          firstShown = true;
+      }
+            <li>
+                <table>
+					<thead>
+						<tr>
+							<th class="store">@Html.GetResource("LocatorTableHeaderStore")</th>
+							<th class="details">@Html.GetResource("LocatorTableHeaderDetails")</th>
+							<th class="distance">@Html.GetResource("LocatorTableHeaderDistance")</th>
+							<th class="brands">@Html.GetResource("LocatorTableHeaderBrands")</th>
+							<th class="actions">&nbsp;</th>
+						</tr>
+					</thead>
+                </table>
+            </li>
+			<li id="store-@(i + 1)" class="@classer">
+				<table>
+					<tbody>
+						<tr>
+							<td class="name">
+                                <div class="marker-container">
+                                    <span class="icon marker">@lettering[i]</span>
+                                </div>
+                                <div class="retailer-details">
+								    <span class="actions mobileactions"><a class="moreless @classer">@Html.GetResource("LocatorTableShowHide")</a></span>
+								    <ul class="name-name">
+									    <li>
+										    @if (!String.IsNullOrEmpty(storeWebsite))
+              {
+											    <a href="@storeWebsite" target="_blank" title="Visit the @storeName website" class="external">@storeName</a>
+              }
+              else
+              {
+											    @storeName
+              }
+									    </li>
+									    <li>@storeContact.Telephone</li>
+								    </ul>
+								    <ul class="name-address">
+									    <li>@storeContact.Street</li>
+									    <li>@storeContact.Town</li>
+									    <li>@storeContact.Postcode</li>
+									    <li>@storeContact.Country</li>
+								    </ul>
+								    <p class="name-distance">@displayDistance</p>
+                                    </div>
+							</td>
+							<td class="details">
+								<ul>
+									<li>@storeContact.Street</li>
+									<li>@storeContact.Town</li>
+									<li>@storeContact.Postcode</li>
+									<li>@storeContact.Country</li>
+								</ul>
+							</td>
+							<td class="distance">
+								<p>@displayDistance</p>
+							</td>
+							<td class="brands">
+								<p>@storeBrands</p>
+							</td>
+							<td class="actions">
+								@if (moreInfoAvailable)
+        {  <a class="moreless @classer">@Html.GetResource("LocatorTableShowHide")</a>  }
+							</td>
+						</tr>
+					</tbody>
+				</table>
+                @if (moreInfoAvailable)
+                {
+				<div class="info">
+                    @if ((!String.IsNullOrEmpty(storeImage)) || (!String.IsNullOrEmpty(storeDescription)))
+                    { 
+					<div class="row-fluid storedescription">
+                        @if (!String.IsNullOrEmpty(storeImage) && storeImage != "~")
+                        {
+                            if (WebConfiguration.Current.RemoteImagePath != null)
+                            {
+                                storeImage = WebConfiguration.Current.RemoteImagePath + storeImage;
+                            }
+                            
+						<div class="span6">
+							<img src="@storeImage" class="shaded store-image" />
+						</div>
+                        }
+						@if (!String.IsNullOrEmpty(storeDescription))
+      {
+                        <div class="span6">
+							@Html.Raw(storeDescription)
+						</div>
+      }
+					</div>
+                    }
+                    @if (totalPromos > 0)
+                    { 
+					<div class="row-fluid ruled">
+						<div class="span12">
+							<h2>@Html.GetResource("LocatorTableOffersEventsHeader")</h2>
+						</div>
+					</div>
+					<div class="row-fluid">
+                        <div class="pods">
+                        @for (var ii = 0; ii < totalPromos; ii++)
+                        {
+                            //--------------------------------------------------
+                            // Display Promo
+                            //--------------------------------------------------
+
+                            if (storePromotions != null)
+                            {
+                                if (displayPromos > 0)
+                                {
+                                    var current = storePromotions[promoCounter];
+                                    var href = (!String.IsNullOrEmpty(current.buttonURL)) ? Url.Content(current.buttonURL) : string.Empty;
+
+                                    var buttonText = current.buttonText;
+                                    var target = (!String.IsNullOrEmpty(current.buttonTarget)) ? current.buttonTarget : string.Empty;
+
+                                    if (target != string.Empty)
+                                    {
+                                        target = " target='_blank'";
+                                    }
+                                    
+								<div class="pod span3">
+									<div class="image hidden-phone">
+										<a href="@(href)" @Html.Raw(target) title="@(buttonText)">@Html.Image(current.img)</a>
+									</div>
+									<div class="content">
+										<div class="head">
+											<span class="type">@Html.GetResource("LocatorTableOfferPodLabel")</span>
+											<h1>@current.title</h1>
+										</div>
+										<div class="body">
+											<p>@(Html.Raw(current.description))</p>
+										</div>
+										<div class="base">
+											<p><a href="@(href)" @Html.Raw(target)>@(buttonText)</a></p>
+                                            @if (current.buttonLinkType == "Multimedia")
+                                            {
+											<ul class="actions hidden-phone">
+												<li><a href="@(href)" @Html.Raw(target) title="@(buttonText)" class="icon download">@(buttonText)</a></li>
+											</ul>
+                                            }
+										</div>
+									</div>
+								</div>
+                                }
+                                promoCounter++;
+                                displayPromos--;
+                            }
+
+                            //--------------------------------------------------
+                            // Display Event
+                            //--------------------------------------------------
+
+                            if (storeEvents != null)
+                            {
+                                if (displayEvents > 0)
+                                {
+                                    var current = storeEvents[eventCounter];
+
+                                    var imgURL = string.Empty;
+
+                                    var lnk = Url.Content(current.URL.AddApplicationRoot());
+
+                                    if (!String.IsNullOrEmpty(current.ThumbnailUrl))
+                                    {
+                                        imgURL = current.ThumbnailUrl;
+                                        if (WebConfiguration.Current.RemoteImagePath != null)
+                                        {
+                                            imgURL = WebConfiguration.Current.RemoteImagePath + imgURL;
+                                        }
+                                    }
+                                    
+								<div class="pod span3">
+									<div class="image hidden-phone">
+										<a href="@lnk"><img src="@imgURL" alt="@(current.EventName)" /></a>
+									</div>
+									<div class="content">
+										<div class="head">
+											<span class="type">@Html.GetResource("LocatorTableEventPodLabel")</span>
+											<h1><a href="@lnk" title="@(current.EventName)">@(current.EventName)</a></h1>
+											<span class="date">@current.EventDateStart till @current.EventDateEnd</span>
+										</div>
+										<div class="body">
+											<p>@(Html.Raw(current.EventDescription))</p>
+										</div>
+										<div class="base hidden-phone">
+											<ul class="actions">
+												<li><a href="@lnk#comments" class="icon comments">@* How? *@</a></li>
+												<li><a class="addthis_button_pinterest_share icon pinterest"><!-- --></a></li>
+											</ul>
+										</div>
+									</div>
+								</div>
+                                }
+                                eventCounter++;
+                                displayEvents--;
+                            }
+                        }
+                        </div>
+					</div>
+                    }
+				</div>
+                }
+        </li>
+  }
+		</ul>
+		}
+	</div>
+</section>

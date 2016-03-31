@@ -1,0 +1,33 @@
+﻿@using DD4T.ContentModel;
+@model IComponent
+
+@{           
+    string span = ViewBag.PodGenericSpan;
+    if (string.IsNullOrEmpty(span)) { span = "span4"; }
+}
+
+    @if (!User.Identity.IsAuthenticated)
+    {
+        // only display if not logged in
+<article class="@span pod cta">
+	<div class="content">
+		<div class="head">
+			<h1>@Model.Fields["title"].Value</h1>
+			@if (Model.Fields.ContainsKey("subtitle"))
+   {
+                <p>@Model.Fields["subtitle"].Value</p>
+   }
+		</div>
+		<div class="body">
+			@if (Model.Fields.ContainsKey("summary"))
+   {
+                @Html.Raw(Model.Fields["summary"].Value)
+   }
+		</div>
+		<div class="base">
+			<p><a href="@Url.Content("~/registration?source=/")" class="btn yellow">@Html.GetResource("Register")</a></p>
+		</div>
+	</div>
+</article>
+
+    }

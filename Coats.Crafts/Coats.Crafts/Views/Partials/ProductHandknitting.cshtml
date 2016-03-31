@@ -1,0 +1,101 @@
+﻿@using DD4T.ContentModel;
+@model IComponent
+@{
+    Layout = null;
+    var fields = @Model.Fields;
+
+    string article = fields.ContainsKey("article_ticket") ? fields["article_ticket"].Value : String.Empty;
+    string fibre = fields.ContainsKey("composition") ? @Html.CategoryList(fields["composition"]) : String.Empty;
+    string seasons = fields.ContainsKey("season") ? @Html.CategoryList(fields["season"]) : String.Empty;
+    string weight = fields.ContainsKey("weight") ? fields["weight"].Value : String.Empty;
+    string length = fields.ContainsKey("length") ? fields["length"].Value : String.Empty;
+    string tenstitches = fields.ContainsKey("tension") ? fields["tension"].Value : String.Empty;
+    string summary = fields.ContainsKey("summary") ? fields["summary"].Value.ResolveRichText().ToHtmlString() : String.Empty;
+    string body = fields.ContainsKey("body") ? fields["body"].Value.ResolveRichText().ToHtmlString() : String.Empty;
+    string ticket = fields.ContainsKey("ticket") ? @Html.CategoryList(fields["ticket"]) : String.Empty;
+    string ply = fields.ContainsKey("yarn_weight") ? @Html.CategoryList(fields["yarn_weight"]) : String.Empty;
+    string needle = fields.ContainsKey("needle_gauge") ? fields["needle_gauge"].Value : String.Empty;
+    string crochet = fields.ContainsKey("crochet_gauge") ? fields["crochet_gauge"].Value : String.Empty;
+    string hook = fields.ContainsKey("crochet_hook_size") ? @Html.CategoryList(fields["crochet_hook_size"]) : String.Empty;
+
+    string needle_size_mm = fields.ContainsKey("needle_size_mm") ? @Html.CategoryList(fields["needle_size_mm"]) : String.Empty;
+    string needle_size_uk = fields.ContainsKey("needle_size_uk") ? @Html.CategoryList(fields["needle_size_uk"]) : String.Empty;
+    string needle_size_us = fields.ContainsKey("needle_size_us") ? @Html.CategoryList(fields["needle_size_us"]) : String.Empty;
+}
+<div>
+    <ul>
+        <li><strong>@Html.GetResource("Details")</strong></li>
+        @if (!String.IsNullOrEmpty(article))
+        {
+            <li><strong>@Html.GetResource("ArticleNumber"):</strong> @article</li>
+        }
+        @if (!String.IsNullOrEmpty(fibre))
+        {
+            <li><strong>@Html.GetResource("FibreContent"):</strong> @fibre</li>
+        }
+        @if (!String.IsNullOrEmpty(seasons))
+        {
+            <li><strong>@Html.GetResource("Seasons"):</strong> @seasons</li>
+        }
+        @if (!String.IsNullOrEmpty(weight))
+        {
+            <li><strong>@Html.GetResource("YarnWeight"):</strong> @weight</li>
+        }
+        @if (!String.IsNullOrEmpty(length))
+        {
+            <li><strong>@Html.GetResource("YarnLength"):</strong> @length</li>
+        }
+        @if (!String.IsNullOrEmpty(tenstitches))
+        {
+            <li><strong>@Html.GetResource("TensionStitches"):</strong> @tenstitches</li>
+        }
+        @if (!String.IsNullOrEmpty(ticket))
+        {
+            <li><strong>@Html.GetResource("YarnTicket"):</strong> @ticket</li>
+        }
+        @if (!String.IsNullOrEmpty(ply))
+        {
+            <li><strong>@Html.GetResource("YarnPly"):</strong> @ply</li>
+        }
+        @if (!String.IsNullOrEmpty(needle))
+        {
+            <li><strong>@Html.GetResource("NeedleGauge"):</strong> @needle</li>
+        }
+        @if (!String.IsNullOrEmpty(hook))
+        {
+            <li><strong>@Html.GetResource("CrochetHook"):</strong> @hook</li>
+        }
+        @if (!String.IsNullOrEmpty(crochet))
+        {
+            <li><strong>@Html.GetResource("CrochetGauge"):</strong> @crochet</li>
+        }
+        @if (!String.IsNullOrEmpty(needle_size_mm))
+        {
+            <li><strong>@Html.GetResource("NeedleMM"):</strong> @needle_size_mm</li>
+        }
+        @if (!String.IsNullOrEmpty(needle_size_uk))
+        {
+            <li><strong>@Html.GetResource("NeedleUK"):</strong> @needle_size_uk</li>
+        }
+        @if (!String.IsNullOrEmpty(needle_size_us))
+        {
+            <li><strong>@Html.GetResource("NeedleUS"):</strong> @needle_size_us</li>
+        }
+    </ul>
+</div>
+@if (!String.IsNullOrEmpty(body))
+{
+    <div>
+        <p>@Html.Raw(body)</p>
+    </div>
+}
+@if (!Coats.Crafts.Configuration.WebConfiguration.Current.DisableWishList)
+{
+    <div>
+        @Html.Partial("~/Views/ShoppingList/AddItem.cshtml", Model)
+    </div>
+}
+@if (fields.ContainsKey("care"))
+{
+    Html.RenderPartial("~/Views/Partials/ProductCareInstructions.cshtml", fields["care"]);
+}

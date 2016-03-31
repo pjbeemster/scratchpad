@@ -1,0 +1,55 @@
+﻿@using DD4T.ContentModel;
+@using DD4T.ContentModel.Factories;
+@using Coats.Crafts.Extensions;
+@using DD4T.Mvc.Html;
+@using Coats.Crafts.HtmlHelpers;
+@using Coats.Crafts.Configuration;
+@using Coats.Crafts.Controllers;
+@using System.Web;
+
+@functions {
+    public void SetCookie()
+    {
+        HttpCookie cookie = this.Request.Cookies.Get("CoatsCraftsCookie");
+        if (cookie == null)
+        {
+            // Create cookie.
+            cookie = new HttpCookie("CoatsCraftsCookie");
+            cookie.Value = DateTime.Now.ToString();
+            cookie.Expires = DateTime.Now.AddMonths(1);
+            this.Response.Cookies.Add(cookie);
+        }
+    }
+}
+
+@model IPage
+   
+           
+@{
+    Layout = null;
+    string cookidesc = @Html.GetResource("CookieTitle");
+    string cookival = @Html.GetResource("CookieMessage");
+    string conttip = @Html.GetResource("CookieContinueTooltip");
+    string findtip = @Html.GetResource("CookieFindOutMoreTooltip");
+    string cookiaccept = WebConfiguration.Current.CookieAccept;
+    string cookiinfo = @Url.Content(WebConfiguration.Current.PrivacyAndCookie.AddApplicationRoot());
+   
+    var cookie = this.Request.Cookies.Get("CoatsCraftsCookie");
+    if (cookie == null)
+    {
+         <div id="cookies">
+		    <div class="row-fluid">
+  		        <div class="span3 text-right">
+			        <span class="headline">@cookidesc</span>
+		        </div>
+		        <div class="span6">
+                    <p>@cookival</p>
+		        </div>
+		        <div class="span3">
+                   	<a href="@Html.Action("SetCookie")" title="@conttip" class="continue"><span class="icon accept"></span>  @Html.GetResource("CookieContinue")</a>
+			        <a href="@cookiinfo" title= "@findtip" class="find-out-more"><span class="icon question"></span> @Html.GetResource("CookieFindOutMore")</a>
+		        </div>
+	        </div>
+	    </div>
+    }
+}

@@ -1,0 +1,133 @@
+﻿@model Coats.Crafts.Models.ShoppingList
+@using Coats.Crafts.Configuration;
+@using Coats.Crafts.Extensions;
+@{
+    Layout = null;
+
+	var url = Url.Content("~/shoppinglist");
+
+    if (Request.IsAjaxRequest())
+    {
+        url = Url.Content("~/ajax/shoppinglist");
+    }	    
+}
+<section class="user-panel list">
+    <div class="row-fluid headers">
+	    <div class="span12">
+		    <h1>@Html.GetResource("ShoppingList")</h1>        
+	    </div>
+    </div>
+    @if (Model.items != null)
+    {
+        <div class="row-fluid">
+            <div class="span12">
+                @if (Model.items.Count() == 0)
+                {
+                <span class="no-items">
+                    @Html.GetResource("ShoppingListNoItems")
+                </span>
+                }
+                else
+                {
+					<div class="scroll">
+						<table class="table" id="shopping-list-items">
+							<thead>
+								<tr>
+									<th scope="col">
+										@Html.GetResource("ShoppingListProject")
+									</th>
+									<th scope="col">
+										@Html.GetResource("ShoppingListQuantity")
+									</th>
+									<th scope="col">
+										@Html.GetResource("ShoppingListProduct")
+									</th>
+									<th scope="col">
+										@Html.GetResource("ShoppingListBrand")
+									</th>
+									<th scope="col">
+										@Html.GetResource("ShoppingListUpdate")
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								@foreach (var s in Model.items)
+								{
+									var title = (!String.IsNullOrEmpty(s.Key)) ? s.Key : Html.GetResource("AdditionalItems");
+									<tr class="project">
+										<td>
+											@title
+										</td>
+										<td>
+										</td>
+										<td>
+										</td>
+										<td>
+										</td>
+										<td class="actions-td">
+										@using (Html.BeginForm("DeleteProject", "ShoppingList"))
+										{
+											@Html.Hidden("projectName", s.Key)
+											@Html.Hidden("returnUrl", Request.Url.ToString())
+											<button class="delete delete-shoppinglist" data-deleteMessage="@Html.GetResource("ShoppingListDeleteConfirm")" type="image" alt="@Html.GetResource("ShoppingListDeleteConfirm")">@Html.GetResource("Delete")</button>
+											@Html.HttpMethodOverride(HttpVerbs.Delete)
+										}
+										</td>
+									</tr>
+										foreach (var slItem in s)
+										{
+									<tr>
+										<td>
+										</td>
+										<td class="quantity-td">
+											<span class="quantity">@slItem.Quantity.ToString("D2")</span>
+											<div style="position:relative">
+
+											@using (Html.BeginForm("ChangeQuantity", "ShoppingList"))
+											{
+												@Html.Hidden("id", slItem.ID)
+												@Html.Hidden("returnUrl", Request.Url.ToString())
+												<button class="icon macro plus increase-quantity" name="quantityButton" type="submit" alt="@Html.GetResource("IncreaseQuantity")" value="increase">@Html.GetResource("IncreaseQuantity")</button>
+												<button class="icon macro minus decrease-quantity" name="quantityButton" type="submit" alt="@Html.GetResource("DecreaseQuantity")" value="decrease">@Html.GetResource("DecreaseQuantity")</button>
+											}
+											</div>
+										</td>
+										<td>@slItem.ProductName
+										</td>
+										<td>@slItem.Brand
+										</td>
+										<td class="actions-td">
+											@using (Html.BeginForm("DeleteItem", "ShoppingList"))
+											{
+												@Html.Hidden("id", slItem.ID)
+												@Html.Hidden("returnUrl", Request.Url.ToString())
+												<button class="delete delete-shoppinglist" data-deleteMessage="@Html.GetResource("ShoppingListDeleteConfirm")" type="image" alt="@Html.GetResource("ShoppingListDeleteConfirm")">@Html.GetResource("ShoppingListDeleteConfirm")</button>
+												@Html.HttpMethodOverride(HttpVerbs.Delete)
+											}
+										</td>
+									</tr>
+
+										}
+
+								}
+							</tbody>
+						</table>
+				</div>
+                }
+            </div>
+        </div>
+            if (Model.items.Count() > 0)
+            {
+        <div class="row-fluid">
+			<div class="span12 text-right buttons">
+				<a class="btn purple" href="@Url.Content(WebConfiguration.Current.ShoppingListPrint.AddApplicationRoot())" target="_blank">@Html.GetResource("ShoppingListPrintButton")</a>
+				@using (Html.BeginForm("EmailShoppingList", "ShoppingList", FormMethod.Post, new { @id = "emailshoppinglist" }))
+				{
+					<input class="btn purple" type="submit" alt="@Html.GetResource("ShoppingListEmailButton")"
+					value="@Html.GetResource("ShoppingListEmailButton")" />
+				}
+			</div>
+		</div>
+			}
+}
+</section>
