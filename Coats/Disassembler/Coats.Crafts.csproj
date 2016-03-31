@@ -1,0 +1,468 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <ProjectType>local</ProjectType>
+    <ProjectVersion>7.10.377</ProjectVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D2AF4EAD-814A-4C1C-AEC2-37974B730A14}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <AssemblyName>Coats.Crafts</AssemblyName>
+    <OutputType>Library</OutputType>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Reference Include="System.ComponentModel.DataAnnotations">
+      <HintPath>..\Dependencies\System.ComponentModel.DataAnnotations.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Windsor">
+      <HintPath>..\Dependencies\Castle.Windsor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc">
+      <HintPath>..\Dependencies\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core">
+      <HintPath>..\Dependencies\System.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Extensions">
+      <HintPath>..\Dependencies\System.Web.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="DataAnnotationsExtensions">
+      <HintPath>..\Dependencies\DataAnnotationsExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="MVC Foolproof Validation">
+      <HintPath>..\Dependencies\MVC Foolproof Validation.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="DD4T.Mvc">
+      <HintPath>..\Dependencies\DD4T.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="DD4T.ContentModel.Contracts">
+      <HintPath>..\Dependencies\DD4T.ContentModel.Contracts.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.Services.Client">
+      <HintPath>..\Dependencies\System.Data.Services.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System" />
+    <Reference Include="System.ServiceModel">
+      <HintPath>..\Dependencies\System.ServiceModel.dll</HintPath>
+    </Reference>
+    <Reference Include="Coats.Crafts.Gateway">
+      <HintPath>..\Dependencies\Coats.Crafts.Gateway.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Core">
+      <HintPath>..\Dependencies\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="query-lang-2.17.1.1">
+      <HintPath>..\Dependencies\query-lang-2.17.1.1.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <HintPath>..\Dependencies\System.Xml.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\Dependencies\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="DD4T.ContentModel">
+      <HintPath>..\Dependencies\DD4T.ContentModel.dll</HintPath>
+    </Reference>
+    <Reference Include="Coats.IndustrialPortal.Providers">
+      <HintPath>..\Dependencies\Coats.IndustrialPortal.Providers.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\Dependencies\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\Dependencies\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.ApplicationServices">
+      <HintPath>..\Dependencies\System.Web.ApplicationServices.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages">
+      <HintPath>..\Dependencies\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="GeoIP">
+      <HintPath>..\Dependencies\GeoIP.dll</HintPath>
+    </Reference>
+    <Reference Include="WebActivator">
+      <HintPath>..\Dependencies\WebActivator.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp">
+      <HintPath>..\Dependencies\Microsoft.CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Facebook">
+      <HintPath>..\Dependencies\Facebook.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Facilities.Logging">
+      <HintPath>..\Dependencies\Castle.Facilities.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Core">
+      <HintPath>..\Dependencies\IKVM.OpenJDK.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Amaze.Net4.Framework.Services">
+      <HintPath>..\Dependencies\Amaze.Net4.Framework.Services.dll</HintPath>
+    </Reference>
+    <Reference Include="Coats.IndustrialPortal.Gateway">
+      <HintPath>..\Dependencies\Coats.IndustrialPortal.Gateway.dll</HintPath>
+    </Reference>
+    <Reference Include="DataAnnotationsExtensions.ClientValidation">
+      <HintPath>..\Dependencies\DataAnnotationsExtensions.ClientValidation.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="DD4T.Factories">
+      <HintPath>..\Dependencies\DD4T.Factories.dll</HintPath>
+    </Reference>
+    <Reference Include="DD4T.Providers.WCFServices">
+      <HintPath>..\Dependencies\DD4T.Providers.WCFServices.dll</HintPath>
+    </Reference>
+    <Reference Include="DD4T.Utils">
+      <HintPath>..\Dependencies\DD4T.Utils.dll</HintPath>
+    </Reference>
+    <Reference Include="Tridion.ContentDelivery.UGC">
+      <HintPath>..\Dependencies\Tridion.ContentDelivery.UGC.dll</HintPath>
+    </Reference>
+    <Reference Include="LowercaseRoutesMVC">
+      <HintPath>..\Dependencies\LowercaseRoutesMVC.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="EntityFramework">
+      <HintPath>..\Dependencies\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlSanitizationLibrary">
+      <HintPath>..\Dependencies\HtmlSanitizationLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="Coats.Crafts.SmartTartget">
+      <HintPath>..\Dependencies\Coats.Crafts.SmartTartget.dll</HintPath>
+    </Reference>
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Global.cs" />
+    <Compile Include="Coats\Crafts\Validators\EmailValidator.cs" />
+    <Compile Include="Coats\Crafts\Models\Scrapbook.cs" />
+    <Compile Include="Coats\Crafts\Models\PostModel.cs" />
+    <Compile Include="Coats\Crafts\Models\CatsContactForm.cs" />
+    <Compile Include="Coats\Crafts\Installers\LoggerInstaller.cs" />
+    <Compile Include="Coats\Crafts\Installers\ControllersInstaller.cs" />
+    <Compile Include="Coats\Crafts\HtmlHelpers\StripHtmlHelper.cs" />
+    <Compile Include="Coats\Crafts\HtmlHelpers\ComponentInfoHelper.cs" />
+    <Compile Include="Coats\Crafts\CustomOutputCache\FredHopperOutputCache.cs" />
+    <Compile Include="Coats\Crafts\Controllers\HomeController.cs" />
+    <Compile Include="Coats\Crafts\Configuration\CountryConfigSection.cs" />
+    <Compile Include="Coats\Crafts\Configuration\CountrySectionCollection.cs" />
+    <Compile Include="Coats\Crafts\Configuration\CountrySectionElement.cs" />
+    <Compile Include="Coats\Crafts\Sitemap\ISiteMap.cs" />
+    <Compile Include="Coats\Crafts\Sitemap\TridionSiteMap.cs" />
+    <Compile Include="Coats\Crafts\Repositories\Interfaces\IEventsRepository.cs" />
+    <Compile Include="Coats\Crafts\Repositories\Tridion\EventsRepository.cs" />
+    <Compile Include="Coats\Crafts\Repositories\Interfaces\IRegistrationRepository.cs" />
+    <Compile Include="Coats\Crafts\Models\RegistrationConfirmation.cs" />
+    <Compile Include="Coats\Crafts\Extensions\WindsorExtensions.cs" />
+    <Compile Include="Coats\Crafts\Data\StoreLocatorRetailer.cs" />
+    <Compile Include="Coats\Crafts\Extensions\StringExtensions.cs" />
+    <Compile Include="Coats\Crafts\Extensions\ReturnToSearch.cs" />
+    <Compile Include="Coats\Crafts\Extensions\SessionExtensions.cs" />
+    <Compile Include="Coats\Crafts\Controllers\FacetedContentBaseController.cs" />
+    <Compile Include="Coats\Crafts\Controllers\ProductBrandBaseController.cs" />
+    <Compile Include="Coats\Crafts\Controllers\ProductExplorerController.cs" />
+    <Compile Include="Coats\Crafts\ControllerHelpers\DynamicJsonObject.cs" />
+    <Compile Include="Coats\Crafts\ControllerHelpers\DynamicJsonConverter.cs" />
+    <Compile Include="Coats\Crafts\ControllerHelpers\oAuthFacebook.cs" />
+    <Compile Include="Coats\Crafts\ControllerHelpers\EmailUtility.cs" />
+    <Compile Include="Coats\Crafts\Attributes\CustomEmailAttribute.cs" />
+    <Compile Include="Coats\Crafts\Attributes\CustomRequiredIfAttribute.cs" />
+    <Compile Include="Coats\Crafts\App_Start\RegisterClientValidationExtensions.cs" />
+    <Compile Include="Coats\Crafts\Sitemap\TridionSiteMapNode.cs" />
+    <Compile Include="Coats\Crafts\Repositories\Interfaces\ICatsRepository.cs" />
+    <Compile Include="Coats\Crafts\Repositories\Tridion\CatsRepository.cs" />
+    <Compile Include="Coats\Crafts\Plumbing\WindsorActionInvoker.cs" />
+    <Compile Include="Coats\Crafts\NewsletterAPI\Datum.cs" />
+    <Compile Include="Coats\Crafts\NewsletterAPI\Item.cs" />
+    <Compile Include="Coats\Crafts\NewsletterAPI\RootObject.cs" />
+    <Compile Include="Coats\Crafts\NewsletterAPI\UnSubscribeJSON.cs" />
+    <Compile Include="Coats\Crafts\NewsletterAPI\PublicasterServiceRequest.cs" />
+    <Compile Include="Coats\Crafts\HtmlHelpers\ProductCareHelper.cs" />
+    <Compile Include="Coats\Crafts\Data\GoogleMapsMarker.cs" />
+    <Compile Include="Coats\Crafts\Controllers\ScrapbookController.cs" />
+    <Compile Include="Coats\Crafts\Controllers\LoginController.cs" />
+    <Compile Include="Coats\Crafts\Controllers\AddRatingController.cs" />
+    <Compile Include="Coats\Crafts\Configuration\HomePageTabsSection.cs" />
+    <Compile Include="Coats\Crafts\Configuration\HomePageTabsCollection.cs" />
+    <Compile Include="Coats\Crafts\Configuration\HomePageTabsElement.cs" />
+    <Compile Include="Coats\Crafts\Attributes\OldCustomStringLengthAttribute.cs" />
+    <Compile Include="Coats\Crafts\Utils\TokenAdapter.cs" />
+    <Compile Include="Coats\Crafts\Repositories\Interfaces\IStoreLocatorRepository.cs" />
+    <Compile Include="Coats\Crafts\Repositories\Tridion\StoreLocatorRepository.cs" />
+    <Compile Include="Coats\Crafts\Repositories\Interfaces\IShoppingListRepository.cs" />
+    <Compile Include="Coats\Crafts\Interfaces\IEmail.cs" />
+    <Compile Include="Coats\Crafts\Models\ShoppingListEmail.cs" />
+    <Compile Include="Coats\Crafts\Models\EventsNearYou.cs" />
+    <Compile Include="Coats\Crafts\Logging\Log4NetLogger.cs" />
+    <Compile Include="Coats\Crafts\HtmlHelpers\VideoHelper.cs" />
+    <Compile Include="Coats\Crafts\Filters\ContactActionFilter.cs" />
+    <Compile Include="Coats\Crafts\Data\RetailerExtendedInfoImage.cs" />
+    <Compile Include="Coats\Crafts\Extensions\IEnumeralExtensions.cs" />
+    <Compile Include="MvcCustomValidation\Validations\MyCustomValidation.cs" />
+    <Compile Include="Coats\Crafts\Attributes\CustomCompareAttribute.cs" />
+    <Compile Include="Coats\Crafts\Models\ResetPassword.cs" />
+    <Compile Include="Coats\Crafts\HtmlHelpers\StoreLocatorHelper.cs" />
+    <Compile Include="Coats\Crafts\Filters\Level1BrandFilter.cs" />
+    <Compile Include="Coats\Crafts\Filters\RouteDataExtensions.cs" />
+    <Compile Include="Coats\Crafts\ControllerHelpers\ProfileHelper.cs" />
+    <Compile Include="Coats\Crafts\ControllerHelpers\FacetedContentHelper.cs" />
+    <Compile Include="Coats\Crafts\ControllerHelpers\AuthorisationUtility.cs" />
+    <Compile Include="Coats\Crafts\Repositories\Interfaces\ICountryLangSelectorRepository.cs" />
+    <Compile Include="Coats\Crafts\Repositories\Tridion\CountryLangSelectorRepository.cs" />
+    <Compile Include="Coats\Crafts\Repositories\Interfaces\IScrapbookRepository.cs" />
+    <Compile Include="Coats\Crafts\Interfaces\IUserProfile.cs" />
+    <Compile Include="Coats\Crafts\Models\UserProfile.cs" />
+    <Compile Include="Coats\Crafts\Models\Newsletter.cs" />
+    <Compile Include="Coats\Crafts\Models\CommentEmail.cs" />
+    <Compile Include="Coats\Crafts\Installers\DD4TInstaller.cs" />
+    <Compile Include="Coats\Crafts\Extensions\DateTimeFormatExtensions.cs" />
+    <Compile Include="Coats\Crafts\Controllers\StoreLocatorController.cs" />
+    <Compile Include="Coats\Crafts\Controllers\FacebookController.cs" />
+    <Compile Include="Coats\Crafts\Controllers\CountrySelectorController.cs" />
+    <Compile Include="Coats\Crafts\Resources\IDynamcResourceProviderFactory.cs" />
+    <Compile Include="Coats\Crafts\Resources\Helper.cs" />
+    <Compile Include="Coats\Crafts\Resources\DynamicResourceProviderFactory.cs" />
+    <Compile Include="Coats\Crafts\Resources\DynamicResourceProvider.cs" />
+    <Compile Include="Coats\Crafts\Resources\IResourceDocument.cs" />
+    <Compile Include="Coats\Crafts\Resources\ResourceDocument.cs" />
+    <Compile Include="Coats\Crafts\Repositories\Tridion\ShoppingListRepository.cs" />
+    <Compile Include="Coats\Crafts\Repositories\Interfaces\ICommentRepository.cs" />
+    <Compile Include="Coats\Crafts\Repositories\Tridion\CommentRepository.cs" />
+    <Compile Include="Coats\Crafts\Redirector\CoatsGeoIPRedirection.cs" />
+    <Compile Include="Coats\Crafts\Redirector\HttpRequestExtensions.cs" />
+    <Compile Include="Coats\Crafts\Models\TridionTcmUri.cs" />
+    <Compile Include="Coats\Crafts\Models\Login.cs" />
+    <Compile Include="Coats\Crafts\Models\BaseCustomer.cs" />
+    <Compile Include="Coats\Crafts\Models\Customer.cs" />
+    <Compile Include="Coats\Crafts\Models\Events.cs" />
+    <Compile Include="Coats\Crafts\MvcApplication.cs" />
+    <Compile Include="Coats\Crafts\Extensions\IComponentExtensions.cs" />
+    <Compile Include="Coats\Crafts\Controllers\RemoteValidationController.cs" />
+    <Compile Include="Coats\Crafts\Controllers\EventsNearYouController.cs" />
+    <Compile Include="Coats\Crafts\Interfaces\ICoatsData.cs" />
+    <Compile Include="Coats\Crafts\Models\ToolService.cs" />
+    <Compile Include="Coats\Crafts\Models\Keyword.cs" />
+    <Compile Include="Coats\Crafts\Installers\SiteMapInstaller.cs" />
+    <Compile Include="Coats\Crafts\Installers\ConfigurationInstaller.cs" />
+    <Compile Include="Coats\Crafts\HtmlHelpers\ResourceHelper.cs" />
+    <Compile Include="Coats\Crafts\HtmlHelpers\GravatarHtmlHelper.cs" />
+    <Compile Include="Coats\Crafts\HtmlHelpers\CheckBoxHelper.cs" />
+    <Compile Include="Coats\Crafts\HtmlHelpers\Position.cs" />
+    <Compile Include="Coats\Crafts\HtmlHelpers\HtmlListInfo.cs" />
+    <Compile Include="Coats\Crafts\HtmlHelpers\HtmlTag.cs" />
+    <Compile Include="Coats\Crafts\FredHopper\FredHopperInterface.cs" />
+    <Compile Include="Coats\Crafts\FredHopper\DD4TComponents.cs" />
+    <Compile Include="Coats\Crafts\Controllers\RegistrationController.cs" />
+    <Compile Include="Coats\Crafts\Controllers\LoginForm.cs" />
+    <Compile Include="Coats\Crafts\Controllers\RegistrationForm.cs" />
+    <Compile Include="Coats\Crafts\Controllers\Registration.cs" />
+    <Compile Include="Coats\Crafts\Controllers\ResourcesController.cs" />
+    <Compile Include="Coats\Crafts\Controllers\FeaturedItemsController.cs" />
+    <Compile Include="Coats\Crafts\Controllers\OurBrandsController.cs" />
+    <Compile Include="Coats\Crafts\ControllerHelpers\UtilityHelper.cs" />
+    <Compile Include="Coats\Crafts\Configuration\WebConfiguration.cs" />
+    <Compile Include="Coats\Crafts\Configuration\IAppSettings.cs" />
+    <Compile Include="Coats\Crafts\Attributes\CustomRegularExpressionAttribute.cs" />
+    <Compile Include="Coats\Crafts\CDS\ContentDeliveryService.cs" />
+    <Compile Include="Coats\Crafts\CDS\Page.cs" />
+    <Compile Include="Coats\Crafts\CDS\PageContent.cs" />
+    <Compile Include="Coats\Crafts\CDS\Component.cs" />
+    <Compile Include="Coats\Crafts\CDS\Publication.cs" />
+    <Compile Include="Coats\Crafts\CDS\Schema.cs" />
+    <Compile Include="Coats\Crafts\CDS\Template.cs" />
+    <Compile Include="Coats\Crafts\CDS\Keyword.cs" />
+    <Compile Include="Coats\Crafts\CDS\ComponentPresentation.cs" />
+    <Compile Include="Coats\Crafts\CDS\CustomMeta.cs" />
+    <Compile Include="Coats\Crafts\CDS\Binary.cs" />
+    <Compile Include="Coats\Crafts\CDS\BinaryVariant.cs" />
+    <Compile Include="Coats\Crafts\CDS\StructureGroup.cs" />
+    <Compile Include="Coats\Crafts\CDS\Comment.cs" />
+    <Compile Include="Coats\Crafts\CDS\Rating.cs" />
+    <Compile Include="Coats\Crafts\CDS\User.cs" />
+    <Compile Include="Coats\Crafts\CDS\ItemStat.cs" />
+    <Compile Include="Coats\Crafts\Repositories\Interfaces\IKeywordRepository.cs" />
+    <Compile Include="Coats\Crafts\Repositories\Tridion\KeywordRepository.cs" />
+    <Compile Include="Coats\Crafts\HtmlHelpers\SpamProtectionExtensions.cs" />
+    <Compile Include="Coats\Crafts\HtmlHelpers\SpamProtectionAttribute.cs" />
+    <Compile Include="Coats\Crafts\HtmlHelpers\ImageHelper.cs" />
+    <Compile Include="Coats\Crafts\HtmlHelpers\ReplaceChar.cs" />
+    <Compile Include="Coats\Crafts\HtmlHelpers\ThemeHelper.cs" />
+    <Compile Include="Coats\Crafts\HtmlHelpers\AddThisHelper.cs" />
+    <Compile Include="Coats\Crafts\Controllers\GoogleSiteMapController.cs" />
+    <Compile Include="Coats\Crafts\Controllers\EmbeddedResourceResolver.cs" />
+    <Compile Include="Coats\Crafts\Controllers\CATSController.cs" />
+    <Compile Include="Coats\Crafts\Attributes\CustomResourceRequiredAttribute.cs" />
+    <Compile Include="Coats\Crafts\Sitemap\TridionSiteMapProvider.cs" />
+    <Compile Include="Coats\Crafts\Repositories\Tridion\ScrapbookRepository.cs" />
+    <Compile Include="Coats\Crafts\Models\StoreLocator.cs" />
+    <Compile Include="Coats\Crafts\Models\StoreLocatorResults.cs" />
+    <Compile Include="Coats\Crafts\Models\PasswordReminder.cs" />
+    <Compile Include="Coats\Crafts\Interfaces\ILogin.cs" />
+    <Compile Include="Coats\Crafts\Extensions\FredHopperExtensions.cs" />
+    <Compile Include="Coats\Crafts\Controllers\ShoppingListController.cs" />
+    <Compile Include="Coats\Crafts\Controllers\RegistrationConfirmationController.cs" />
+    <Compile Include="Coats\Crafts\Configuration\SocialMediaLinkConfig.cs" />
+    <Compile Include="Coats\Crafts\Configuration\FredHopperExtendedProperties.cs" />
+    <Compile Include="Coats\Crafts\Configuration\SchemaTemplate.cs" />
+    <Compile Include="Coats\Crafts\Attributes\ResourceRequiredAttribute.cs" />
+    <Compile Include="Coats\Crafts\Attributes\CustomStringLengthAttribute.cs" />
+    <Compile Include="Coats\Crafts\Models\CraftType.cs" />
+    <Compile Include="Coats\Crafts\Models\Email.cs" />
+    <Compile Include="Coats\Crafts\Installers\ResourceInstaller.cs" />
+    <Compile Include="Coats\Crafts\Installers\ActionInvokerInstaller.cs" />
+    <Compile Include="Coats\Crafts\HtmlHelpers\LabelHelper.cs" />
+    <Compile Include="Coats\Crafts\HtmlHelpers\EventHelper.cs" />
+    <Compile Include="Coats\Crafts\HtmlHelpers\CategoryListHelper.cs" />
+    <Compile Include="Coats\Crafts\Controllers\PasswordReminderController.cs" />
+    <Compile Include="Coats\Crafts\Configuration\CountryConfig.cs" />
+    <Compile Include="Coats\Crafts\Repositories\Interfaces\INewsLetterRepository.cs" />
+    <Compile Include="Coats\Crafts\Repositories\Tridion\NewsLetterRepository.cs" />
+    <Compile Include="Coats\Crafts\Filters\CheckCountryFilter.cs" />
+    <Compile Include="Coats\Crafts\Extensions\HttpRequestBaseExtensions.cs" />
+    <Compile Include="Coats\Crafts\Controllers\FooterController.cs" />
+    <Compile Include="Coats\Crafts\Configuration\HomePageTabsConfig.cs" />
+    <Compile Include="Coats\Crafts\Repositories\Tridion\RegistrationRepository.cs" />
+    <Compile Include="Coats\Crafts\HtmlHelpers\RichTextHelper.cs" />
+    <Compile Include="Coats\Crafts\HtmlHelpers\GroupedSelectListItem.cs" />
+    <Compile Include="Coats\Crafts\HtmlHelpers\HtmlHelpers.cs" />
+    <Compile Include="Coats\Crafts\FredHopper\FredHopperQuery.cs" />
+    <Compile Include="Coats\Crafts\Filters\CheckActionFilter.cs" />
+    <Compile Include="Coats\Crafts\Controllers\ProfileController.cs" />
+    <Compile Include="Coats\Crafts\Configuration\SocialMediaLinkSection.cs" />
+    <Compile Include="Coats\Crafts\Configuration\SocialMediaLinkSectionCollection.cs" />
+    <Compile Include="Coats\Crafts\Configuration\SocialMediaLinkSectionElement.cs" />
+    <Compile Include="Coats\Crafts\Configuration\CtaTemplateIdConfig.cs" />
+    <Compile Include="Coats\Crafts\ConfigurationHelpers\ConfigurationHelper.cs" />
+    <Compile Include="Coats\Crafts\Validators\UserNameValidator.cs" />
+    <Compile Include="Coats\Crafts\Plumbing\WindsorControllerFactory.cs" />
+    <Compile Include="Coats\Crafts\Models\FacetItem.cs" />
+    <Compile Include="Coats\Crafts\Models\FacetSection.cs" />
+    <Compile Include="Coats\Crafts\Models\FacetCollection.cs" />
+    <Compile Include="Coats\Crafts\Models\IComponentSearchSection.cs" />
+    <Compile Include="Coats\Crafts\Models\ComponentSearchSection.cs" />
+    <Compile Include="Coats\Crafts\Models\ExtComponentSearchSection.cs" />
+    <Compile Include="Coats\Crafts\Models\FacetPagination.cs" />
+    <Compile Include="Coats\Crafts\Models\FacetSort.cs" />
+    <Compile Include="Coats\Crafts\Models\PaginatedComponentList.cs" />
+    <Compile Include="Coats\Crafts\Models\FacetedContentBase.cs" />
+    <Compile Include="Coats\Crafts\Models\FacetedContent.cs" />
+    <Compile Include="Coats\Crafts\Models\ProductExplorer.cs" />
+    <Compile Include="Coats\Crafts\Models\SegregatedContentItem.cs" />
+    <Compile Include="Coats\Crafts\Models\SegregatedContent.cs" />
+    <Compile Include="Coats\Crafts\Models\FeaturedItems.cs" />
+    <Compile Include="Coats\Crafts\Models\HomePageBannerContent.cs" />
+    <Compile Include="Coats\Crafts\Models\Comment.cs" />
+    <Compile Include="Coats\Crafts\Models\Address.cs" />
+    <Compile Include="Coats\Crafts\Models\ChangePasswordModel.cs" />
+    <Compile Include="Coats\Crafts\Models\LogOnModel.cs" />
+    <Compile Include="Coats\Crafts\Models\RegisterModel.cs" />
+    <Compile Include="Coats\Crafts\HtmlHelpers\AddAuthorHelper.cs" />
+    <Compile Include="Coats\Crafts\Controllers\TridionPageController.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\FASWebService.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\page.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\info.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\locale.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\attribute.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\value.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\attributeTypeFormat.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\attributeExtended.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\viewType.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\modeType.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\pageType.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\server.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\role.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\meta.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\redirect.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\searchterms.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\term.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\universe.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\error.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\errorType.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\link.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\seourl.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\linkSortorder.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\linkType.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\facetmap.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\filter.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\filtersection.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\customfield.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\breadcrumbs.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\crumb.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\name.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\attributetype.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\yesNo.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\itemssection.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\results.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\item.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\similaritemfields.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\themes.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\theme.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\staticcontent.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\content.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\contentlink.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\contentLinkType.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\staticContentType.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\themeType.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\queryalternatives.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\querysuggestion.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\field.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\universeType.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\order.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\orderError.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\footer.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\processtime.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\timeUnit.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\getAllRequest.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\getAllResponse.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\FASWebServiceChannel.cs" />
+    <Compile Include="Coats\Crafts\FASWebService\FASWebServiceClient.cs" />
+    <Compile Include="Coats\Crafts\Plumbing\WindsorDependencyResolver.cs" />
+    <Compile Include="Coats\Crafts\Models\ShoppingList.cs" />
+    <Compile Include="Coats\Crafts\HtmlHelpers\MvcCheckBoxList.cs" />
+    <Compile Include="Coats\Crafts\ControllerHelpers\CookieHelper.cs" />
+    <Compile Include="Coats\Crafts\Controllers\LogoutController.cs" />
+    <Compile Include="Coats\Crafts\Controllers\EventController.cs" />
+    <Compile Include="Coats\Crafts\Installers\LookupInstaller.cs" />
+    <Compile Include="Coats\Crafts\Data\RetailerExtendedInfoPromo.cs" />
+    <Compile Include="Coats\Crafts\Configuration\CtaTemplateIdSection.cs" />
+    <Compile Include="Coats\Crafts\Configuration\CtaTemplateIdCollection.cs" />
+    <Compile Include="Coats\Crafts\Configuration\CtaTemplateIdElement.cs" />
+    <Compile Include="Coats\Crafts\Attributes\NoCacheAttribute.cs" />
+    <Compile Include="Coats\Crafts\Utils\General.cs" />
+    <Compile Include="Coats\Crafts\Models\Locations.cs" />
+    <Compile Include="Coats\Crafts\Models\EmailNewsletter.cs" />
+    <Compile Include="Coats\Crafts\HtmlHelpers\RenderPartialHelper.cs" />
+    <Compile Include="Coats\Crafts\HtmlHelpers\LinkHelper.cs" />
+    <Compile Include="Coats\Crafts\HtmlHelpers\DynamicSiteMapProvider.cs" />
+    <Compile Include="Coats\Crafts\HtmlHelpers\FacetKeywordHelper.cs" />
+    <Compile Include="Coats\Crafts\HtmlHelpers\BannerHelper.cs" />
+    <Compile Include="Coats\Crafts\Extensions\SiteMapNodeExtensions.cs" />
+    <Compile Include="Coats\Crafts\Controllers\TridionComponentController.cs" />
+    <Compile Include="Coats\Crafts\Controllers\CommentsController.cs" />
+    <Compile Include="Coats\Crafts\Controllers\FacetedContentController.cs" />
+    <EmbeddedResource Include="Coats.Crafts.google-sitemap.xsl" />
+  </ItemGroup>
+</Project>
