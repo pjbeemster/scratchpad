@@ -1,6 +1,7 @@
 ﻿namespace Coats.Crafts.Resources
 {
     using Castle.Windsor;
+    using Configuration;
     using DD4T.Utils;
     using System;
     using System.Globalization;

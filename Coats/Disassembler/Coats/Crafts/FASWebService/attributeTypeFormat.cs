@@ -7,13 +7,13 @@
     [Serializable, XmlType(Namespace="http://ns.fredhopper.com/XML/output/6.1.0"), GeneratedCode("System.Xml", "4.0.30319.233")]
     public enum attributeTypeFormat
     {
-        int,
-        float,
+        @int,
+        @float,
         text,
         list,
         set,
         date,
-        ref,
+        @ref,
         intset,
         cat,
         asset

@@ -1,12 +1,13 @@
 ﻿namespace Coats.Crafts.Models
 {
     using Coats.Crafts.Attributes;
+    using Data;
     using DD4T.ContentModel;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Runtime.CompilerServices;
-
+    using System.Web.Mvc;
     public class StoreLocatorResults
     {
         private Field _brand = new Field();

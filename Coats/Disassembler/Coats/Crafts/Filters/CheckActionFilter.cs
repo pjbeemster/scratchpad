@@ -5,6 +5,7 @@
     using Coats.Crafts.Gateway.CraftsIntegrationService;
     using Coats.Crafts.Resources;
     using DD4T.ContentModel;
+    using DD4T.ContentModel.Factories;
     using System;
     using System.Collections.Specialized;
     using System.Web;

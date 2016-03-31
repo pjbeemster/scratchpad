@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Runtime.CompilerServices;
-
+    using System.Web.Mvc;
     public class EmailNewsletter
     {
         private List<SelectListItem> _techniques;

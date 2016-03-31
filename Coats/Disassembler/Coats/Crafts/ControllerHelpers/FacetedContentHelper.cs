@@ -99,7 +99,7 @@
             return (fh_params + "/" + facetParts[0] + ">{" + facetParts[0] + NestedLevelDelimiter + facetParts[1] + "}");
         }
 
-        public static Query BuildQuery<T>(ref T facetedContent, int itemsPerPage, string viewType, int publicationId) where T: FacetedContentBase
+        public static Query BuildQuery<T>(ref T facetedContent, int itemsPerPage, string viewType, int publicationId) where T : FacetedContentBase
         {
             Location loc = new Location(facetedContent.FredHopperLocation);
             if ((facetedContent.Sort != null) && facetedContent.Sort.ActiveDiscussions)
@@ -126,7 +126,7 @@
             return query;
         }
 
-        public static Query BuildQuery<T>(ref T facetedContent, string fh_params, string viewType, int itemsPerPage, string defaultLocation, int publicationId, string optionalFacet = "", string nonSelected = "") where T: FacetedContentBase, new()
+        public static Query BuildQuery<T>(ref T facetedContent, string fh_params, string viewType, int itemsPerPage, string defaultLocation, int publicationId, string optionalFacet = "", string nonSelected = "") where T : FacetedContentBase, new()
         {
             Query query = null;
             if (!string.IsNullOrEmpty(fh_params))
@@ -197,7 +197,8 @@
             if (!IsViewFromProductExplorerSection(viewType))
             {
                 query.setSortingBy("-featuredcontent");
-                SelectListItem item = new SelectListItem {
+                SelectListItem item = new SelectListItem
+                {
                     Selected = sortAttribute == "-featuredcontent",
                     Text = Helper.GetResource("FeaturedContent"),
                     Value = query.ToFhParams()
@@ -205,7 +206,8 @@
                 list.Add(item);
             }
             query.setSortingBy("-publishdate");
-            SelectListItem item3 = new SelectListItem {
+            SelectListItem item3 = new SelectListItem
+            {
                 Selected = sortAttribute == "-publishdate",
                 Text = Helper.GetResource("MostRecent"),
                 Value = query.ToFhParams()
@@ -214,7 +216,8 @@
             if (!IsViewFromProductExplorerSection(viewType))
             {
                 query.setSortingBy("-rating");
-                SelectListItem item2 = new SelectListItem {
+                SelectListItem item2 = new SelectListItem
+                {
                     Selected = sortAttribute == "-rating",
                     Text = Helper.GetResource("MostPopular"),
                     Value = query.ToFhParams()
@@ -223,7 +226,8 @@
             }
             string str2 = "sort_by_title";
             query.setSortingBy(str2);
-            SelectListItem item4 = new SelectListItem {
+            SelectListItem item4 = new SelectListItem
+            {
                 Selected = sortAttribute == str2,
                 Text = Helper.GetResource("AtoZ"),
                 Value = query.ToFhParams()
@@ -231,7 +235,8 @@
             list.Add(item4);
             str2 = "-" + str2;
             query.setSortingBy(str2);
-            SelectListItem item5 = new SelectListItem {
+            SelectListItem item5 = new SelectListItem
+            {
                 Selected = sortAttribute == str2,
                 Text = Helper.GetResource("ZtoA"),
                 Value = query.ToFhParams()
@@ -275,157 +280,105 @@
 
         public static FacetSection GetComponentSchemaTypes(string viewType, bool? selectedState, string nonSelected, FacetedContent content)
         {
-            Func<FacetItem, bool> predicate = null;
             Action<FacetItem> action = null;
             List<filtersection> returnedSchemasList = new List<filtersection>();
-            IList<FacetItem> facets = new List<FacetItem>();
+            IList<FacetItem> selectedContentTypes = new List<FacetItem>();
             if ((content != null) && (content.ReturnedSchemas != null))
             {
                 returnedSchemasList = content.ReturnedSchemas.filtersection.ToList<filtersection>();
-                facets = content.ComponentSection.ComponentTypes.Facets;
+                selectedContentTypes = content.ComponentSection.ComponentTypes.Facets;
             }
-            List<FacetItem> source = new List<FacetItem>();
+            List<FacetItem> componentSchemaTypes = new List<FacetItem>();
             switch (viewType.ToLower())
             {
                 case "discover":
-                {
-                    FacetItem item = new FacetItem {
-                        Text = Helper.GetResource("ProjectsAndPatterns"),
-                        Value = "crafts2eproject"
-                    };
-                    source.Add(item);
-                    FacetItem item2 = new FacetItem {
-                        Text = Helper.GetResource("Articles"),
-                        Value = "crafts2earticle"
-                    };
-                    source.Add(item2);
-                    FacetItem item3 = new FacetItem {
-                        Text = Helper.GetResource("MoodBoards"),
-                        Value = "crafts2emoodboard"
-                    };
-                    source.Add(item3);
-                    FacetItem item4 = new FacetItem {
-                        Text = Helper.GetResource("Designers"),
-                        Value = "crafts2edesigner"
-                    };
-                    source.Add(item4);
-                    break;
-                }
+                    {
+                        componentSchemaTypes.Add(new FacetItem { Text = Helper.GetResource("ProjectsAndPatterns"), Value = "crafts2eproject" });
+                        componentSchemaTypes.Add(new FacetItem { Text = Helper.GetResource("Articles"), Value = "crafts2earticle" });
+                        componentSchemaTypes.Add(new FacetItem { Text = Helper.GetResource("MoodBoards"), Value = "crafts2emoodboard" });
+                        componentSchemaTypes.Add(new FacetItem { Text = Helper.GetResource("Designers"), Value = "crafts2edesigner" });
+                        break;
+                    }
                 case "learn":
-                {
-                    FacetItem item5 = new FacetItem {
-                        Text = Helper.GetResource("Tutorials"),
-                        Value = "crafts2etutorial"
-                    };
-                    source.Add(item5);
-                    FacetItem item6 = new FacetItem {
-                        Text = Helper.GetResource("CareAndRepair"),
-                        Value = "crafts2ecarerepair"
-                    };
-                    source.Add(item6);
-                    FacetItem item7 = new FacetItem {
-                        Text = Helper.GetResource("FAQs"),
-                        Value = "crafts2efaq"
-                    };
-                    source.Add(item7);
-                    break;
-                }
+                    {
+                        componentSchemaTypes.Add(new FacetItem { Text = Helper.GetResource("Tutorials"), Value = "crafts2etutorial" });
+                        componentSchemaTypes.Add(new FacetItem { Text = Helper.GetResource("CareAndRepair"), Value = "crafts2ecarerepair" });
+                        componentSchemaTypes.Add(new FacetItem { Text = Helper.GetResource("FAQs"), Value = "crafts2efaq" });
+                        break;
+                    }
                 case "share":
-                {
-                    FacetItem item8 = new FacetItem {
-                        Text = Helper.GetResource("Blog"),
-                        Value = "crafts2eblog"
-                    };
-                    source.Add(item8);
-                    FacetItem item9 = new FacetItem {
-                        Text = Helper.GetResource("Events"),
-                        Value = "crafts2eevent"
-                    };
-                    source.Add(item9);
-                    break;
-                }
+                    {
+                        componentSchemaTypes.Add(new FacetItem { Text = Helper.GetResource("Blog"), Value = "crafts2eblog" });
+                        componentSchemaTypes.Add(new FacetItem { Text = Helper.GetResource("Events"), Value = "crafts2eevent" });
+                        break;
+                    }
                 case "productexplorer":
                 case "ourbrands":
                 case "storelocator":
-                {
-                    string str = WebConfiguration.Current.ProductExplorer.AddApplicationRoot();
-                    string str2 = WebConfiguration.Current.Brands.AddApplicationRoot();
-                    string str3 = WebConfiguration.Current.StoreFinder.AddApplicationRoot();
-                    FacetItem item10 = new FacetItem {
-                        Text = Helper.GetResource("Products"),
-                        Value = str,
-                        Selected = viewType.ToLower() == "productexplorer"
-                    };
-                    source.Add(item10);
-                    FacetItem item11 = new FacetItem {
-                        Text = Helper.GetResource("OurBrands"),
-                        Value = str2,
-                        Selected = viewType.ToLower() == "ourbrands"
-                    };
-                    source.Add(item11);
-                    FacetItem item12 = new FacetItem {
-                        Text = Helper.GetResource("StoreLocator"),
-                        Value = str3,
-                        Selected = viewType.ToLower() == "storelocator"
-                    };
-                    source.Add(item12);
-                    break;
-                }
+                    {
+                        string urlProductExplorer = WebConfiguration.Current.ProductExplorer.AddApplicationRoot();
+                        string urlOurBrands = WebConfiguration.Current.Brands.AddApplicationRoot();
+                        string urlStoreFinder = WebConfiguration.Current.StoreFinder.AddApplicationRoot();
+                        componentSchemaTypes.Add(new FacetItem { Text = Helper.GetResource("Products"), Value = urlProductExplorer, Selected = viewType.ToLower() == "productexplorer" });
+                        componentSchemaTypes.Add(new FacetItem { Text = Helper.GetResource("OurBrands"), Value = urlOurBrands, Selected = viewType.ToLower() == "ourbrands" });
+                        componentSchemaTypes.Add(new FacetItem { Text = Helper.GetResource("StoreLocator"), Value = urlStoreFinder, Selected = viewType.ToLower() == "storelocator" });
+                        break;
+                    }
             }
             if (selectedState.HasValue)
             {
-                foreach (FacetItem item13 in source)
+                foreach (FacetItem item in componentSchemaTypes)
                 {
-                    if (item13.Value != nonSelected)
+                    if (item.Value != nonSelected)
                     {
-                        item13.Selected = selectedState.Value;
+                        item.Selected = selectedState.Value;
                     }
                 }
             }
             if (returnedSchemasList.Count > 0)
             {
-                if (predicate == null)
-                {
-                    predicate = x => !returnedSchemasList.Exists(y => y.value.Value == x.Value);
-                }
-                source.Where<FacetItem>(predicate).ToList<FacetItem>().ForEach(delegate (FacetItem x) {
-                    x.Enabled = false;
-                    x.Selected = false;
-                });
+                componentSchemaTypes.Where(x => !returnedSchemasList.Exists(y => y.value.Value == x.Value)).ToList()
+                    .ForEach(x =>
+                    {
+                        x.Enabled = false;
+                        x.Selected = false;
+                    });
             }
             else if ((content != null) && (content.ReturnedSchemas == null))
             {
-                source.ForEach(delegate (FacetItem c) {
+                componentSchemaTypes.ForEach(c => {
                     c.Enabled = false;
                     c.Selected = false;
                 });
             }
-            if (source.Count<FacetItem>(c => c.Enabled) == 1)
+            if (componentSchemaTypes.Count<FacetItem>(c => c.Enabled) == 1)
             {
-                source.SingleOrDefault<FacetItem>(c => c.Enabled).Enabled = false;
+                componentSchemaTypes.SingleOrDefault<FacetItem>(c => c.Enabled).Enabled = false;
             }
-            List<FacetItem> s = (from selected in facets
-                join enabled in source on selected.Value equals enabled.Value into enabled
-                where selected.Selected && enabled.Enabled
-                select selected).ToList<FacetItem>();
-            int num2 = s.Count<FacetItem>();
-            if (num2 > 0)
+
+            var s = (from selected in selectedContentTypes
+                     join enabled in componentSchemaTypes on selected.Value equals enabled.Value
+                     where selected.Selected && enabled.Enabled
+                     select selected).ToList();
+            int facetsLeftEnabled = s.Count<FacetItem>();
+            if (facetsLeftEnabled > 0)
             {
                 if (action == null)
                 {
-                    action = delegate (FacetItem x) {
+                    action = delegate (FacetItem x)
+                    {
                         bool flag = s.Exists(y => y.Value == x.Value);
                         x.Selected = flag;
                     };
                 }
-                source.ToList<FacetItem>().ForEach(action);
+                componentSchemaTypes.ToList<FacetItem>().ForEach(action);
             }
-            if ((num2 == 1) && (source.Count<FacetItem>(f => (f.Enabled && !f.Selected)) == 0))
+            if ((facetsLeftEnabled == 1) && (componentSchemaTypes.Count<FacetItem>(f => (f.Enabled && !f.Selected)) == 0))
             {
                 FacetItem selected = s[0];
-                source.SingleOrDefault<FacetItem>(c => (c.Value == selected.Value)).Enabled = false;
+                componentSchemaTypes.SingleOrDefault<FacetItem>(c => (c.Value == selected.Value)).Enabled = false;
             }
-            return new FacetSection { Facets = source };
+            return new FacetSection { Facets = componentSchemaTypes };
         }
 
         public static string GetSelectedSortingAttribute(string sortingAttribute, SortDirection sortingDirection, string viewType, int publicationId)
@@ -477,11 +430,11 @@
                         presentation.Component.Url = string.Format("use_view={0}", presentation.ComponentTemplate.MetadataFields["view"].Value);
                         if (randomInsert)
                         {
-                            components.Insert(random.Next(minValue, maxValue), (Component) presentation.Component);
+                            components.Insert(random.Next(minValue, maxValue), (Component)presentation.Component);
                         }
                         else
                         {
-                            components.Insert(0, (Component) presentation.Component);
+                            components.Insert(0, (Component)presentation.Component);
                         }
                     }
                 }
@@ -493,7 +446,7 @@
             return components;
         }
 
-        public static T InjectCTAComponents<T>(T facetedContent, IList<IComponentPresentation> ctaList, bool randomInsert = false, bool historyBack = false) where T: FacetedContentBase
+        public static T InjectCTAComponents<T>(T facetedContent, IList<IComponentPresentation> ctaList, bool randomInsert = false, bool historyBack = false) where T : FacetedContentBase
         {
             if (((facetedContent.ComponentList != null) && (facetedContent.ComponentList.Pagination != null)) && ((historyBack || (facetedContent.ComponentList.Pagination.Count == 0)) || ((facetedContent.ComponentList.Pagination.Count > 0) && facetedContent.ComponentList.Pagination[0].Selected)))
             {
@@ -502,14 +455,15 @@
             return facetedContent;
         }
 
-        public static T InjectIntroComponent<T>(T facetedContent, IField introMarkup, bool historyBack) where T: FacetedContentBase
+        public static T InjectIntroComponent<T>(T facetedContent, IField introMarkup, bool historyBack) where T : FacetedContentBase
         {
             try
             {
                 if ((historyBack || (facetedContent.ComponentList.Pagination.Count == 0)) || ((facetedContent.ComponentList.Pagination.Count > 0) && facetedContent.ComponentList.Pagination[0].Selected))
                 {
-                    Component item = new Component {
-                        Fields = { { 
+                    Component item = new Component
+                    {
+                        Fields = { {
                             "intro",
                             introMarkup
                         } },

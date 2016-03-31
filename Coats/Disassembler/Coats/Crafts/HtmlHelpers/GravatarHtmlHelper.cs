@@ -37,7 +37,7 @@
             return builder.ToString();
         }
 
-        public static HtmlString GravatarImage(this HtmlHelper htmlHelper, string emailAddress, int size = 80, DefaultImage defaultImage = 2, string defaultImageUrl = "", bool forceDefaultImage = false, Rating rating = 0, bool forceSecureRequest = false)
+        public static HtmlString GravatarImage(this HtmlHelper htmlHelper, string emailAddress, int size = 80, DefaultImage defaultImage = DefaultImage.MysteryMan, string defaultImageUrl = "", bool forceDefaultImage = false, Rating rating = 0, bool forceSecureRequest = false)
         {
             TagBuilder builder = new TagBuilder("img");
             emailAddress = string.IsNullOrEmpty(emailAddress) ? string.Empty : emailAddress.Trim().ToLower();

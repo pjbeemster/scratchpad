@@ -2,6 +2,7 @@
 {
     using Castle.Windsor;
     using DD4T.ContentModel;
+    using DD4T.ContentModel.Factories;
     using System;
     using System.Runtime.CompilerServices;
     using System.Web;

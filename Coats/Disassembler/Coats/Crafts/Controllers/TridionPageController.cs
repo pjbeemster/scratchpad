@@ -13,6 +13,7 @@
     using DD4T.Mvc.Controllers;
     using DD4T.Utils;
     using System;
+    using System.Collections.Generic;
     using System.Configuration;
     using System.Linq;
     using System.Runtime.CompilerServices;

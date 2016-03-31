@@ -11,6 +11,7 @@
     using Coats.Crafts.Resources;
     using Coats.Crafts.SmartTartget.SmartTargetDeploymentWebService;
     using DD4T.ContentModel;
+    using DD4T.ContentModel.Factories;
     using DD4T.Mvc.Controllers;
     using Microsoft.Security.Application;
     using System;
@@ -57,7 +58,8 @@
                         try
                         {
                             IComponent componentInfo = this.GetComponentInfo(commentform.ComponentID);
-                            CommentEmail model = new CommentEmail {
+                            Models.CommentEmail model = new Models.CommentEmail
+                            {
                                 ComponentName = ((TridionItem) componentInfo).Title,
                                 ComponentID = commentform.ComponentID,
                                 User = user.UserName
@@ -132,7 +134,7 @@
 
         public ActionResult AllCommentsByUser(string compid, string username, int numberToReturn)
         {
-            IList<Comment> data = this._commentrepository.GetAllCommentsByUser(compid, username, numberToReturn);
+            IList<CDS.Comment> data = this._commentrepository.GetAllCommentsByUser(compid, username, numberToReturn);
             string debugJson = WebConfiguration.Current.DebugJson;
             if (base.Request.IsAjaxRequest())
             {
@@ -161,7 +163,7 @@
             {
                 stopwatch.Start();
             }
-            IList<Comment> comments = this._commentrepository.GetComments(compid, numberToReturn);
+            IList<CDS.Comment> comments = this._commentrepository.GetComments(compid, numberToReturn);
             CommentsPackage model = new CommentsPackage();
             string userRating = this.GetUserRating(compid);
             model.CommentList = comments;
@@ -187,7 +189,7 @@
 
         public ActionResult CommentsByUser(string compid, string username, int numberToReturn)
         {
-            IList<Comment> data = this._commentrepository.GetCommentsByUser(compid, username, numberToReturn);
+            IList<CDS.Comment> data = this._commentrepository.GetCommentsByUser(compid, username, numberToReturn);
             string debugJson = WebConfiguration.Current.DebugJson;
             if (base.Request.IsAjaxRequest())
             {
@@ -291,7 +293,7 @@
             builder.Append("<name locale=\"en_US\">commentcount</name>");
             builder.AppendFormat("<value>{0}</value>", commentCount);
             builder.Append("</attribute>");
-            IList<Comment> comments = this._commentrepository.GetComments(itemId, 3);
+            IList<CDS.Comment> comments = this._commentrepository.GetComments(itemId, 3);
             for (int i = 0; i < comments.Count; i++)
             {
                 if (i == 0)
@@ -341,7 +343,7 @@
             public string introText;
             public string title;
 
-            public IList<Comment> CommentList { get; set; }
+            public IList<CDS.Comment> CommentList { get; set; }
 
             public CommentsController.CommentIDs IDs
             {

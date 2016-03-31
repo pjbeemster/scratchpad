@@ -127,7 +127,7 @@
             return base.View(productExplorer);
         }
 
-        protected override Query PreCallFredHopper<T>(Query query, ref T facetedContent) where T: FacetedContentBase
+        protected override Query PreCallFredHopper<T>(Query query, ref T facetedContent) //where T: FacetedContentBase
         {
             return query;
         }

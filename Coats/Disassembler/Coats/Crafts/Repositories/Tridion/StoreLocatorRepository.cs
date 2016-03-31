@@ -10,6 +10,7 @@
     using Coats.Crafts.Repositories.Interfaces;
     using Coats.Crafts.Resources;
     using DD4T.ContentModel;
+    using DD4T.ContentModel.Factories;
     using Newtonsoft.Json.Linq;
     using System;
     using System.Collections.Generic;

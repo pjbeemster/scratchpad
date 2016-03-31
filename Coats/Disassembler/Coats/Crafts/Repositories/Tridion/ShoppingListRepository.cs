@@ -9,8 +9,10 @@
     using Coats.Crafts.Models;
     using Coats.Crafts.Repositories.Interfaces;
     using DD4T.ContentModel;
+    using DD4T.ContentModel.Factories;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Runtime.CompilerServices;
     using System.Web;
 

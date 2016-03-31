@@ -113,7 +113,7 @@
             return base.View(facetedContent);
         }
 
-        protected override Query PreCallFredHopper<T>(Query query, ref T facetedContent) where T: FacetedContentBase
+        protected override Query PreCallFredHopper<T>(Query query, ref T facetedContent) //where T: FacetedContentBase
         {
             Location location = query.getLocation();
             MultiValuedCriterion criterion = CriterionFactory.parse(facetedContent.ComponentSection.ComponentTypes.ToLocationString()) as MultiValuedCriterion;

@@ -4,6 +4,7 @@
     using Coats.Crafts.Configuration;
     using Coats.Crafts.Gateway;
     using Coats.Crafts.Repositories.Interfaces;
+    using Gateway.CraftsIntegrationService;
     using System;
     using System.Collections.Generic;
     using System.Globalization;

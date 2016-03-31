@@ -1,20 +1,23 @@
 ﻿namespace Coats.Crafts.Extensions
 {
-    using Coats.Crafts.Configuration;
-    using Coats.Crafts.ControllerHelpers;
-    using Coats.Crafts.FASWebService;
-    using Coats.Crafts.FredHopper;
-    using Coats.Crafts.Models;
-    using com.fredhopper.lang.query;
-    using com.fredhopper.lang.query.location;
-    using com.fredhopper.lang.query.location.criteria;
-    using DD4T.ContentModel;
+
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Runtime.CompilerServices;
-    using System.Text.RegularExpressions;
     using System.Web;
+    using System.Text.RegularExpressions;
+
+    using com.fredhopper.lang.query;
+    using com.fredhopper.lang.query.location;
+    using com.fredhopper.lang.query.location.criteria;
+
+    using Coats.Crafts.Configuration;
+    using Coats.Crafts.Models;
+    using Coats.Crafts.FredHopper;
+    using Coats.Crafts.FASWebService;
+    using Coats.Crafts.ControllerHelpers;
+
+    using DD4T.ContentModel;
 
     public static class FredHopperExtensions
     {
@@ -160,16 +163,13 @@
                 facets.ResetFacetsUrl = Resetfilters(fh_location, false, publicationId).toString();
                 return facets;
             }
-            IEnumerable<filter> enumerable = from f in fm.filter.ToList<filter>()
-                group f by f.title into grp
-                select grp.First<filter>();
-            IEnumerable<filter> source = from f in enumerable
-                where f.on.Contains(FacetedContentHelper.NestedLevelDelimiter)
-                select f;
-            IEnumerable<filter> enumerable3 = from f in enumerable
-                where !f.on.Contains(FacetedContentHelper.NestedLevelDelimiter)
-                select f;
-            foreach (filter filter in enumerable3)
+
+            List<filter> filters = fm.filter.ToList();
+            var uniqueFilters = filters.GroupBy(f => f.title).Select(grp => grp.First());
+            IEnumerable<filter> childFilters = uniqueFilters.Where(f => f.on.Contains(FacetedContentHelper.NestedLevelDelimiter));
+            IEnumerable<filter> parentFilters = uniqueFilters.Where(f => !f.on.Contains(FacetedContentHelper.NestedLevelDelimiter));
+
+            foreach (filter filter in parentFilters)
             {
                 if (((filter.customfields == null) || (filter.customfields.SingleOrDefault<customfield>(c => (c.name == "VisibleFacet")).Value != "False")) || (filter.on == string.Format(WebConfiguration.Current.ProductGroupFormat, WebConfiguration.Current.PublicationId)))
                 {
@@ -184,32 +184,17 @@
                     section.SectionTitle = filter.title;
                     section.CustomFields = filter.customfields;
                     section.Facets = new List<FacetItem>();
-                    List<filtersection> list2 = filter.filtersection.ToList<filtersection>();
-                    using (List<filtersection>.Enumerator enumerator2 = list2.GetEnumerator())
+                    List<filtersection> filterSections = filter.filtersection.ToList<filtersection>();
+                    foreach (var fs in filterSections)
                     {
-                        Func<filter, bool> predicate = null;
-                        filtersection fs;
-                        while (enumerator2.MoveNext())
+                        FacetItem facetItem = getFacetItem(fs, fh_location, filter);
+                        var child = childFilters.Where(s => s.on == fs.value.Value).FirstOrDefault();
+                        if (child != null)
                         {
-                            fs = enumerator2.Current;
-                            FacetItem item = getFacetItem(fs, fh_location, filter);
-                            if (predicate == null)
-                            {
-                                predicate = s => s.on == fs.value.Value;
-                            }
-                            filter child = source.Where<filter>(predicate).FirstOrDefault<filter>();
-                            if (child != null)
-                            {
-                                item.childSection = getChildSectionRecursive(child, fh_location, source);
-                            }
-                            section.Facets.Add(item);
+                            facetItem.childSection = getChildSectionRecursive(child, fh_location, childFilters);
                         }
+                        section.Facets.Add(facetItem);
                     }
-                    if (facets.FacetSections == null)
-                    {
-                        facets.FacetSections = new List<FacetSection>();
-                    }
-                    facets.FacetSections.Add(section);
                 }
             }
             facets.ResetFacetsUrl = Resetfilters(fh_location, true, publicationId).toString();
@@ -222,9 +207,7 @@
             {
                 return null;
             }
-            return (from f in fm.filter
-                where f.on == "schematitle"
-                select f).FirstOrDefault<filter>();
+            return fm.filter.Where(f => f.on == "schematitle").FirstOrDefault();
         }
 
         public static bool IsActiveDiscussion(this Location loc)

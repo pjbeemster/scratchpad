@@ -1,6 +1,7 @@
 ﻿namespace Coats.Crafts.Models
 {
     using Coats.Crafts.Attributes;
+    using Gateway.CraftsIntegrationService;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;

@@ -67,7 +67,7 @@
         }
 
         [HttpGet, Level1BrandFilter]
-        public ActionResult Index(ComponentPresentation presentation, string Location = "", [Optional, DecimalConstant(0, 0, (uint) 0, (uint) 0, (uint) 0)] decimal Latitude, [Optional, DecimalConstant(0, 0, (uint) 0, (uint) 0, (uint) 0)] decimal Longitude, string Distance = null, bool clear = false, string Address = "", string NoJS = "", string WithinVal = null)
+        public ActionResult Index(ComponentPresentation presentation, string Location = "", decimal Latitude = 0, decimal Longitude = 0, string Distance = null, bool clear = false, string Address = "", string NoJS = "", string WithinVal = null)
         {
             if (clear)
             {

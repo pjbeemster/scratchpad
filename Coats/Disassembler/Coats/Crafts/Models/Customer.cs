@@ -13,10 +13,10 @@
         public string DisplayName { get; set; }
 
         [EmailValidator, DataType(DataType.EmailAddress), Remote("IsEmailAvailable", "RemoteValidation", HttpMethod="POST"), CustomResourceRequired("EmailAddressRequired"), CustomEmail("ValidEmail")]
-        public string EmailAddress { get; set; }
+        public new string EmailAddress { get; set; }
 
         [CustomStringLength(100, "PasswordLengthError", 6), DataType(DataType.Password), CustomResourceRequired("PasswordRequired")]
-        public string Password { get; set; }
+        public new string Password { get; set; }
 
         public string SiteUrl { get; set; }
 

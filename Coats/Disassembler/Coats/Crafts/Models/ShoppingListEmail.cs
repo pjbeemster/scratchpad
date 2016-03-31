@@ -1,8 +1,10 @@
 ﻿namespace Coats.Crafts.Models
 {
     using Coats.Crafts.Interfaces;
+    using Gateway.CraftsIntegrationService;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Runtime.CompilerServices;
 
     public class ShoppingListEmail : IEmail

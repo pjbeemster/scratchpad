@@ -1,6 +1,7 @@
 ﻿namespace Coats.Crafts.Resources
 {
     using Castle.MicroKernel;
+    using Castle.MicroKernel.Context;
     using Castle.Windsor;
     using DD4T.Utils;
     using System;

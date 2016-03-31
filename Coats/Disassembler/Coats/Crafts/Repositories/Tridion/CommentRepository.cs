@@ -18,7 +18,7 @@
     using System.Text;
     using System.Web;
     using System.Web.Script.Serialization;
-    using Tridion.ContentDelivery.UGC.WebService;
+    using global::Tridion.ContentDelivery.UGC.WebService;
 
     public class CommentRepository : ICommentRepository
     {
@@ -227,7 +227,7 @@
             {
                 this.Logger.DebugFormat("CommentRepository.GetAllCommentsByUser numberToReturn {0}, numberToReturn {1}", new object[] { numberToReturn, username });
             }
-            List<Coats.Crafts.CDS.Comment> list = null;
+            List<CDS.Comment> list = null;
             try
             {
                 TridionTcmUri tcmUri = UtilityHelper.GetTcmUri(itemUri);
@@ -241,7 +241,7 @@
                         where (p.ItemPublicationId == publicationId) && (p.User.Name == username)
                         where p.Status == 2
                         orderby p.CreationDate descending
-                        select p).Take<Coats.Crafts.CDS.Comment>(numberToReturn).ToList<Coats.Crafts.CDS.Comment>();
+                        select p).Take(numberToReturn).ToList();
                 }
                 else
                 {
@@ -249,7 +249,7 @@
                         where (c.ItemPublicationId == publicationId) && (c.User.Id == username)
                         select c into p
                         orderby p.CreationDate descending
-                        select p).Take<Coats.Crafts.CDS.Comment>(numberToReturn).ToList<Coats.Crafts.CDS.Comment>();
+                        select p).Take(numberToReturn).ToList();
                 }
                 stopwatch.Stop();
                 string str = stopwatch.Elapsed.ToString();

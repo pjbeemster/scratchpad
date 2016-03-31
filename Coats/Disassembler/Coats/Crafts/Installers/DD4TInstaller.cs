@@ -4,6 +4,13 @@
     using Castle.MicroKernel.Registration;
     using Castle.MicroKernel.SubSystems.Configuration;
     using Castle.Windsor;
+    using DD4T.ContentModel.Contracts.Caching;
+    using DD4T.ContentModel.Contracts.Providers;
+    using DD4T.ContentModel.Factories;
+    using DD4T.Factories;
+    using DD4T.Factories.Caching;
+    using DD4T.Mvc.Html;
+    using DD4T.Providers.WCFServices;
     using System;
 
     public class DD4TInstaller : IWindsorInstaller

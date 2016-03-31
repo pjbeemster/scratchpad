@@ -7,6 +7,7 @@
     using Coats.Crafts.Models;
     using Coats.Crafts.Repositories.Interfaces;
     using DD4T.ContentModel;
+    using Gateway.CraftsIntegrationService;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;

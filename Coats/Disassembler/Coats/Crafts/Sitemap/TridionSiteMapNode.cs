@@ -24,7 +24,7 @@
             return (NoUrlFoundPrefix + HttpUtility.HtmlEncode(inputUrl));
         }
 
-        public NameValueCollection Attributes
+        public new NameValueCollection Attributes
         {
             get
             {

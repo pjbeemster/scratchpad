@@ -4,7 +4,7 @@
     using Coats.Crafts.Models;
     using System;
     using System.Collections.Generic;
-
+    using System.Linq;
     public interface IShoppingListRepository
     {
         ShoppingListItem GetShoppingListItem(Guid itemID);

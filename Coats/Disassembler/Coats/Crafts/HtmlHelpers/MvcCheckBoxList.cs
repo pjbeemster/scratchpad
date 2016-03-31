@@ -278,33 +278,9 @@
             return ExpressionHelper.GetExpressionText(propertyExpression);
         }
 
-        private static int htmlwrap_rowbreak_counter
-        {
-            [CompilerGenerated]
-            get
-            {
-                return <htmlwrap_rowbreak_counter>k__BackingField;
-            }
-            [CompilerGenerated]
-            set
-            {
-                <htmlwrap_rowbreak_counter>k__BackingField = value;
-            }
-        }
+        private static int htmlwrap_rowbreak_counter { get; set; }
 
-        private static int linked_label_counter
-        {
-            [CompilerGenerated]
-            get
-            {
-                return <linked_label_counter>k__BackingField;
-            }
-            [CompilerGenerated]
-            set
-            {
-                <linked_label_counter>k__BackingField = value;
-            }
-        }
+        private static int linked_label_counter { get; set; }
 
         internal enum htmlElementTag
         {

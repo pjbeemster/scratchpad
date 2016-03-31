@@ -131,7 +131,7 @@
             return node;
         }
 
-        public bool IsInitialized { virtual get; private set; }
+        public virtual bool IsInitialized { get; private set; }
 
         public virtual string SiteMapPath
         {

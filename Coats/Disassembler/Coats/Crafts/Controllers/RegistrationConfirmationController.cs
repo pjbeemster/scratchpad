@@ -25,7 +25,7 @@
 
         private string GetClientIP()
         {
-            HttpContext current = HttpContext.Current;
+            HttpContext current = System.Web.HttpContext.Current;
             string str = current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
             if (string.IsNullOrEmpty(str))
             {

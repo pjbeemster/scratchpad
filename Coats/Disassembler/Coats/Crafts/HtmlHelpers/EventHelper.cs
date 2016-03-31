@@ -148,40 +148,48 @@
 
         private static string SetRecurring(string inlist, TimeSpan? recurringAt, string sep, DateTime untilEndDate, bool useEndTime, string endSep)
         {
-            TimeSpan? nullable;
-            string str = string.Empty;
-            string str2 = string.Empty;
-            string str3 = string.Empty;
+            string outString = string.Empty;
+            string atString = string.Empty;
+            string delim = string.Empty;
+
             if (!string.IsNullOrEmpty(inlist))
             {
-                DayOfWeek firstDayOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek;
-                for (int i = 0; i < 7; i++)
+                //Need sort the days of the week as the Tridion weekday keywords aren't sorted - nice
+                DayOfWeek firstDay = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek;
+                for (int dayIndex = 0; dayIndex < 7; dayIndex++)
                 {
-                    DayOfWeek week2 = (firstDayOfWeek + i) % (DayOfWeek.Saturday | DayOfWeek.Monday);
-                    if (inlist.ToLower().IndexOf(week2.ToString().ToLower(), 0) >= 0)
+                    var currentDay = (DayOfWeek)(((int)firstDay + dayIndex) % 7);
+
+                    if (inlist.ToLower().IndexOf(currentDay.ToString().ToLower(), 0) >= 0)
                     {
-                        str = str + str3 + week2;
-                        str3 = ", ";
+                        // Output the day
+                        outString += delim + currentDay;
+                        delim = ", ";
                     }
                 }
             }
-            if (recurringAt.HasValue || (!(nullable = recurringAt).HasValue || (nullable.GetValueOrDefault() != TimeSpan.MinValue)))
+
+            if (recurringAt != null || recurringAt != TimeSpan.MinValue)
             {
                 if (recurringAt.HasValue)
                 {
-                    str2 = sep + " " + new DateTime(recurringAt.Value.Ticks).ToString(CultureInfo.CreateSpecificCulture(WebConfiguration.Current.Culture).DateTimeFormat.ShortTimePattern);
+                    atString = sep + " " + new DateTime(recurringAt.Value.Ticks).ToString(CultureInfo.CreateSpecificCulture(WebConfiguration.Current.Culture).DateTimeFormat.ShortTimePattern);
                 }
-                str = str + " " + str2;
+                outString = outString + " " + atString;
             }
-            if (!(untilEndDate != DateTime.MinValue))
+
+
+            if (untilEndDate != DateTime.MinValue)
             {
-                return str;
+                if (useEndTime)
+                {
+                    outString = outString + " " + endSep + " " + untilEndDate.ToString(CultureInfo.CreateSpecificCulture(WebConfiguration.Current.Culture).DateTimeFormat.FullDateTimePattern);
+                }
+                else {
+                    outString = outString + " " + endSep + " " + untilEndDate.ToString(CultureInfo.CreateSpecificCulture(WebConfiguration.Current.Culture).DateTimeFormat.LongDatePattern);
+                }
             }
-            if (useEndTime)
-            {
-                return (str + " " + endSep + " " + untilEndDate.ToString(CultureInfo.CreateSpecificCulture(WebConfiguration.Current.Culture).DateTimeFormat.FullDateTimePattern));
-            }
-            return (str + " " + endSep + " " + untilEndDate.ToString(CultureInfo.CreateSpecificCulture(WebConfiguration.Current.Culture).DateTimeFormat.LongDatePattern));
+            return outString;
         }
 
         private static string SetTotalString(string starttime, string endtime, string sep)

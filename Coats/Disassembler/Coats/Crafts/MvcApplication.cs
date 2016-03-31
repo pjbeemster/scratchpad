@@ -1,5 +1,7 @@
 ﻿namespace Coats.Crafts
 {
+    using Castle.Facilities.TypedFactory;
+    using Castle.MicroKernel.Registration;
     using Castle.Windsor;
     using Castle.Windsor.Installer;
     using Coats.Crafts.Attributes;
@@ -84,7 +86,7 @@
             container = new WindsorContainer();
             container.AddFacility<TypedFactoryFacility>();
             container.Install(new IWindsorInstaller[] { FromAssembly.This() });
-            container.Install(new IWindsorInstaller[] { Configuration.FromAppConfig() });
+            container.Install(new IWindsorInstaller[] { Castle.Windsor.Installer.Configuration.FromAppConfig() });
             WindsorControllerFactory controllerFactory = new WindsorControllerFactory(container.Kernel);
             ControllerBuilder.Current.SetControllerFactory(controllerFactory);
         }
