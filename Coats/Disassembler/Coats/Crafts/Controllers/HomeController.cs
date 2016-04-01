@@ -55,7 +55,9 @@
                 query = new Query(location);
             }
             query.setView(com.fredhopper.lang.query.ViewType.LISTER);
-            query.setListViewSize(Convert.ToInt32(WebConfiguration.Current.HomepageItemsPerPage));
+            int viewsize = Convert.ToInt32(WebConfiguration.Current.HomepageItemsPerPage);
+            viewsize = FacetedContentHelper.AssertCappedViewSize(viewsize);
+            query.setListViewSize(viewsize);
             query.setSortingBy(WebConfiguration.Current.HomepageSort);
             DD4TComponents components = new DD4TComponents(this.Logger);
             if (this.Logger.IsDebugEnabled)

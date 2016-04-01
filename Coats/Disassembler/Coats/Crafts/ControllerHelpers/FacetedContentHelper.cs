@@ -13,6 +13,7 @@
     using DD4T.ContentModel;
     using System;
     using System.Collections.Generic;
+    using System.Configuration;
     using System.Linq;
     using System.Runtime.InteropServices;
     using System.Web;
@@ -21,6 +22,24 @@
     public sealed class FacetedContentHelper
     {
         private static object syncRoot = new object();
+
+        internal static int DefaultMaximumViewSize = 20;
+        private const string MaximumViewSizeConfigKey = "Fredhopper.MaximumViewSize";
+
+        public static int AssertCappedViewSize(int requested)
+        {
+            int configured;
+            int max;
+            if (int.TryParse(ConfigurationManager.AppSettings[MaximumViewSizeConfigKey], out configured))
+            {
+                max = configured;
+            }
+            else
+            {
+                max = DefaultMaximumViewSize;
+            }
+            return (requested < max) ? requested : max;
+        }
 
         public static string AppendOptionalFacet(string fh_params, string optionalFacet)
         {
@@ -101,6 +120,8 @@
 
         public static Query BuildQuery<T>(ref T facetedContent, int itemsPerPage, string viewType, int publicationId) where T : FacetedContentBase
         {
+            itemsPerPage = FacetedContentHelper.AssertCappedViewSize(itemsPerPage);
+
             Location loc = new Location(facetedContent.FredHopperLocation);
             if ((facetedContent.Sort != null) && facetedContent.Sort.ActiveDiscussions)
             {
@@ -128,6 +149,7 @@
 
         public static Query BuildQuery<T>(ref T facetedContent, string fh_params, string viewType, int itemsPerPage, string defaultLocation, int publicationId, string optionalFacet = "", string nonSelected = "") where T : FacetedContentBase, new()
         {
+            itemsPerPage = FacetedContentHelper.AssertCappedViewSize(itemsPerPage);
             Query query = null;
             if (!string.IsNullOrEmpty(fh_params))
             {
@@ -178,10 +200,7 @@
             }
             facetedContent.ComponentSection.ComponentTypes.SectionTitle = "Show me";
             query.setView(com.fredhopper.lang.query.ViewType.LISTER);
-            if (query.getListViewSize() == -1)
-            {
-                query.setListViewSize(itemsPerPage);
-            }
+            query.setListViewSize(itemsPerPage);
             query.setSortingBy(GetSelectedSortingAttribute(query.getSortingAttribute(0), query.getSortingDirection(0), viewType, publicationId));
             facetedContent.ComponentSection.SearchTerm = query.getSearchPhrase();
             return query;

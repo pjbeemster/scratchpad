@@ -12,10 +12,10 @@
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -34,12 +34,15 @@
   <ItemGroup>
     <Reference Include="System.ComponentModel.DataAnnotations">
       <HintPath>..\Dependencies\System.ComponentModel.DataAnnotations.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Castle.Windsor">
       <HintPath>..\Dependencies\Castle.Windsor.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System.Web.Mvc">
       <HintPath>..\Dependencies\System.Web.Mvc.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core">
@@ -47,113 +50,148 @@
     </Reference>
     <Reference Include="System.Web.Extensions">
       <HintPath>..\Dependencies\System.Web.Extensions.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="DataAnnotationsExtensions">
       <HintPath>..\Dependencies\DataAnnotationsExtensions.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="MVC Foolproof Validation">
       <HintPath>..\Dependencies\MVC Foolproof Validation.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System.Web" />
     <Reference Include="DD4T.Mvc">
       <HintPath>..\Dependencies\DD4T.Mvc.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="DD4T.ContentModel.Contracts">
       <HintPath>..\Dependencies\DD4T.ContentModel.Contracts.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System.Data.Services.Client">
       <HintPath>..\Dependencies\System.Data.Services.Client.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System" />
     <Reference Include="System.ServiceModel">
       <HintPath>..\Dependencies\System.ServiceModel.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Coats.Crafts.Gateway">
       <HintPath>..\Dependencies\Coats.Crafts.Gateway.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Castle.Core">
       <HintPath>..\Dependencies\Castle.Core.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="query-lang-2.17.1.1">
       <HintPath>..\Dependencies\query-lang-2.17.1.1.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System.Xml.Linq">
       <HintPath>..\Dependencies\System.Xml.Linq.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\Dependencies\Newtonsoft.Json.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="DD4T.ContentModel">
       <HintPath>..\Dependencies\DD4T.ContentModel.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Coats.IndustrialPortal.Providers">
       <HintPath>..\Dependencies\Coats.IndustrialPortal.Providers.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="log4net">
       <HintPath>..\Dependencies\log4net.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System.Web.Optimization">
       <HintPath>..\Dependencies\System.Web.Optimization.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System.Web.ApplicationServices">
       <HintPath>..\Dependencies\System.Web.ApplicationServices.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System.Web.WebPages">
       <HintPath>..\Dependencies\System.Web.WebPages.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="GeoIP">
       <HintPath>..\Dependencies\GeoIP.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="WebActivator">
       <HintPath>..\Dependencies\WebActivator.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp">
       <HintPath>..\Dependencies\Microsoft.CSharp.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Facebook">
       <HintPath>..\Dependencies\Facebook.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Castle.Facilities.Logging">
       <HintPath>..\Dependencies\Castle.Facilities.Logging.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="IKVM.OpenJDK.Core">
       <HintPath>..\Dependencies\IKVM.OpenJDK.Core.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Amaze.Net4.Framework.Services">
       <HintPath>..\Dependencies\Amaze.Net4.Framework.Services.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Coats.IndustrialPortal.Gateway">
       <HintPath>..\Dependencies\Coats.IndustrialPortal.Gateway.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="DataAnnotationsExtensions.ClientValidation">
       <HintPath>..\Dependencies\DataAnnotationsExtensions.ClientValidation.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="DD4T.Factories">
       <HintPath>..\Dependencies\DD4T.Factories.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="DD4T.Providers.WCFServices">
       <HintPath>..\Dependencies\DD4T.Providers.WCFServices.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="DD4T.Utils">
       <HintPath>..\Dependencies\DD4T.Utils.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Tridion.ContentDelivery.UGC">
       <HintPath>..\Dependencies\Tridion.ContentDelivery.UGC.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="LowercaseRoutesMVC">
       <HintPath>..\Dependencies\LowercaseRoutesMVC.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="EntityFramework">
       <HintPath>..\Dependencies\EntityFramework.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="HtmlSanitizationLibrary">
       <HintPath>..\Dependencies\HtmlSanitizationLibrary.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Coats.Crafts.SmartTartget">
       <HintPath>..\Dependencies\Coats.Crafts.SmartTartget.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Global.cs" />

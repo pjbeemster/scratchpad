@@ -3,6 +3,7 @@
     using Coats.Crafts.FASWebService;
     using DD4T.ContentModel;
     using System;
+    using System.Collections.Generic;
     using System.Runtime.CompilerServices;
 
     public abstract class FacetedContentBase
@@ -29,6 +30,8 @@
 
         public abstract ComponentSearchSection ComponentSection { get; set; }
 
+        public List<IComponent> FabricComponents { get; set; }
+
         public FacetCollection FacetMap { get; set; }
 
         public string FredHopperLocation { get; set; }
@@ -38,4 +41,3 @@
         public FacetSort Sort { get; set; }
     }
 }
-

@@ -7,6 +7,8 @@
 
     public class PaginatedComponentList
     {
+        public bool CheckFabric { get; set; }
+
         public List<Component> Components { get; set; }
 
         public IList<FacetPagination> Pagination { get; set; }

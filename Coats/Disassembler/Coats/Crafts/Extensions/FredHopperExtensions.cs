@@ -61,37 +61,26 @@
 
         public static FacetSection getChildSectionRecursive(filter child, string fh_location, IEnumerable<filter> childFilters)
         {
-            FacetSection section = new FacetSection {
-                Facets = new List<FacetItem>(),
-                SectionTitle = child.title,
-                CustomFields = child.customfields
-            };
-            List<filtersection> list = child.filtersection.ToList<filtersection>();
-            using (List<filtersection>.Enumerator enumerator = list.GetEnumerator())
+            FacetSection childSection = new FacetSection();
+            childSection.Facets = new List<FacetItem>();
+            childSection.SectionTitle = child.title;
+            childSection.CustomFields = child.customfields;
+            List<filtersection> childFilterSections = child.filtersection.ToList();
+            foreach (var cfs in childFilterSections)
             {
-                Func<filter, bool> predicate = null;
-                filtersection cfs;
-                while (enumerator.MoveNext())
+                FacetItem childFacetItem = getFacetItem(cfs, fh_location, child);
+                if (childFacetItem != null)
                 {
-                    cfs = enumerator.Current;
-                    FacetItem item = getFacetItem(cfs, fh_location, child);
-                    if (item != null)
+                    childFacetItem.Selected = cfs.selected;
+                    var rChild = childFilters.Where(s => s.on == cfs.value.Value).FirstOrDefault();
+                    if (rChild != null)
                     {
-                        item.Selected = cfs.selected;
-                        if (predicate == null)
-                        {
-                            predicate = s => s.on == cfs.value.Value;
-                        }
-                        filter filter = childFilters.Where<filter>(predicate).FirstOrDefault<filter>();
-                        if (filter != null)
-                        {
-                            item.childSection = getChildSectionRecursive(filter, fh_location, childFilters);
-                        }
-                        section.Facets.Add(item);
+                        childFacetItem.childSection = getChildSectionRecursive(rChild, fh_location, childFilters);
                     }
+                    childSection.Facets.Add(childFacetItem);
                 }
             }
-            return section;
+            return childSection;
         }
 
         public static FacetItem getFacetItem(filtersection fs, string fh_location, filter f)
@@ -195,6 +184,11 @@
                         }
                         section.Facets.Add(facetItem);
                     }
+                    if(facets.FacetSections == null)
+                    {
+                        facets.FacetSections = new List<FacetSection>();
+                    }
+                    facets.FacetSections.Add(section);
                 }
             }
             facets.ResetFacetsUrl = Resetfilters(fh_location, true, publicationId).toString();
@@ -245,6 +239,7 @@
                 int num3 = 0;
                 if (int.TryParse(dictionary["fh_view_size"], out num3))
                 {
+                    num3 = FacetedContentHelper.AssertCappedViewSize(num3);
                     query.setListViewSize(num3);
                 }
             }
@@ -318,6 +313,7 @@
 
         public static void ParseSuperFacetQuery(this Query query, IFieldSet fieldSet, int maxItems, int publicationId)
         {
+            maxItems = FacetedContentHelper.AssertCappedViewSize(maxItems);
             Location location = query.getLocation();
             ValueSet lowSet = new ValueSet(ValueSet.AggregationType.OR);
             foreach (KeyValuePair<string, IField> pair in fieldSet)

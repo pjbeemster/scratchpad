@@ -1,6 +1,7 @@
 ﻿namespace Coats.Crafts.Controllers
 {
     using Castle.Core.Logging;
+    using Castle.Windsor;
     using Coats.Crafts.Attributes;
     using Coats.Crafts.Configuration;
     using Coats.Crafts.ControllerHelpers;
@@ -48,6 +49,39 @@
             {
                 facetedContent.Sort = new FacetSort();
             }
+
+            /* ================================================== */
+            /* CHECK FABRIC SECTION TAKEN FROM STAGING ASSEMBLIES */
+            /* ================================================== */
+            facetedContent.ComponentList.CheckFabric = false;
+            if (base.Request.QueryString["fh_params"] != null)
+            {
+                string[] strArray = base.Request.QueryString["fh_params"].Split(new char[] { '&' });
+                Dictionary<string, string> dictionary = new Dictionary<string, string>();
+                foreach (string str2 in strArray)
+                {
+                    int index = str2.IndexOf('=');
+                    if ((index > -1) && (index < str2.Length))
+                    {
+                        dictionary.Add(str2.Substring(0, index), str2.Substring(index + 1));
+                    }
+                }
+                if (base.Request.QueryString["fh_params"].Contains("dir__fabrics") && dictionary["fh_location"].ToString().EndsWith("dir__fabrics}"))
+                {
+                    facetedContent.ComponentList.CheckFabric = true;
+                }
+            }
+            facetedContent.FabricComponents = new List<IComponent>();
+            string tcm = string.Format(this._settings.FabricPage, this._settings.PublicationId);
+            IList<IComponentPresentation> componentPresentations = this.GetPageInfo(tcm).ComponentPresentations;
+            foreach (IComponentPresentation presentation in componentPresentations)
+            {
+                facetedContent.FabricComponents.Add(presentation.Component);
+            }
+            /* ================================================== */
+            /* END FABRIC SECTION                                 */
+            /* ================================================== */
+
             int offset = query.getListStartIndex();
             int size = query.getListViewSize();
             if (historyBack && (offset > 0))
@@ -168,6 +202,12 @@
                     return 10;
                 }
             }
+        }
+
+        private IPage GetPageInfo(string tcm)
+        {
+            IContainerAccessor applicationInstance = System.Web.HttpContext.Current.ApplicationInstance as IContainerAccessor;
+            return applicationInstance.Container.Resolve<IPageFactory>().GetPage(tcm);
         }
 
         public ILogger Logger { get; set; }

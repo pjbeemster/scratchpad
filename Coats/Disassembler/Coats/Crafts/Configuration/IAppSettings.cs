@@ -1,7 +1,6 @@
 ﻿namespace Coats.Crafts.Configuration
 {
     using Castle.Components.DictionaryAdapter;
-    using System;
 
     public interface IAppSettings
     {
@@ -126,6 +125,8 @@
         int EventsNearYouRadius { get; }
 
         string EventsUrl { get; }
+
+        string FabricPage { get; }
 
         string FacebookAppId { get; }
 
@@ -359,4 +360,3 @@
         string ToolId { get; }
     }
 }
-
