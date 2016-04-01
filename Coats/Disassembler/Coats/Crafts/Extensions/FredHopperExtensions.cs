@@ -390,7 +390,7 @@
         {
             loc.RemoveActiveDiscussion();
             loc.addCriterion(CriterionFactory.parse("commentcount>5"));
-            string criterion = string.Format("lastcommentdate>{0}", DateTime.Now.AddDays(-5.0).ToString("yyMMddHHmm"));
+            string criterion = string.Format("lastcommentdate>{0}", DateTime.Now.Date.AddDays(-5.0).ToString("yyMMddHHmm"));
             loc.addCriterion(CriterionFactory.parse(criterion));
         }
 
@@ -413,6 +413,11 @@
 
         public static string ToFhParams(this Query query)
         {
+            // enforce capped fh_view_size parameter
+            int viewsize = query.getListViewSize();
+            viewsize = FacetedContentHelper.AssertCappedViewSize(viewsize);
+            query.setListViewSize(viewsize);
+
             string str = "?fh_params=" + HttpUtility.UrlEncode(query.toString());
             if (!string.IsNullOrEmpty(HttpContext.Current.Request["fh_ticked"]))
             {

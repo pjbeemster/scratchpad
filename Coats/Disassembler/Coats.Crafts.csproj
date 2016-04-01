@@ -194,6 +194,8 @@
       <Private>False</Private>
     </Reference>
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Coats\Crafts\Controllers\FabricGenericController.cs" />
+    <Compile Include="Coats\Crafts\Models\FabricComponentList.cs" />
     <Compile Include="Global.cs" />
     <Compile Include="Coats\Crafts\Validators\EmailValidator.cs" />
     <Compile Include="Coats\Crafts\Models\Scrapbook.cs" />

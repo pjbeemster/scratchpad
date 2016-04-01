@@ -28,6 +28,9 @@
 
         public static int AssertCappedViewSize(int requested)
         {
+            // assume maximum value for unset query.getListViewSize() values
+            if(requested < 0) { requested = int.MaxValue; } 
+
             int configured;
             int max;
             if (int.TryParse(ConfigurationManager.AppSettings[MaximumViewSizeConfigKey], out configured))
@@ -284,6 +287,7 @@
                 loc.SetActiveDiscussion();
             }
             Query query2 = new Query(loc);
+            query2.setListViewSize(FacetedContentHelper.AssertCappedViewSize(int.MaxValue));
             return query2.ToFhParams();
         }
 
