@@ -128,7 +128,7 @@
 
         private void SetViewBag(IComponentPresentation componentPresentation)
         {
-            ((dynamic) base.ViewBag).ShowActiveDiscussionFilter = false; // was: true
+            ((dynamic)base.ViewBag).ShowActiveDiscussionFilter = true;
             try
             {
                 ((dynamic) base.ViewBag).Title = componentPresentation.Component.Fields["titleText"].EmbeddedValues[0]["title"].Value;
