@@ -121,86 +121,78 @@
             }
             this._logger.DebugFormat("Universe.itemssection.items.Count() = {0}", new object[] { this.Universe.itemssection.items.Count<item>() });
 
-            var componentFactory = new ComponentFactory();
-            var serializer = new Microsoft.Xml.Serialization.GeneratedAssembly.ComponentSerializer();
 
+            var provider = new DD4T.Providers.WCFServices.TridionComponentProvider();
             foreach (item item in this.Universe.itemssection.items)
             {
-                this._logger.DebugFormat("item = {0}", new object[] { item.id });
+                this._logger.InfoFormat("item = {0}", new object[] { item.id });
 
                 // fetch component content XML from DD4T component factory
-                string xml = null;
-                IComponent component;
-                if(componentFactory.TryGetComponent(item.id, out component))
+                string componentUri;
+                string templateUri;
+                if(DD4TComponents.TryGetTcmUrisFromSecondId(item.id, out componentUri, out templateUri))
                 {
-                    using(StringWriter sw = new StringWriter())
-                    {
-                        serializer.Serialize(sw, component);
-                        xml = sw.ToString();
-                    }
-                    this._logger.DebugFormat("Got component {0} XML from DD4T component factory: {1}", item.id, xml);
-                }
-                else
-                {
-                    this._logger.DebugFormat("Failed to get component {0} from DD4T component factory", item.id);
-                }
+                    this._logger.DebugFormat("Split secondid {0} into component ID {1} and template ID {2}", new object[] { item.id, componentUri, templateUri });
+                    string xml = provider.GetContent(componentUri);
+                    this._logger.DebugFormat("Got component {0} XML from DD4T component factory: {1}", new object[] { item.id, xml });
 
-                if (!string.IsNullOrWhiteSpace(xml) && !string.IsNullOrEmpty(extendedPropertyList))
-                {
-                    try
+                    if (!string.IsNullOrWhiteSpace(xml) && !string.IsNullOrEmpty(extendedPropertyList))
                     {
-                        document = new XmlDocument();
-                        document.LoadXml(xml);
-                        Func<attribute, bool> predicate = null;
-                        foreach (string propName in extendedPropertyList.Split(new char[] { ',' }))
+                        try
                         {
-                            StringBuilder builder = new StringBuilder();
-                            builder.Append("<key><string>");
-                            builder.Append(propName);
-                            builder.Append("</string></key><value><Field XPath=\"");
-                            builder.Append(propName);
-                            builder.Append("\" FieldType=\"Text\"><Name>");
-                            builder.Append(propName);
-                            builder.Append("</Name><Values>");
-                            if (predicate == null)
+                            document = new XmlDocument();
+                            document.LoadXml(xml);
+                            Func<attribute, bool> predicate = null;
+                            foreach (string propName in extendedPropertyList.Split(new char[] { ',' }))
                             {
-                                predicate = a => a.name == propName;
-                            }
-                            attribute attribute2 = item.attribute.SingleOrDefault<attribute>(predicate);
-                            if ((attribute2 != null) && (attribute2.value != null))
-                            {
-                                foreach (value value2 in attribute2.value)
+                                StringBuilder builder = new StringBuilder();
+                                builder.Append("<key><string>");
+                                builder.Append(propName);
+                                builder.Append("</string></key><value><Field XPath=\"");
+                                builder.Append(propName);
+                                builder.Append("\" FieldType=\"Text\"><Name>");
+                                builder.Append(propName);
+                                builder.Append("</Name><Values>");
+                                if (predicate == null)
                                 {
-                                    if ((value2 != null) && !string.IsNullOrEmpty(value2.Value))
+                                    predicate = a => a.name == propName;
+                                }
+                                attribute attribute2 = item.attribute.SingleOrDefault<attribute>(predicate);
+                                if ((attribute2 != null) && (attribute2.value != null))
+                                {
+                                    foreach (value value2 in attribute2.value)
                                     {
-                                        builder.Append("<string>");
-                                        builder.Append(value2.Value);
-                                        builder.Append("</string>");
+                                        if ((value2 != null) && !string.IsNullOrEmpty(value2.Value))
+                                        {
+                                            builder.Append("<string>");
+                                            builder.Append(value2.Value);
+                                            builder.Append("</string>");
+                                        }
                                     }
                                 }
+                                builder.Append("</Values><NumericValues/><DateTimeValues/><LinkedComponentValues/><EmbeddedValues/><Keywords/></Field></value>");
+                                XmlNode newChild = document.CreateElement("item");
+                                newChild.InnerXml = builder.ToString();
+                                document.SelectSingleNode("/Component/Fields").AppendChild(newChild);
                             }
-                            builder.Append("</Values><NumericValues/><DateTimeValues/><LinkedComponentValues/><EmbeddedValues/><Keywords/></Field></value>");
-                            XmlNode newChild = document.CreateElement("item");
-                            newChild.InnerXml = builder.ToString();
-                            document.SelectSingleNode("/Component/Fields").AppendChild(newChild);
+                            xml = document.OuterXml;
+                            this._logger.DebugFormat("Final component Xml: {0}", new object[] { xml });
                         }
-                        xml = document.OuterXml;
-                        this._logger.DebugFormat("Final component Xml: {0}", new object[] { xml });
+                        catch (Exception exception)
+                        {
+                            this._logger.Error("Error adding extended details", exception);
+                        }
                     }
-                    catch (Exception exception)
+                    try
                     {
-                        this._logger.Error("Error adding extended details", exception);
+                        ComponentFactory factory = new ComponentFactory();
+                        Component iComponentObject = (Component)factory.GetIComponentObject(xml);
+                        list.Add(iComponentObject);
                     }
-                }
-                try
-                {
-                    ComponentFactory factory = new ComponentFactory();
-                    Component iComponentObject = (Component)factory.GetIComponentObject(xml);
-                    list.Add(iComponentObject);
-                }
-                catch (Exception exception2)
-                {
-                    this._logger.Error("Error getting DD4T component", exception2);
+                    catch (Exception exception2)
+                    {
+                        this._logger.Error("Error getting DD4T component", exception2);
+                    }
                 }
             }
             return list;
@@ -213,6 +205,29 @@
         }
 
         public universe Universe { get; set; }
+
+        private static bool TryGetTcmUrisFromSecondId(string tcmuri, out string componentUri, out string templateUri)
+        {
+            bool result = false;
+            componentUri = null;
+            templateUri = null;
+            if(!string.IsNullOrWhiteSpace(tcmuri) && tcmuri.StartsWith("tcm_"))
+            {
+                tcmuri = tcmuri.Replace("tcm_", "tcm:");
+                string[] segments = tcmuri.Split(new string[] { "_" }, StringSplitOptions.RemoveEmptyEntries);
+                if(segments.Count() > 1)
+                {
+                    componentUri = segments[0].Replace("-16", string.Empty);
+                    templateUri = segments[1];
+
+                    result = !string.IsNullOrWhiteSpace(componentUri) &&
+                             !string.IsNullOrWhiteSpace(templateUri) &&
+                             componentUri.StartsWith("tcm:") &&
+                             templateUri.StartsWith("tcm:");
+                }
+            }
+            return result;
+        }
     }
 }
 
