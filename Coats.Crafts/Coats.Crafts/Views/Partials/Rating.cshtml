@@ -1,9 +1,0 @@
-﻿@using DD4T.ContentModel;
-@using DD4T.Mvc.Html;
-
-@{
-    Layout = null;    
-    var ratingValue = (Model.Fields.ContainsKey("rating") ? Model.Fields["rating"].Value : String.Empty);
-}
-
-@{ Html.RenderAction("RatingTag", "Comments", new { compid = Model.Id, rating = ratingValue }); }
