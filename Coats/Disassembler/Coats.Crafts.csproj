@@ -32,6 +32,9 @@
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
+    <Reference Include="DD4T.ContentModel.XmlSerializers">
+      <HintPath>..\Dependencies\DD4T.ContentModel.XmlSerializers.dll</HintPath>
+    </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations">
       <HintPath>..\Dependencies\System.ComponentModel.DataAnnotations.dll</HintPath>
       <Private>False</Private>
