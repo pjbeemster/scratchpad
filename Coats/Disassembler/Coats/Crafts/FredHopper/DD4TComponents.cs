@@ -217,7 +217,7 @@
                 string[] segments = tcmuri.Split(new string[] { "_" }, StringSplitOptions.RemoveEmptyEntries);
                 if(segments.Count() > 1)
                 {
-                    componentUri = segments[0].Replace("-16", string.Empty);
+                    componentUri = segments[0];
                     templateUri = segments[1];
 
                     result = !string.IsNullOrWhiteSpace(componentUri) &&
