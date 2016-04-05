@@ -5,16 +5,12 @@
     using Coats.Crafts.FASWebService;
     using DD4T.ContentModel;
     using DD4T.Factories;
-    using Repositories.Tridion;
     using System;
     using System.Collections.Generic;
-    using System.IO;
     using System.Linq;
-    using System.Runtime.CompilerServices;
     using System.Text;
     using System.Web;
     using System.Xml;
-    using System.Xml.Serialization;
     public class DD4TComponents : FredHopperInterface
     {
         private ILogger _logger;
