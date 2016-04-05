@@ -134,8 +134,6 @@
                 {
                     this._logger.DebugFormat("Split secondid {0} into component ID {1} and template ID {2}", new object[] { item.id, componentUri, templateUri });
                     string xml = provider.GetContent(componentUri);
-                    this._logger.DebugFormat("Got component {0} XML from DD4T component factory: {1}", new object[] { item.id, xml });
-
                     if (!string.IsNullOrWhiteSpace(xml) && !string.IsNullOrEmpty(extendedPropertyList))
                     {
                         try
