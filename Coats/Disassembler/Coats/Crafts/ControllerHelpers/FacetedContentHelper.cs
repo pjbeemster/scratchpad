@@ -25,11 +25,22 @@
 
         internal static int DefaultMaximumViewSize = 20;
         private const string MaximumViewSizeConfigKey = "Fredhopper.MaximumViewSize";
+        private const string HomepageViewSizeConfigKey = "HomepageItemsPerPage";
 
         public static int AssertCappedViewSize(int requested)
         {
             // assume maximum value for unset query.getListViewSize() values
-            if(requested < 0) { requested = int.MaxValue; } 
+            if(requested < 0) { requested = int.MaxValue; }
+
+            // do not enforce cap on homepage items
+            int homepage;
+            if(int.TryParse(ConfigurationManager.AppSettings[HomepageViewSizeConfigKey], out homepage))
+            {
+                if(homepage == requested)
+                {
+                    return requested;
+                }
+            }
 
             int configured;
             int max;
