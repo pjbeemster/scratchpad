@@ -11,6 +11,7 @@
     using System.Text;
     using System.Web;
     using System.Xml;
+
     public class DD4TComponents : FredHopperInterface
     {
         private ILogger _logger;
@@ -136,38 +137,81 @@
                         {
                             document = new XmlDocument();
                             document.LoadXml(xml);
-                            Func<attribute, bool> predicate = null;
-                            foreach (string propName in extendedPropertyList.Split(new char[] { ',' }))
+
+                            // --------------------------------------------------------
+                            // An example XML snippet of what we are trying to achieve
+                            // --------------------------------------------------------
+                            // <item>
+                            //   <key>
+                            //     <string>[propName]</string>
+                            //   </key>
+                            //   <value>
+                            //     <Field XPath="[propName]???" FieldType="Text">
+                            //       <Name>[propName]</Name>
+                            //       <Values>
+                            //         <string>abc</string>
+                            //         <string>def</string>
+                            //         <string>ghi</string>
+                            //       </Values>
+                            //       <NumericValues/>
+                            //       <DateTimeValues/>
+                            //       <LinkedComponentValues/>
+                            //       <EmbeddedValues/>
+                            //       <Keywords/>
+                            //     </Field>
+                            //   </value>
+                            // </item>
+                            // --------------------------------------------------------
+
+                            // Loop through the extended ptrpoerty attribute list
+                            foreach (string propName in extendedPropertyList.Split(','))
                             {
-                                StringBuilder builder = new StringBuilder();
-                                builder.Append("<key><string>");
-                                builder.Append(propName);
-                                builder.Append("</string></key><value><Field XPath=\"");
-                                builder.Append(propName);
-                                builder.Append("\" FieldType=\"Text\"><Name>");
-                                builder.Append(propName);
-                                builder.Append("</Name><Values>");
-                                if (predicate == null)
+                                // Start to build the XML snippet (I'm cheating and using a StringBuilder!)
+                                StringBuilder sb = new StringBuilder();
+                                sb.Append("<key><string>");
+                                sb.Append(propName);
+                                sb.Append("</string></key><value><Field XPath=\"");
+                                sb.Append(propName);
+                                sb.Append("\" FieldType=\"Text\"><Name>");
+                                sb.Append(propName);
+                                sb.Append("</Name><Values>");
+
+                                // Try and find the actual attribute in the FredHopper item
+                                var attr = item.attribute.SingleOrDefault(a => a.name == propName);
+                                if (attr != null)
                                 {
-                                    predicate = a => a.name == propName;
-                                }
-                                attribute attribute2 = item.attribute.SingleOrDefault<attribute>(predicate);
-                                if ((attribute2 != null) && (attribute2.value != null))
-                                {
-                                    foreach (value value2 in attribute2.value)
+                                    if (attr.value != null)
                                     {
-                                        if ((value2 != null) && !string.IsNullOrEmpty(value2.Value))
+                                        // Could be an array of values, so loop through
+                                        foreach (var valueItem in attr.value)
                                         {
-                                            builder.Append("<string>");
-                                            builder.Append(value2.Value);
-                                            builder.Append("</string>");
+                                            // Belt and braces check to make sure this object isnt null
+                                            if (valueItem != null)
+                                            {
+                                                // Double-check value
+                                                if (!String.IsNullOrEmpty(valueItem.Value))
+                                                {
+                                                    sb.Append("<string>");
+                                                    sb.Append(valueItem.Value);
+                                                    sb.Append("</string>");
+                                                }
+                                            }
                                         }
                                     }
                                 }
-                                builder.Append("</Values><NumericValues/><DateTimeValues/><LinkedComponentValues/><EmbeddedValues/><Keywords/></Field></value>");
-                                XmlNode newChild = document.CreateElement("item");
-                                newChild.InnerXml = builder.ToString();
-                                document.SelectSingleNode("/Component/Fields").AppendChild(newChild);
+
+                                // Finally, close off the XML snippet
+                                sb.Append("</Values><NumericValues/><DateTimeValues/><LinkedComponentValues/><EmbeddedValues/><Keywords/></Field></value>");
+
+                                // Create a new XML Node to import the XML snippet
+                                XmlNode xmlItem = document.CreateElement("item");
+                                xmlItem.InnerXml = sb.ToString();
+
+                                // Navigate to the relevant instertion point
+                                XmlNode fields = document.SelectSingleNode("/Component/Fields");
+
+                                // Now insert the new node into the overall DD4T component XML
+                                fields.AppendChild(xmlItem);
                             }
                             xml = document.OuterXml;
                             this._logger.DebugFormat("Final component Xml: {0}", new object[] { xml });
